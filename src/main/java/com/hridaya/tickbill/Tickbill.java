@@ -5,6 +5,7 @@
 package com.hridaya.tickbill;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import com.hridaya.tickbill.view.LoginUI;
 
 import javax.swing.*;
 
@@ -19,5 +20,9 @@ public class Tickbill {
         } catch (Exception ex) {
             System.err.println("Failed to initialize LaF");
         }
+        SwingUtilities.invokeLater(() -> {
+            LoginUI loginUI = new LoginUI();
+            loginUI.setVisible(true);
+        });
     }
 }
