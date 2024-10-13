@@ -4,13 +4,20 @@
 
 package com.hridaya.tickbill;
 
+import com.formdev.flatlaf.FlatLightLaf;
+
+import javax.swing.*;
+
 /**
- *
  * @author hridaya
  */
 public class Tickbill {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        try {
+            UIManager.setLookAndFeel(new FlatLightLaf());
+        } catch (Exception ex) {
+            System.err.println("Failed to initialize LaF");
+        }
     }
 }
