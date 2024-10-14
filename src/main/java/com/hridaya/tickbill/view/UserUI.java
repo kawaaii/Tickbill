@@ -5,6 +5,7 @@
 package com.hridaya.tickbill.view;
 
 import com.hridaya.tickbill.database.DbConnection;
+import jdk.jshell.execution.Util;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -72,7 +73,7 @@ public class UserUI extends javax.swing.JPanel {
         userIdTextField = new javax.swing.JTextField();
         userDeleteButton = new javax.swing.JButton();
         userRoleLabel = new javax.swing.JLabel();
-        userRoleTextField = new javax.swing.JTextField();
+        userRoleComboBox = new javax.swing.JComboBox<>();
 
         setPreferredSize(new java.awt.Dimension(1506, 4));
 
@@ -143,6 +144,8 @@ public class UserUI extends javax.swing.JPanel {
         userRoleLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         userRoleLabel.setText("Role:");
 
+        userRoleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Employee" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -172,7 +175,7 @@ public class UserUI extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(userRoleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(userRoleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(userRoleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -193,7 +196,7 @@ public class UserUI extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(userRoleLabel)
-                    .addComponent(userRoleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(userRoleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(userSaveButton)
@@ -210,9 +213,9 @@ public class UserUI extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(80, 80, 80)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(141, 141, 141)
+                .addGap(100, 100, 100)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(452, Short.MAX_VALUE))
+                .addContainerGap(493, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -220,8 +223,8 @@ public class UserUI extends javax.swing.JPanel {
                 .addGap(54, 54, 54)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 429, Short.MAX_VALUE))
-                .addContainerGap(237, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE))
+                .addContainerGap(104, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -240,7 +243,7 @@ public class UserUI extends javax.swing.JPanel {
 
                 userTextField.setText(username);
                 userPasswordTextField.setText(password);
-                userRoleTextField.setText(String.valueOf(role));
+                userRoleComboBox.setSelectedItem(role);
             } else {
                 Utils.showError("User not found", null);
             }
@@ -252,7 +255,7 @@ public class UserUI extends javax.swing.JPanel {
     private void userSaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userSaveButtonActionPerformed
         String username = userTextField.getText();
         String password = userPasswordTextField.getText();
-        int role = Integer.parseInt(userRoleTextField.getText());
+        int role = userRoleComboBox.getSelectedIndex() + 1;
         String sql = "INSERT INTO user(name, password, role_id) VALUES (?, ?, ?)";
 
         try (PreparedStatement ps = DbConnection.getConnection().prepareStatement(sql)) {
@@ -271,7 +274,7 @@ public class UserUI extends javax.swing.JPanel {
         String userId = userIdTextField.getText();
         String username = userTextField.getText();
         String password = userPasswordTextField.getText();
-        int role = Integer.parseInt(userRoleTextField.getText());
+        int role = userRoleComboBox.getSelectedIndex() + 1;
         String sql = "UPDATE user SET name = ?, password = ?, role_id = ? WHERE id = ?";
 
         try (PreparedStatement ps = DbConnection.getConnection().prepareStatement(sql)) {
@@ -288,8 +291,13 @@ public class UserUI extends javax.swing.JPanel {
     }//GEN-LAST:event_userUpdateButtonActionPerformed
 
     private void userDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userDeleteButtonActionPerformed
-        String userId = userIdTextField.getText();
+        String userId = userIdTextField.getText().trim();
         String sql = "DELETE FROM user WHERE id = ?";
+
+        if (userId.isEmpty()) {
+            Utils.showError("Enter userId", null);
+            return;
+        }
 
         try (PreparedStatement ps = DbConnection.getConnection().prepareStatement(sql)) {
             ps.setString(1, userId);
@@ -310,8 +318,8 @@ public class UserUI extends javax.swing.JPanel {
     private javax.swing.JLabel userLabel;
     private javax.swing.JLabel userPasswordLabel;
     private javax.swing.JTextField userPasswordTextField;
+    private javax.swing.JComboBox<String> userRoleComboBox;
     private javax.swing.JLabel userRoleLabel;
-    private javax.swing.JTextField userRoleTextField;
     private javax.swing.JButton userSaveButton;
     private javax.swing.JButton userSearchButton;
     private javax.swing.JTable userTable;
