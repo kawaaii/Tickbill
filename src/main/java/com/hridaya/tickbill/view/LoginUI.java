@@ -133,8 +133,7 @@ public class LoginUI extends javax.swing.JFrame {
         String username = userNameTextField.getText();
         String password = new String(passwordTextField.getPassword());
 
-        try (Connection conn = DbConnection.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM user WHERE name = ? AND password = ?")) {
+        try (Connection conn = DbConnection.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement("SELECT * FROM user WHERE name = ? AND password = ?")) {
 
             stmt.setString(1, username);
             stmt.setString(2, password);

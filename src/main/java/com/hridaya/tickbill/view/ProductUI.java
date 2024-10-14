@@ -32,8 +32,7 @@ public class ProductUI extends javax.swing.JPanel {
         dtm.setRowCount(0);
 
         String sql = "SELECT * FROM inventory";
-        try (Statement st = DbConnection.getConnection().createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
+        try (Statement st = DbConnection.getConnection().createStatement(); ResultSet rs = st.executeQuery(sql)) {
 
             while (rs.next()) {
                 Vector<Object> row = new Vector<>();
@@ -218,7 +217,7 @@ public class ProductUI extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2))
-                .addContainerGap(179, Short.MAX_VALUE))
+                .addContainerGap(153, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -238,8 +237,8 @@ public class ProductUI extends javax.swing.JPanel {
         double productPrice = Utils.parseDoubleField(productPriceTextField, null);
         int productQuantity = Utils.parseIntField(productQuantityTextField, null);
 
-        String sql = "UPDATE inventory SET name = '" + productName + "', rate = " + productPrice +
-                ", quantity = " + productQuantity + " WHERE id = '" + productId + "'";
+        String sql = "UPDATE inventory SET name = '" + productName + "', rate = " + productPrice
+                + ", quantity = " + productQuantity + " WHERE id = '" + productId + "'";
         Utils.executeUpdate(sql, "Product updated successfully!", null);
         productLoad();
     }//GEN-LAST:event_productUpdateButtonActionPerformed
@@ -248,8 +247,7 @@ public class ProductUI extends javax.swing.JPanel {
         String productId = productIdTextField.getText();
         String sql = "SELECT name, rate, quantity FROM inventory WHERE id = '" + productId + "'";
 
-        try (Statement st = DbConnection.getConnection().createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
+        try (Statement st = DbConnection.getConnection().createStatement(); ResultSet rs = st.executeQuery(sql)) {
 
             if (rs.next()) {
                 productNameTextField.setText(rs.getString("name"));
