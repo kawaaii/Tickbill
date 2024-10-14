@@ -27,28 +27,27 @@ public class ProductUI extends javax.swing.JPanel {
         productLoad();
     }
 
-    public void productLoad() {
-        try {
-            DefaultTableModel dtm = (DefaultTableModel) productTable.getModel();
-            dtm.setRowCount(0);
+    private void productLoad() {
+        DefaultTableModel dtm = (DefaultTableModel) productTable.getModel();
+        dtm.setRowCount(0);
 
-            Statement st = DbConnection.getConnection().createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM inventory");
+        String sql = "SELECT * FROM inventory";
+        try (Statement st = DbConnection.getConnection().createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+
             while (rs.next()) {
-                Vector v = new Vector();
-                v.add(rs.getInt(1));
-                v.add(rs.getString(2));
-                v.add(rs.getDouble(3));
-                v.add(rs.getInt(4));
-
-
-                dtm.addRow(v);
+                Vector<Object> row = new Vector<>();
+                row.add(rs.getInt("id"));
+                row.add(rs.getString("name"));
+                row.add(rs.getDouble("rate"));
+                row.add(rs.getInt("quantity"));
+                dtm.addRow(row);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        } catch (SQLException e) {
+            Utils.showError("Error loading products", e, null);
         }
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -225,81 +224,51 @@ public class ProductUI extends javax.swing.JPanel {
 
     private void productSaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productSaveButtonActionPerformed
         String productName = productNameTextField.getText();
-        Double productPrice = Double.valueOf(productPriceTextField.getText());
-        int productQuantity = Integer.parseInt(productQuantityTextField.getText());
+        double productPrice = Utils.parseDoubleField(productPriceTextField, null);
+        int productQuantity = Utils.parseIntField(productQuantityTextField, null);
 
         String sql = "INSERT INTO inventory(name, rate, quantity) VALUES ('" + productName + "', " + productPrice + ", " + productQuantity + ")";
-        try {
-            Statement st = DbConnection.getConnection().createStatement();
-            st.executeUpdate(sql);
-        } catch (SQLException sqle) {
-            sqle.printStackTrace();
-        }
+        Utils.executeUpdate(sql, "Product created successfully!", null);
         productLoad();
-
     }//GEN-LAST:event_productSaveButtonActionPerformed
 
     private void productUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productUpdateButtonActionPerformed
         String productId = productIdTextField.getText();
         String productName = productNameTextField.getText();
-        Double productPrice = Double.valueOf(productPriceTextField.getText());
-        int productQuantity = Integer.parseInt(productQuantityTextField.getText());
+        double productPrice = Utils.parseDoubleField(productPriceTextField, null);
+        int productQuantity = Utils.parseIntField(productQuantityTextField, null);
 
         String sql = "UPDATE inventory SET name = '" + productName + "', rate = " + productPrice +
                 ", quantity = " + productQuantity + " WHERE id = '" + productId + "'";
-
-        try {
-            Statement st = DbConnection.getConnection().createStatement();
-            st.executeUpdate(sql);
-        } catch (SQLException sqle) {
-            sqle.printStackTrace();
-        }
-
+        Utils.executeUpdate(sql, "Product updated successfully!", null);
         productLoad();
     }//GEN-LAST:event_productUpdateButtonActionPerformed
 
     private void productSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productSearchButtonActionPerformed
         String productId = productIdTextField.getText();
-
         String sql = "SELECT name, rate, quantity FROM inventory WHERE id = '" + productId + "'";
 
-        try {
-            Statement st = DbConnection.getConnection().createStatement();
-            ResultSet rs = st.executeQuery(sql);
+        try (Statement st = DbConnection.getConnection().createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
 
             if (rs.next()) {
-                String name = rs.getString("name");
-                Double rate = rs.getDouble("rate");
-                int quantity = rs.getInt("quantity");
-
-                productNameTextField.setText(name);
-                productPriceTextField.setText(String.valueOf(rate));
-                productQuantityTextField.setText(String.valueOf(quantity));
+                productNameTextField.setText(rs.getString("name"));
+                productPriceTextField.setText(String.valueOf(rs.getDouble("rate")));
+                productQuantityTextField.setText(String.valueOf(rs.getInt("quantity")));
             } else {
-                JOptionPane.showMessageDialog(null, "Product not found");
+                Utils.showError("Product not found", null);
             }
-        } catch (SQLException sqle) {
-            sqle.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error searching product: " + sqle.getMessage());
-        } catch (NumberFormatException nfe) {
-            JOptionPane.showMessageDialog(null, "Please enter a valid ID");
+        } catch (SQLException e) {
+            Utils.showError("Error searching product", e, null);
         }
     }//GEN-LAST:event_productSearchButtonActionPerformed
 
     private void productDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productDeleteButtonActionPerformed
-       String productId = productIdTextField.getText();
-
-       String sql = "DELETE FROM inventory WHERE id = '" + productId + "'";
-
-       try {
-           Statement st = DbConnection.getConnection().createStatement();
-           st.executeUpdate(sql);
-       } catch (SQLException sqle) {
-           sqle.printStackTrace();
-       }
-       productLoad();
+        String productId = productIdTextField.getText();
+        String sql = "DELETE FROM inventory WHERE id = '" + productId + "'";
+        Utils.executeUpdate(sql, "Product deleted successfully!", null);
+        productLoad();
     }//GEN-LAST:event_productDeleteButtonActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;

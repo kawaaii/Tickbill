@@ -8,6 +8,7 @@ import com.hridaya.tickbill.database.DbConnection;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -44,7 +45,7 @@ public class UserUI extends javax.swing.JPanel {
                 dtm.addRow(v);
             }
         } catch (Exception e) {
-                e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -226,11 +227,11 @@ public class UserUI extends javax.swing.JPanel {
 
     private void userSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userSearchButtonActionPerformed
         String userId = userIdTextField.getText();
+        String sql = "SELECT name, password, role_id FROM user WHERE id = ?";
 
-        String sql = "SELECT name, password, role_id FROM user WHERE id = '" + userId + "'";
-        try {
-            Statement st = DbConnection.getConnection().createStatement();
-            ResultSet rs = st.executeQuery(sql);
+        try (PreparedStatement ps = DbConnection.getConnection().prepareStatement(sql)) {
+            ps.setString(1, userId);
+            ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
                 String username = rs.getString("name");
@@ -241,10 +242,10 @@ public class UserUI extends javax.swing.JPanel {
                 userPasswordTextField.setText(password);
                 userRoleTextField.setText(String.valueOf(role));
             } else {
-                JOptionPane.showMessageDialog(null, "User not found");
+                Utils.showError("User not found", null);
             }
         } catch (SQLException sqle) {
-            sqle.printStackTrace();
+            Utils.showError("Error searching user", sqle, null);
         }
     }//GEN-LAST:event_userSearchButtonActionPerformed
 
@@ -252,13 +253,16 @@ public class UserUI extends javax.swing.JPanel {
         String username = userTextField.getText();
         String password = userPasswordTextField.getText();
         int role = Integer.parseInt(userRoleTextField.getText());
+        String sql = "INSERT INTO user(name, password, role_id) VALUES (?, ?, ?)";
 
-        String sql = "INSERT INTO user(name, password, role_id) VALUES ('" + username + "', '" + password + "', '" + role + "')";
-        try {
-            Statement st = DbConnection.getConnection().createStatement();
-            st.executeUpdate(sql);
+        try (PreparedStatement ps = DbConnection.getConnection().prepareStatement(sql)) {
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setInt(3, role);
+            ps.executeUpdate();
+            Utils.showInfo("User created successfully", null);
         } catch (SQLException sqle) {
-            sqle.printStackTrace();
+            Utils.showError("Error saving user", sqle, null);
         }
         userLoad();
     }//GEN-LAST:event_userSaveButtonActionPerformed
@@ -268,30 +272,34 @@ public class UserUI extends javax.swing.JPanel {
         String username = userTextField.getText();
         String password = userPasswordTextField.getText();
         int role = Integer.parseInt(userRoleTextField.getText());
+        String sql = "UPDATE user SET name = ?, password = ?, role_id = ? WHERE id = ?";
 
-        String sql = "UPDATE user SET name = '" + username + "', password = '" + password + "', role_id = " + role + " WHERE id = '" + userId + "'";
-        try {
-            Statement st = DbConnection.getConnection().createStatement();
-            st.executeUpdate(sql);
+        try (PreparedStatement ps = DbConnection.getConnection().prepareStatement(sql)) {
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setInt(3, role);
+            ps.setString(4, userId);
+            ps.executeUpdate();
+            Utils.showInfo("User updated successfully", null);
         } catch (SQLException sqle) {
-            sqle.printStackTrace();
+            Utils.showError("Error updating user", sqle, null);
         }
         userLoad();
     }//GEN-LAST:event_userUpdateButtonActionPerformed
 
     private void userDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userDeleteButtonActionPerformed
         String userId = userIdTextField.getText();
-        String sql = "DELETE FROM user WHERE id = '" + userId + "'";
+        String sql = "DELETE FROM user WHERE id = ?";
 
-        try {
-            Statement st = DbConnection.getConnection().createStatement();
-            st.executeUpdate(sql);
+        try (PreparedStatement ps = DbConnection.getConnection().prepareStatement(sql)) {
+            ps.setString(1, userId);
+            ps.executeUpdate();
+            Utils.showInfo("User deleted successfully", null);
         } catch (SQLException sqle) {
-            sqle.printStackTrace();
+            Utils.showError("Error deleting user", sqle, null);
         }
         userLoad();
     }//GEN-LAST:event_userDeleteButtonActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
