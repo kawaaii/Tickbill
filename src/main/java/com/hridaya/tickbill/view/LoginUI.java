@@ -144,6 +144,12 @@ public class LoginUI extends javax.swing.JFrame {
             if (rs.next()) {
                 JOptionPane.showMessageDialog(this, "Login successful!");
                 this.dispose();
+                SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        MainFrame mainFrame = new MainFrame();
+                        mainFrame.setVisible(true);
+                    }
+                });
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid username or password.");
             }
