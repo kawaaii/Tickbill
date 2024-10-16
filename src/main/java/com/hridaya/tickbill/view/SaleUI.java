@@ -25,6 +25,24 @@ public class SaleUI extends javax.swing.JPanel {
         loadProduct();
     }
 
+    private void panelClearAll() {
+        customerNameTextField.setText("");
+        productNameComboBox.setSelectedIndex(0);
+        productQuantityTextField.setText("1");
+        productUnitPriceLabel.setText("00.00");
+        productTotalPriceLabel.setText("00.00");
+
+        DefaultTableModel dtm = (DefaultTableModel) salesTable.getModel();
+        dtm.setRowCount(0);
+
+        totalAmountTextField.setText("0.00");
+        paidAmountTextField.setText("0.00");
+        balanceTextField.setText("0.00");
+
+        loadInvoice();
+        loadProduct();
+    }
+
     private void loadInvoice() {
         try {
             Statement st = DbConnection.getConnection().createStatement();
@@ -41,10 +59,6 @@ public class SaleUI extends javax.swing.JPanel {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-    }
-
-    private void loadNewInvoice() {
-
     }
 
     private void loadProduct() {
@@ -593,6 +607,8 @@ public class SaleUI extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Invalid invoice ID format: " + nfe.getMessage());
             nfe.printStackTrace();
         }
+
+        panelClearAll();
     }//GEN-LAST:event_payAndPrintButtonActionPerformed
 
 
