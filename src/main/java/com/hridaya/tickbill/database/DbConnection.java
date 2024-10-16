@@ -19,24 +19,14 @@ public class DbConnection {
     }
 
     public static Connection getConnection() {
-        if (isClosed(conn)) {
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                conn = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3307/pos", "root", "root");
-            } catch (ClassNotFoundException | SQLException ex) {
-                System.err.println("Failed to create a database connection: " + ex.getMessage());
-            }
-        }
-        return conn;
-    }
-
-    private static boolean isClosed(Connection conn) {
         try {
-            return conn == null || conn.isClosed();
-        } catch (SQLException ex) {
-            System.err.println("Failed to check connection status: " + ex.getMessage());
-            return true;
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3307/pos", "root", "root");
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.err.println("Failed to create a database connection: " + ex.getMessage());
         }
+
+        return conn;
     }
 }

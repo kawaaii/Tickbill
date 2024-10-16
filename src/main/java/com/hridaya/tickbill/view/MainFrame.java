@@ -49,7 +49,6 @@ public class MainFrame extends javax.swing.JFrame {
         showProductsButton = new javax.swing.JToggleButton();
         showReportsButton = new javax.swing.JToggleButton();
         showSalesButton = new javax.swing.JToggleButton();
-        sellButton = new javax.swing.JToggleButton();
         panelLoader = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         dbConnectionStatusLabel = new javax.swing.JLabel();
@@ -95,33 +94,23 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        sideBarButtonGroup.add(sellButton);
-        sellButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        sellButton.setText("SELL");
-        sellButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sellButtonActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(40, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(39, 39, 39)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(showProductsButton, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                    .addComponent(showProductsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(showReportsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(showSalesButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(showUsersButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(sellButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(40, 40, 40))
+                    .addComponent(showUsersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(175, 175, 175)
                 .addComponent(showUsersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(showProductsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -129,9 +118,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(showReportsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(showSalesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 334, Short.MAX_VALUE)
-                .addComponent(sellButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                .addContainerGap(269, Short.MAX_VALUE))
         );
 
         panelLoader.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -144,7 +131,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         panelLoaderLayout.setVerticalGroup(
             panelLoaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 694, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -215,12 +202,9 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_showReportsButtonActionPerformed
 
     private void showSalesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showSalesButtonActionPerformed
-        // TODO add your handling code here:
+        SaleUI saleUI = new SaleUI();
+        jPanelLoader.JPanelLoader(panelLoader, saleUI);
     }//GEN-LAST:event_showSalesButtonActionPerformed
-
-    private void sellButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sellButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sellButtonActionPerformed
 
     private void showUsersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showUsersButtonActionPerformed
         UserUI userUI = new UserUI();
@@ -268,7 +252,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel panelLoader;
-    private javax.swing.JToggleButton sellButton;
     private javax.swing.JToggleButton showProductsButton;
     private javax.swing.JToggleButton showReportsButton;
     private javax.swing.JToggleButton showSalesButton;

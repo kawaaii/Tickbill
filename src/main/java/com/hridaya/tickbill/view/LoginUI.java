@@ -7,6 +7,7 @@ package com.hridaya.tickbill.view;
 import com.hridaya.tickbill.database.DbConnection;
 
 import javax.swing.*;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,6 +26,42 @@ public class LoginUI extends javax.swing.JFrame {
         initComponents();
         setTitle("Login");
         setLocationRelativeTo(null);
+    }
+
+    private void userLogin() {
+        String username = userNameTextField.getText();
+        String password = new String(passwordTextField.getPassword());
+        if (username != null && password != null) {
+
+            try (Connection conn = DbConnection.getConnection();
+                 PreparedStatement stmt =
+                         conn.prepareStatement("SELECT * FROM user WHERE name = ? AND password = ?")) {
+
+                stmt.setString(1, username);
+                stmt.setString(2, password);
+
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                    JOptionPane.showMessageDialog(this, "Login successful!");
+                    this.dispose();
+                    SwingUtilities.invokeLater(new Runnable() {
+                        public void run() {
+                            MainFrame mainFrame = new MainFrame();
+                            mainFrame.setVisible(true);
+                        }
+                    });
+                } else {
+                    JOptionPane.showMessageDialog(this, "Invalid username or password.");
+                }
+
+                rs.close();
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error during login.");
+            }
+        }
     }
 
     /**
@@ -54,6 +91,11 @@ public class LoginUI extends javax.swing.JFrame {
                 userNameTextFieldActionPerformed(evt);
             }
         });
+        userNameTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                userNameTextFieldKeyPressed(evt);
+            }
+        });
 
         loginButton.setText("Login");
         loginButton.addActionListener(new java.awt.event.ActionListener() {
@@ -61,10 +103,20 @@ public class LoginUI extends javax.swing.JFrame {
                 loginButtonActionPerformed(evt);
             }
         });
+        loginButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                loginButtonKeyPressed(evt);
+            }
+        });
 
         passwordTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 passwordTextFieldActionPerformed(evt);
+            }
+        });
+        passwordTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passwordTextFieldKeyPressed(evt);
             }
         });
 
@@ -74,7 +126,7 @@ public class LoginUI extends javax.swing.JFrame {
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loginPanelLayout.createSequentialGroup()
                 .addGap(156, 156, 156)
-                .addComponent(loginButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(loginButton, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
                 .addGap(160, 160, 160))
             .addGroup(loginPanelLayout.createSequentialGroup()
                 .addGap(116, 116, 116)
@@ -130,40 +182,28 @@ public class LoginUI extends javax.swing.JFrame {
     }//GEN-LAST:event_userNameTextFieldActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        String username = userNameTextField.getText();
-        String password = new String(passwordTextField.getPassword());
-
-        try (Connection conn = DbConnection.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement("SELECT * FROM user WHERE name = ? AND password = ?")) {
-
-            stmt.setString(1, username);
-            stmt.setString(2, password);
-
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                JOptionPane.showMessageDialog(this, "Login successful!");
-                this.dispose();
-                SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        MainFrame mainFrame = new MainFrame();
-                        mainFrame.setVisible(true);
-                    }
-                });
-            } else {
-                JOptionPane.showMessageDialog(this, "Invalid username or password.");
-            }
-
-            rs.close();
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error during login.");
-        }
+        userLogin();
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void passwordTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordTextFieldActionPerformed
+
+    private void loginButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_loginButtonKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_loginButtonKeyPressed
+
+    private void passwordTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordTextFieldKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            userLogin();
+        }
+    }//GEN-LAST:event_passwordTextFieldKeyPressed
+
+    private void userNameTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_userNameTextFieldKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            passwordTextField.requestFocusInWindow();
+        }
+    }//GEN-LAST:event_userNameTextFieldKeyPressed
 
     /**
      * @param args the command line arguments
