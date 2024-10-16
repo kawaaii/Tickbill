@@ -36,13 +36,12 @@ public class ProductUI extends javax.swing.JPanel {
 
             while (rs.next()) {
                 Vector<Object> row = new Vector<>();
-                row.add(rs.getInt("id"));
-                row.add(rs.getString("name"));
-                row.add(rs.getDouble("rate"));
-                row.add(rs.getInt("quantity"));
+                row.add(rs.getInt("product_id"));
+                row.add(rs.getString("product_name"));
+                row.add(rs.getDouble("product_rate"));
+                row.add(rs.getInt("product_quantity"));
                 dtm.addRow(row);
             }
-
         } catch (SQLException e) {
             Utils.showError("Error loading products", e);
         }
@@ -226,7 +225,7 @@ public class ProductUI extends javax.swing.JPanel {
         double productPrice = Utils.parseDoubleField(productPriceTextField);
         int productQuantity = Utils.parseIntField(productQuantityTextField);
 
-        String sql = "INSERT INTO inventory(name, rate, quantity) VALUES ('" + productName + "', " + productPrice + ", " + productQuantity + ")";
+        String sql = "INSERT INTO inventory(product_name, product_rate, product_quantity) VALUES ('" + productName + "', " + productPrice + ", " + productQuantity + ")";
         Utils.executeUpdate(sql, "Product created successfully!");
         productLoad();
     }//GEN-LAST:event_productSaveButtonActionPerformed
@@ -237,22 +236,22 @@ public class ProductUI extends javax.swing.JPanel {
         double productPrice = Utils.parseDoubleField(productPriceTextField);
         int productQuantity = Utils.parseIntField(productQuantityTextField);
 
-        String sql = "UPDATE inventory SET name = '" + productName + "', rate = " + productPrice
-                + ", quantity = " + productQuantity + " WHERE id = '" + productId + "'";
+        String sql = "UPDATE inventory SET product_name = '" + productName + "', product_rate = " + productPrice
+                + ", product_quantity = " + productQuantity + " WHERE product_id = '" + productId + "'";
         Utils.executeUpdate(sql, "Product updated successfully!");
         productLoad();
     }//GEN-LAST:event_productUpdateButtonActionPerformed
 
     private void productSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productSearchButtonActionPerformed
         String productId = productIdTextField.getText();
-        String sql = "SELECT name, rate, quantity FROM inventory WHERE id = '" + productId + "'";
+        String sql = "SELECT product_name, product_rate, product_quantity FROM inventory WHERE product_id = '" + productId + "'";
 
         try (Statement st = DbConnection.getConnection().createStatement(); ResultSet rs = st.executeQuery(sql)) {
 
             if (rs.next()) {
-                productNameTextField.setText(rs.getString("name"));
-                productPriceTextField.setText(String.valueOf(rs.getDouble("rate")));
-                productQuantityTextField.setText(String.valueOf(rs.getInt("quantity")));
+                productNameTextField.setText(rs.getString("product_name,"));
+                productPriceTextField.setText(String.valueOf(rs.getDouble("product_rate")));
+                productQuantityTextField.setText(String.valueOf(rs.getInt("product_quantity")));
             } else {
                 Utils.showInfo("Product not found");
             }
@@ -263,7 +262,7 @@ public class ProductUI extends javax.swing.JPanel {
 
     private void productDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productDeleteButtonActionPerformed
         String productId = productIdTextField.getText();
-        String sql = "DELETE FROM inventory WHERE id = '" + productId + "'";
+        String sql = "DELETE FROM inventory WHERE product_id = '" + productId + "'";
         Utils.executeUpdate(sql, "Product deleted successfully!");
         productLoad();
     }//GEN-LAST:event_productDeleteButtonActionPerformed

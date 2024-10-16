@@ -417,7 +417,8 @@ public class UserUI extends javax.swing.JPanel {
 
         if (userCreationValidation(firstName, lastName, address, emailAddress, phoneNumber)) {
             try {
-                String sql = "INSERT INTO user (first_name, last_name, username, password, role, address, email, phone_no) "
+                String sql = "INSERT INTO user " +
+                        "(first_name, last_name, username, password, user_role, user_address, user_email, phone_no) "
                         + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql);
 
@@ -459,8 +460,9 @@ public class UserUI extends javax.swing.JPanel {
 
         if (userCreationValidation(firstName, lastName, address, emailAddress, phoneNumber)) {
             try {
-                String sql = "UPDATE user SET first_name = ?, last_name = ?, username = ?, password = ?, role = ?, address = ?, email = ?, phone_no = ? "
-                        + "WHERE id = ?";
+                String sql = "UPDATE user SET first_name = ?, last_name = ?, username = ?, password = ?" +
+                        ", user_role = ?, user_address = ?, user_email = ?, phone_no = ? "
+                        + "WHERE user_id = ?";
                 PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql);
 
                 pst.setString(1, firstName);
@@ -489,7 +491,7 @@ public class UserUI extends javax.swing.JPanel {
 
     private void userDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userDeleteButtonActionPerformed
         String userId = userIdTextField.getText();
-        String sql = "DELETE FROM user WHERE id = ?";
+        String sql = "DELETE FROM user WHERE user_id = ?";
         if (userId.isEmpty()) {
             Utils.showError("Enter User ID");
             return;
@@ -509,7 +511,7 @@ public class UserUI extends javax.swing.JPanel {
 
     private void userSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userSearchButtonActionPerformed
         String userId = userIdTextField.getText();
-        String sql = "SELECT * FROM user WHERE id = ?";
+        String sql = "SELECT * FROM user WHERE user_id = ?";
 
         try {
             PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql);
@@ -521,9 +523,9 @@ public class UserUI extends javax.swing.JPanel {
                 String lastName = rs.getString("last_name");
                 String username = rs.getString("username");
                 String password = rs.getString("password");
-                String role = rs.getString("role");
-                String address = rs.getString("address");
-                String email = rs.getString("email");
+                String role = rs.getString("user_role");
+                String address = rs.getString("user_address");
+                String email = rs.getString("user_email");
                 String phoneNumber = rs.getString("phone_no");
 
                 firstNameTextField.setText(firstName);

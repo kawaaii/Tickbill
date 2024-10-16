@@ -71,7 +71,7 @@ public class SaleUI extends javax.swing.JPanel {
             Vector v = new Vector();
 
             while (rs.next()) {
-                v.add(rs.getString("name"));
+                v.add(rs.getString("product_name"));
             }
             DefaultComboBoxModel model = new DefaultComboBoxModel<>(v);
             productNameComboBox.setModel(model);

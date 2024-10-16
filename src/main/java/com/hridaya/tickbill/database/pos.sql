@@ -1,19 +1,20 @@
+CREATE DATABASE pos;
 USE pos;
 
 CREATE TABLE user
 (
-    id         INT PRIMARY KEY AUTO_INCREMENT,
+    user_id         INT PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(255) NOT NULL,
     last_name  VARCHAR(255) NOT NULL,
-    username   CHAR(20),
-    password   VARCHAR(50),
-    role       VARCHAR(10),
-    address    VARCHAR(255) NOT NULL,
-    email      VARCHAR(255) NOT NULL,
-    phone_no   VARCHAR(15)  NOT NULL
+    username   VARCHAR(50) UNIQUE,
+    password   VARCHAR(255) NOT NULL,
+    user_role       VARCHAR(10),
+    user_address    VARCHAR(255) NOT NULL,
+    user_email      VARCHAR(100) UNIQUE NOT NULL,
+    phone_no   VARCHAR(15) NOT NULL
 );
 
-INSERT INTO user (first_name, last_name, username, password, role, address, email, phone_no)
+INSERT INTO user (first_name, last_name, username, password, user_role, user_address, user_email, phone_no)
 VALUES ('admin',
         'admin',
         'admin',
@@ -25,11 +26,12 @@ VALUES ('admin',
 
 CREATE TABLE inventory
 (
-    id       INT PRIMARY KEY AUTO_INCREMENT,
-    name     VARCHAR(255) UNIQUE NOT NULL,
-    rate     DECIMAL(10, 2)      NOT NULL,
-    quantity INT UNSIGNED        NOT NULL DEFAULT 0
+    product_id       INT PRIMARY KEY AUTO_INCREMENT,
+    product_name     VARCHAR(255) UNIQUE NOT NULL,
+    product_rate     DECIMAL(10, 2) NOT NULL,
+    product_quantity INT UNSIGNED NOT NULL DEFAULT 0
 );
+
 INSERT INTO inventory (name, rate, quantity)
 VALUES ('French Fries', 19.99, 150),
        ('Fried Chicken', 29.50, 75),
@@ -39,10 +41,12 @@ VALUES ('French Fries', 19.99, 150),
 CREATE TABLE sales
 (
     invoice_id    INT PRIMARY KEY AUTO_INCREMENT,
-    customer_name VARCHAR(255)   NOT NULL,
+    user_id       INT NOT NULL,
+    customer_name VARCHAR(255) NOT NULL,
     total_bill    DECIMAL(10, 2) NOT NULL,
-    status        VARCHAR(10)    NOT NULL,
-    due           DECIMAL(10, 2) NOT NULL
+    status        VARCHAR(10) NOT NULL ,
+    due           DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 
 CREATE TABLE invoice_ids
@@ -53,4 +57,16 @@ CREATE TABLE invoice_ids
     FOREIGN KEY (invoice_id) REFERENCES sales (invoice_id)
 );
 
+CREATE TABLE sales_history
+(
+    id            INT PRIMARY KEY AUTO_INCREMENT,
+    invoice_id    INT NOT NULL,
+    customer_name VARCHAR(255) NOT NULL,
+    product_name  VARCHAR(255) NOT NULL,
+    product_rate  DECIMAL(10, 2) NOT NULL,
+    product_quantity INT NOT NULL CHECK (product_quantity > 0),
+    total_bill    DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (invoice_id) REFERENCES sales(invoice_id),
+    FOREIGN KEY (product_name) REFERENCES inventory(product_name)
+);
 
