@@ -248,8 +248,15 @@ public class SaleUI extends javax.swing.JPanel {
             new String [] {
                 "Invoice ID", "Name", "Quantity", "Unit Price", "Total Price"
             }
-        ));
-        salesTable.setCellSelectionEnabled(true);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(salesTable);
 
         payAndPrintButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
