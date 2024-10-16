@@ -1,24 +1,27 @@
 USE pos;
 
-CREATE TABLE role
-(
-    id        INT PRIMARY KEY AUTO_INCREMENT,
-    role_name VARCHAR(50) UNIQUE NOT NULL
-);
-INSERT INTO role (role_name)
-VALUES ('admin'),
-       ('employee');
-
 CREATE TABLE user
 (
-    id       INT PRIMARY KEY AUTO_INCREMENT,
-    name     VARCHAR(255) UNIQUE NOT NULL,
-    role_id  INT,
-    password VARCHAR(255),
-    FOREIGN KEY (role_id) REFERENCES role (id)
+    id         INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(255) NOT NULL,
+    last_name  VARCHAR(255) NOT NULL,
+    username   CHAR(20),
+    password   VARCHAR(50),
+    role       VARCHAR(10),
+    address    VARCHAR(255) NOT NULL,
+    email      VARCHAR(255) NOT NULL,
+    phone_no   VARCHAR(15)  NOT NULL
 );
-INSERT INTO user (name, role_id, password)
-VALUES ('admin', 1, 'admin123');
+
+INSERT INTO user (first_name, last_name, username, password, role, address, email, phone_no)
+VALUES ('admin',
+        'admin',
+        'admin',
+        'admin123',
+        'admin',
+        'earth',
+        'admin@123.com',
+        '1234567890');
 
 CREATE TABLE inventory
 (
@@ -35,19 +38,19 @@ VALUES ('French Fries', 19.99, 150),
 
 CREATE TABLE sales
 (
-    invoice_id             INT PRIMARY KEY AUTO_INCREMENT,
-    customer_name          VARCHAR(255)   NOT NULL,
-    total_bill             DECIMAL(10, 2) NOT NULL,
-    status                 VARCHAR(10)    NOT NULL,
-    due                    DECIMAL(10, 2) NOT NULL
+    invoice_id    INT PRIMARY KEY AUTO_INCREMENT,
+    customer_name VARCHAR(255)   NOT NULL,
+    total_bill    DECIMAL(10, 2) NOT NULL,
+    status        VARCHAR(10)    NOT NULL,
+    due           DECIMAL(10, 2) NOT NULL
 );
 
 CREATE TABLE invoice_ids
 (
-    i_id INT PRIMARY KEY AUTO_INCREMENT,
-    invoice_id  INT  NOT NULL,
-    created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (invoice_id) REFERENCES sales(invoice_id)
+    i_id       INT PRIMARY KEY AUTO_INCREMENT,
+    invoice_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (invoice_id) REFERENCES sales (invoice_id)
 );
 
 

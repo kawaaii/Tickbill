@@ -34,7 +34,7 @@ public class LoginUI extends javax.swing.JFrame {
         if (username != null) {
 
             try (Connection conn = DbConnection.getConnection(); PreparedStatement stmt
-                    = conn.prepareStatement("SELECT * FROM user WHERE name = ? AND password = ?")) {
+                    = conn.prepareStatement("SELECT * FROM user WHERE username = ? AND password = ?")) {
 
                 stmt.setString(1, username);
                 stmt.setString(2, password);
@@ -42,20 +42,20 @@ public class LoginUI extends javax.swing.JFrame {
                 ResultSet rs = stmt.executeQuery();
 
                 if (rs.next()) {
-                    JOptionPane.showMessageDialog(this, "Login successful!");
+                    Utils.showInfo("Login successful!");
                     this.dispose();
                     SwingUtilities.invokeLater(() -> {
                         MainFrame mainFrame = new MainFrame();
                         mainFrame.setVisible(true);
                     });
                 } else {
-                    JOptionPane.showMessageDialog(this, "Invalid username or password.");
+                    Utils.showError( "Invalid username or password.");
                 }
 
                 rs.close();
 
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(this, "Error during login.");
+                Utils.showError( "Error during login." + ex.getMessage());
             }
         }
     }
