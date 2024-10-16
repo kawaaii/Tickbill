@@ -23,6 +23,7 @@ public class SaleUI extends javax.swing.JPanel {
     public SaleUI() {
         initComponents();
         loadProduct();
+        loadInvoice();
     }
 
     private void panelClearAll() {
@@ -74,14 +75,12 @@ public class SaleUI extends javax.swing.JPanel {
             DefaultComboBoxModel model = new DefaultComboBoxModel<>(v);
             productNameComboBox.setModel(model);
             productQuantityTextField.setText("1");
-            // TODO: we don't show any product at initial state
-            // productNameComboBox.setSelectedItem(null);
+            productNameComboBox.setSelectedIndex(-1);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         cartTotalPrice();
         dueAmount();
-        loadInvoice();
     }
 
     private void totalPrice() {
@@ -352,6 +351,7 @@ public class SaleUI extends javax.swing.JPanel {
 
         productNameComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         productNameComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        productNameComboBox.setSelectedIndex(-1);
         productNameComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 productNameComboBoxActionPerformed(evt);
@@ -474,10 +474,14 @@ public class SaleUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void productNameComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productNameComboBoxActionPerformed
-        String productName = productNameComboBox.getSelectedItem().toString();
+        String productName;
+        if (productNameComboBox.getSelectedItem() == null) {
+            productName = "";
+        } else {
+            productName = productNameComboBox.getSelectedItem().toString();
+        }
 
-        try (Connection conn = DbConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement("SELECT rate FROM inventory WHERE name = ?")) {
+        try (Connection conn = DbConnection.getConnection(); PreparedStatement ps = conn.prepareStatement("SELECT rate FROM inventory WHERE name = ?")) {
             ps.setString(1, productName);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
