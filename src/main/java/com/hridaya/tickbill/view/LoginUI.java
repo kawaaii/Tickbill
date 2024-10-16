@@ -5,6 +5,7 @@
 package com.hridaya.tickbill.view;
 
 import com.hridaya.tickbill.database.DbConnection;
+import com.hridaya.tickbill.session.SessionManager;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -42,6 +43,10 @@ public class LoginUI extends javax.swing.JFrame {
                 ResultSet rs = stmt.executeQuery();
 
                 if (rs.next()) {
+                    int userId = rs.getInt("user_id");
+                    System.out.println("User ID: " + userId);
+                    SessionManager.getInstance().setUserId(userId);
+
                     Utils.showInfo("Login successful!");
                     this.dispose();
                     SwingUtilities.invokeLater(() -> {
@@ -51,7 +56,6 @@ public class LoginUI extends javax.swing.JFrame {
                 } else {
                     Utils.showError( "Invalid username or password.");
                 }
-
                 rs.close();
 
             } catch (SQLException ex) {

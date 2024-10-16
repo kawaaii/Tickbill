@@ -5,6 +5,8 @@
 package com.hridaya.tickbill.view;
 
 import com.hridaya.tickbill.database.DbConnection;
+import com.hridaya.tickbill.session.SessionManager;
+
 import java.awt.HeadlessException;
 
 import javax.swing.*;
@@ -59,7 +61,7 @@ public class SaleUI extends javax.swing.JPanel {
             }
             showInvoiceLabel.setText(String.valueOf(currentInvoiceId));
         } catch (SQLException ex) {
-            Utils.showError("Error: "+ ex.getMessage());
+            Utils.showError("Error: " + ex.getMessage());
         }
     }
 
@@ -78,7 +80,7 @@ public class SaleUI extends javax.swing.JPanel {
             productQuantityTextField.setText("1");
             productNameComboBox.setSelectedIndex(-1);
         } catch (SQLException e) {
-            Utils.showError("Error: "+ e.getMessage());
+            Utils.showError("Error: " + e.getMessage());
         }
         cartTotalPrice();
         dueAmount();
@@ -240,10 +242,7 @@ public class SaleUI extends javax.swing.JPanel {
 
         salesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Invoice ID", "Name", "Quantity", "Unit Price", "Total Price"
@@ -488,11 +487,13 @@ public class SaleUI extends javax.swing.JPanel {
             productName = productNameComboBox.getSelectedItem().toString();
         }
 
-        try (Connection conn = DbConnection.getConnection(); PreparedStatement ps = conn.prepareStatement("SELECT rate FROM inventory WHERE name = ?")) {
+        try (Connection conn = DbConnection.getConnection();
+             PreparedStatement ps =
+                     conn.prepareStatement("SELECT product_rate FROM inventory WHERE product_name = ?")) {
             ps.setString(1, productName);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    productUnitPriceLabel.setText(rs.getString("rate"));
+                    productUnitPriceLabel.setText(rs.getString("product_rate"));
                 }
             }
             totalPrice();
@@ -557,7 +558,8 @@ public class SaleUI extends javax.swing.JPanel {
         // Sales DB
         try {
             // Retrieve and validate input data
-            String customerName = customerNameTextField.getText().trim();
+            String customerName = customerNameTextField.getText();
+            int userId = SessionManager.getInstance().getUserId();
             if (customerName.isEmpty()) {
                 Utils.showInfo("Customer name is required");
                 return;
@@ -581,13 +583,15 @@ public class SaleUI extends javax.swing.JPanel {
             }
 
             // Insert sales data into the database
-            String salesSql = "INSERT INTO sales (invoice_id, customer_name, total_bill, status, due) VALUES (?, ?, ?, ?, ?)";
+            String salesSql = "INSERT INTO sales (invoice_id, user_id, customer_name, total_bill, status, due) " +
+                    "VALUES (?, ?, ?, ?, ?, ?)";
             try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(salesSql)) {
                 pst.setInt(1, invoiceId);
-                pst.setString(2, customerName);
-                pst.setDouble(3, totalProductPrice);
-                pst.setString(4, status);
-                pst.setDouble(5, dueAmount);
+                pst.setInt(2, userId);
+                pst.setString(3, customerName);
+                pst.setDouble(4, totalProductPrice);
+                pst.setString(5, status);
+                pst.setDouble(6, dueAmount);
                 pst.executeUpdate();
                 JOptionPane.showMessageDialog(this, "Data has been saved.");
             }
@@ -602,7 +606,7 @@ public class SaleUI extends javax.swing.JPanel {
 
         // Save invoice id
         try {
-            int invoiceId = Integer.parseInt(showInvoiceLabel.getText().trim());
+            int invoiceId = Integer.parseInt(showInvoiceLabel.getText());
             String invoiceSql = "INSERT INTO invoice_ids (invoice_id) VALUES (?)";
             try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(invoiceSql)) {
                 pst.setInt(1, invoiceId);
@@ -612,6 +616,42 @@ public class SaleUI extends javax.swing.JPanel {
             Utils.showError("Error saving invoice ID: " + ex.getMessage());
         } catch (NumberFormatException nfe) {
             Utils.showError("Invalid invoice ID format: " + nfe.getMessage());
+        }
+
+        // Save Sales History
+        try {
+            int invoiceId = Integer.parseInt(showInvoiceLabel.getText());
+            String customerName = customerNameTextField.getText();
+            int userId = SessionManager.getInstance().getUserId();
+
+            DefaultTableModel dtm = (DefaultTableModel) salesTable.getModel();
+            int rowCount = dtm.getRowCount();
+
+            String sql = "INSERT INTO sales_history (invoice_id, user_id, customer_name, product_name, " +
+                    "product_rate, product_quantity, total_bill) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+            try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql)) {
+                for (int i = 0; i < rowCount; i++) {
+                    String productName =  dtm.getValueAt(i, 1).toString();
+                    String productQuantity =  dtm.getValueAt(i, 2).toString();
+                    String productUnitPrice =  dtm.getValueAt(i, 3).toString();
+
+                    String totalBill = totalAmountTextField.getText();
+
+                    pst.setInt(1, invoiceId);
+                    pst.setInt(2, userId);
+                    pst.setString(3, customerName);
+                    pst.setString(4, productName);
+                    pst.setString(5, productUnitPrice);
+                    pst.setString(6, productQuantity);
+                    pst.setString(7, totalBill);
+
+                    pst.executeUpdate();
+                    pst.clearParameters();
+                }
+            }
+        } catch (SQLException ex) {
+            Utils.showError("Database error: " + ex.getMessage());
         }
 
         panelClearAll();

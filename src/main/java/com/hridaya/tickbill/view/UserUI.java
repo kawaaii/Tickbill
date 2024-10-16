@@ -55,8 +55,7 @@ public class UserUI extends javax.swing.JPanel {
         }
     }
 
-    private boolean userCreationValidation
-            (String firstName, String lastName, String address, String emailAddress, String phoneNumber) {
+    private boolean userCreationValidation(String firstName, String lastName, String address, String emailAddress, String phoneNumber) {
         String nameRegex = "^[A-Za-z]+$";
         String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
         String addressRegex = "^[\\w\\s,.-]+$";
@@ -417,8 +416,8 @@ public class UserUI extends javax.swing.JPanel {
 
         if (userCreationValidation(firstName, lastName, address, emailAddress, phoneNumber)) {
             try {
-                String sql = "INSERT INTO user " +
-                        "(first_name, last_name, username, password, user_role, user_address, user_email, phone_no) "
+                String sql = "INSERT INTO user "
+                        + "(first_name, last_name, username, password, user_role, user_address, user_email, phone_no) "
                         + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql);
 
@@ -460,8 +459,8 @@ public class UserUI extends javax.swing.JPanel {
 
         if (userCreationValidation(firstName, lastName, address, emailAddress, phoneNumber)) {
             try {
-                String sql = "UPDATE user SET first_name = ?, last_name = ?, username = ?, password = ?" +
-                        ", user_role = ?, user_address = ?, user_email = ?, phone_no = ? "
+                String sql = "UPDATE user SET first_name = ?, last_name = ?, username = ?, password = ?"
+                        + ", user_role = ?, user_address = ?, user_email = ?, phone_no = ? "
                         + "WHERE user_id = ?";
                 PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql);
 
