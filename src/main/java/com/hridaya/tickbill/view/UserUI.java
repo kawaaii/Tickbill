@@ -29,7 +29,7 @@ public class UserUI extends javax.swing.JPanel {
         userLoad();
     }
 
-    public void userLoad() {
+    private void userLoad() {
         try {
             DefaultTableModel dtm = (DefaultTableModel) userTable.getModel();
             dtm.setRowCount(0);
@@ -45,8 +45,8 @@ public class UserUI extends javax.swing.JPanel {
 
                 dtm.addRow(v);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            Utils.showError("Error: " + e.getMessage());
         }
     }
 
@@ -153,11 +153,6 @@ public class UserUI extends javax.swing.JPanel {
 
         userRoleComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Employee" }));
         userRoleComboBox.setSelectedIndex(-1);
-        userRoleComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                userRoleComboBoxActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -237,7 +232,7 @@ public class UserUI extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE))
-                .addContainerGap(198, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -269,6 +264,12 @@ public class UserUI extends javax.swing.JPanel {
         String username = userTextField.getText();
         String password = userPasswordTextField.getText();
         int role = userRoleComboBox.getSelectedIndex() + 1;
+
+        if (username == null || password == null) {
+            Utils.showError("Username and password are required");
+            return;
+        }
+
         String sql = "INSERT INTO user(name, password, role_id) VALUES (?, ?, ?)";
 
         try (PreparedStatement ps = DbConnection.getConnection().prepareStatement(sql)) {
@@ -288,6 +289,12 @@ public class UserUI extends javax.swing.JPanel {
         String username = userTextField.getText();
         String password = userPasswordTextField.getText();
         int role = userRoleComboBox.getSelectedIndex() + 1;
+
+        if (username == null || password == null) {
+            Utils.showError("Username and password are required");
+            return;
+        }
+
         String sql = "UPDATE user SET name = ?, password = ?, role_id = ? WHERE id = ?";
 
         try (PreparedStatement ps = DbConnection.getConnection().prepareStatement(sql)) {
@@ -300,6 +307,7 @@ public class UserUI extends javax.swing.JPanel {
         } catch (SQLException sqle) {
             Utils.showError("Error updating user", sqle);
         }
+
         userLoad();
     }//GEN-LAST:event_userUpdateButtonActionPerformed
 
@@ -308,7 +316,7 @@ public class UserUI extends javax.swing.JPanel {
         String sql = "DELETE FROM user WHERE id = ?";
 
         if (userId.isEmpty()) {
-            Utils.showInfo("Enter userId");
+            Utils.showInfo("Enter User ID");
             return;
         }
 
@@ -321,10 +329,6 @@ public class UserUI extends javax.swing.JPanel {
         }
         userLoad();
     }//GEN-LAST:event_userDeleteButtonActionPerformed
-
-    private void userRoleComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userRoleComboBoxActionPerformed
-        // TODO
-    }//GEN-LAST:event_userRoleComboBoxActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;

@@ -38,7 +38,7 @@
                   <Component id="jPanel1" max="32767" attributes="0"/>
                   <Component id="jScrollPane2" pref="431" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="198" max="32767" attributes="0"/>
+              <EmptySpace pref="30" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -242,9 +242,6 @@
             </Property>
             <Property name="selectedIndex" type="int" value="-1"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="userRoleComboBoxActionPerformed"/>
-          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>

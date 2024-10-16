@@ -5,6 +5,7 @@
 package com.hridaya.tickbill.view;
 
 import com.hridaya.tickbill.database.DbConnection;
+import java.awt.HeadlessException;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -58,7 +59,7 @@ public class SaleUI extends javax.swing.JPanel {
             }
             showInvoiceLabel.setText(String.valueOf(currentInvoiceId));
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            Utils.showError("Error: "+ ex.getMessage());
         }
     }
 
@@ -77,7 +78,7 @@ public class SaleUI extends javax.swing.JPanel {
             productQuantityTextField.setText("1");
             productNameComboBox.setSelectedIndex(-1);
         } catch (SQLException e) {
-            e.printStackTrace();
+            Utils.showError("Error: "+ e.getMessage());
         }
         cartTotalPrice();
         dueAmount();
@@ -115,7 +116,6 @@ public class SaleUI extends javax.swing.JPanel {
 
         double dueAmount = totalPrice - paidAmount;
         balanceTextField.setText(String.format("%.2f", dueAmount));
-
     }
 
     /**
@@ -497,7 +497,7 @@ public class SaleUI extends javax.swing.JPanel {
             }
             totalPrice();
         } catch (SQLException | NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+            Utils.showError("Error: " + ex.getMessage());
         }
     }//GEN-LAST:event_productNameComboBoxActionPerformed
 
@@ -527,10 +527,10 @@ public class SaleUI extends javax.swing.JPanel {
                 DefaultTableModel dtm = (DefaultTableModel) salesTable.getModel();
                 dtm.removeRow(removeRow);
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+                Utils.showError("Error: " + ex.getMessage());
             }
         } else {
-            JOptionPane.showMessageDialog(this, "No item selected");
+            Utils.showInfo("No item selected");
         }
         cartTotalPrice();
         dueAmount();
@@ -559,7 +559,7 @@ public class SaleUI extends javax.swing.JPanel {
             // Retrieve and validate input data
             String customerName = customerNameTextField.getText().trim();
             if (customerName.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Customer name is required");
+                Utils.showInfo("Customer name is required");
                 return;
             }
 
@@ -593,14 +593,11 @@ public class SaleUI extends javax.swing.JPanel {
             }
 
         } catch (NumberFormatException nfe) {
-            JOptionPane.showMessageDialog(this, "Invalid number format: " + nfe.getMessage());
-            nfe.printStackTrace();
+            Utils.showError("Invalid number format:" + nfe.getMessage());
         } catch (SQLException sqlEx) {
-            JOptionPane.showMessageDialog(this, "Database error: " + sqlEx.getMessage());
-            sqlEx.printStackTrace();
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
-            ex.printStackTrace();
+            Utils.showError("Database error: " + sqlEx.getMessage());
+        } catch (HeadlessException ex) {
+            Utils.showError("Error: " + ex.getMessage());
         }
 
         // Save invoice id
@@ -612,11 +609,9 @@ public class SaleUI extends javax.swing.JPanel {
                 pst.executeUpdate();
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error saving invoice ID: " + ex.getMessage());
-            ex.printStackTrace();
+            Utils.showError("Error saving invoice ID: " + ex.getMessage());
         } catch (NumberFormatException nfe) {
-            JOptionPane.showMessageDialog(this, "Invalid invoice ID format: " + nfe.getMessage());
-            nfe.printStackTrace();
+            Utils.showError("Invalid invoice ID format: " + nfe.getMessage());
         }
 
         panelClearAll();

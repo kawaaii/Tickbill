@@ -22,7 +22,6 @@ public class Utils {
     }
 
     public static void showError(String message, Exception e) {
-        e.printStackTrace();
         showError(message + ": " + e.getMessage());
     }
 

@@ -31,11 +31,10 @@ public class LoginUI extends javax.swing.JFrame {
     private void userLogin() {
         String username = userNameTextField.getText();
         String password = new String(passwordTextField.getPassword());
-        if (username != null && password != null) {
+        if (username != null) {
 
-            try (Connection conn = DbConnection.getConnection();
-                 PreparedStatement stmt =
-                         conn.prepareStatement("SELECT * FROM user WHERE name = ? AND password = ?")) {
+            try (Connection conn = DbConnection.getConnection(); PreparedStatement stmt
+                    = conn.prepareStatement("SELECT * FROM user WHERE name = ? AND password = ?")) {
 
                 stmt.setString(1, username);
                 stmt.setString(2, password);
@@ -45,11 +44,9 @@ public class LoginUI extends javax.swing.JFrame {
                 if (rs.next()) {
                     JOptionPane.showMessageDialog(this, "Login successful!");
                     this.dispose();
-                    SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-                            MainFrame mainFrame = new MainFrame();
-                            mainFrame.setVisible(true);
-                        }
+                    SwingUtilities.invokeLater(() -> {
+                        MainFrame mainFrame = new MainFrame();
+                        mainFrame.setVisible(true);
                     });
                 } else {
                     JOptionPane.showMessageDialog(this, "Invalid username or password.");
@@ -58,7 +55,6 @@ public class LoginUI extends javax.swing.JFrame {
                 rs.close();
 
             } catch (SQLException ex) {
-                ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Error during login.");
             }
         }
