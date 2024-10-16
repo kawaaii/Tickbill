@@ -6,12 +6,19 @@ package com.hridaya.tickbill.view;
 
 import com.hridaya.tickbill.database.DbConnection;
 import com.hridaya.tickbill.session.SessionManager;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 import java.awt.HeadlessException;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.io.File;
 import java.sql.*;
+import java.util.HashMap;
 import java.util.Vector;
 
 /**
@@ -628,13 +635,14 @@ public class SaleUI extends javax.swing.JPanel {
             int rowCount = dtm.getRowCount();
 
             String sql = "INSERT INTO sales_history (invoice_id, user_id, customer_name, product_name, " +
-                    "product_rate, product_quantity, total_bill) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    "product_rate, product_quantity, product_price, total_bill) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
             try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql)) {
                 for (int i = 0; i < rowCount; i++) {
                     String productName =  dtm.getValueAt(i, 1).toString();
                     String productQuantity =  dtm.getValueAt(i, 2).toString();
                     String productUnitPrice =  dtm.getValueAt(i, 3).toString();
+                    String productTotalPrice = dtm.getValueAt(i, 4).toString();
 
                     String totalBill = totalAmountTextField.getText();
 
@@ -644,7 +652,8 @@ public class SaleUI extends javax.swing.JPanel {
                     pst.setString(4, productName);
                     pst.setString(5, productUnitPrice);
                     pst.setString(6, productQuantity);
-                    pst.setString(7, totalBill);
+                    pst.setString(7, productTotalPrice);
+                    pst.setString(8, totalBill);
 
                     pst.executeUpdate();
                     pst.clearParameters();
@@ -652,6 +661,15 @@ public class SaleUI extends javax.swing.JPanel {
             }
         } catch (SQLException ex) {
             Utils.showError("Database error: " + ex.getMessage());
+        }
+
+        try {
+            HashMap param = new HashMap();
+            param.put("invoiceId" , showInvoiceLabel.getText());
+            ReportView reportView = new ReportView("src/main/java/com/hridaya/tickbill/report/SaleInvoice.jasper", param);
+            reportView.setVisible(true);
+        } catch (Exception ex) {
+
         }
 
         panelClearAll();
