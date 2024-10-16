@@ -44,7 +44,7 @@ public class ProductUI extends javax.swing.JPanel {
             }
 
         } catch (SQLException e) {
-            Utils.showError("Error loading products", e, null);
+            Utils.showError("Error loading products", e);
         }
     }
 
@@ -223,23 +223,23 @@ public class ProductUI extends javax.swing.JPanel {
 
     private void productSaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productSaveButtonActionPerformed
         String productName = productNameTextField.getText();
-        double productPrice = Utils.parseDoubleField(productPriceTextField, null);
-        int productQuantity = Utils.parseIntField(productQuantityTextField, null);
+        double productPrice = Utils.parseDoubleField(productPriceTextField);
+        int productQuantity = Utils.parseIntField(productQuantityTextField);
 
         String sql = "INSERT INTO inventory(name, rate, quantity) VALUES ('" + productName + "', " + productPrice + ", " + productQuantity + ")";
-        Utils.executeUpdate(sql, "Product created successfully!", null);
+        Utils.executeUpdate(sql, "Product created successfully!");
         productLoad();
     }//GEN-LAST:event_productSaveButtonActionPerformed
 
     private void productUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productUpdateButtonActionPerformed
         String productId = productIdTextField.getText();
         String productName = productNameTextField.getText();
-        double productPrice = Utils.parseDoubleField(productPriceTextField, null);
-        int productQuantity = Utils.parseIntField(productQuantityTextField, null);
+        double productPrice = Utils.parseDoubleField(productPriceTextField);
+        int productQuantity = Utils.parseIntField(productQuantityTextField);
 
         String sql = "UPDATE inventory SET name = '" + productName + "', rate = " + productPrice
                 + ", quantity = " + productQuantity + " WHERE id = '" + productId + "'";
-        Utils.executeUpdate(sql, "Product updated successfully!", null);
+        Utils.executeUpdate(sql, "Product updated successfully!");
         productLoad();
     }//GEN-LAST:event_productUpdateButtonActionPerformed
 
@@ -254,17 +254,17 @@ public class ProductUI extends javax.swing.JPanel {
                 productPriceTextField.setText(String.valueOf(rs.getDouble("rate")));
                 productQuantityTextField.setText(String.valueOf(rs.getInt("quantity")));
             } else {
-                Utils.showError("Product not found", null);
+                Utils.showInfo("Product not found");
             }
         } catch (SQLException e) {
-            Utils.showError("Error searching product", e, null);
+            Utils.showError("Error searching product", e);
         }
     }//GEN-LAST:event_productSearchButtonActionPerformed
 
     private void productDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productDeleteButtonActionPerformed
         String productId = productIdTextField.getText();
         String sql = "DELETE FROM inventory WHERE id = '" + productId + "'";
-        Utils.executeUpdate(sql, "Product deleted successfully!", null);
+        Utils.executeUpdate(sql, "Product deleted successfully!");
         productLoad();
     }//GEN-LAST:event_productDeleteButtonActionPerformed
 

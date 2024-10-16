@@ -258,10 +258,10 @@ public class UserUI extends javax.swing.JPanel {
                 userPasswordTextField.setText(password);
                 userRoleComboBox.setSelectedItem(role);
             } else {
-                Utils.showError("User not found", null);
+                Utils.showInfo("User not found");
             }
         } catch (SQLException sqle) {
-            Utils.showError("Error searching user", sqle, null);
+            Utils.showError("Error searching user", sqle);
         }
     }//GEN-LAST:event_userSearchButtonActionPerformed
 
@@ -276,9 +276,9 @@ public class UserUI extends javax.swing.JPanel {
             ps.setString(2, password);
             ps.setInt(3, role);
             ps.executeUpdate();
-            Utils.showInfo("User created successfully", null);
+            Utils.showInfo("User created successfully");
         } catch (SQLException sqle) {
-            Utils.showError("Error saving user", sqle, null);
+            Utils.showError("Error saving user", sqle);
         }
         userLoad();
     }//GEN-LAST:event_userSaveButtonActionPerformed
@@ -296,9 +296,9 @@ public class UserUI extends javax.swing.JPanel {
             ps.setInt(3, role);
             ps.setString(4, userId);
             ps.executeUpdate();
-            Utils.showInfo("User updated successfully", null);
+            Utils.showInfo("User updated successfully");
         } catch (SQLException sqle) {
-            Utils.showError("Error updating user", sqle, null);
+            Utils.showError("Error updating user", sqle);
         }
         userLoad();
     }//GEN-LAST:event_userUpdateButtonActionPerformed
@@ -308,16 +308,16 @@ public class UserUI extends javax.swing.JPanel {
         String sql = "DELETE FROM user WHERE id = ?";
 
         if (userId.isEmpty()) {
-            Utils.showError("Enter userId", null);
+            Utils.showInfo("Enter userId");
             return;
         }
 
         try (PreparedStatement ps = DbConnection.getConnection().prepareStatement(sql)) {
             ps.setString(1, userId);
             ps.executeUpdate();
-            Utils.showInfo("User deleted successfully", null);
+            Utils.showInfo("User deleted successfully");
         } catch (SQLException sqle) {
-            Utils.showError("Error deleting user", sqle, null);
+            Utils.showError("Error deleting user", sqle);
         }
         userLoad();
     }//GEN-LAST:event_userDeleteButtonActionPerformed

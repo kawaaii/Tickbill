@@ -7,42 +7,43 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Utils {
-    public static void executeUpdate(String sql, String successMessage, JFrame parentComponent) {
+
+    public static void executeUpdate(String sql, String successMessage) {
         try (Statement st = DbConnection.getConnection().createStatement()) {
             st.executeUpdate(sql);
-            showInfo(successMessage, parentComponent);
+            showInfo(successMessage);
         } catch (SQLException e) {
-            showError("Error executing database operation", e, parentComponent);
+            showError("Error executing database operation", e);
         }
     }
 
-    public static void showError(String message, JFrame parentComponent) {
-        JOptionPane.showMessageDialog(parentComponent, message, "Error", JOptionPane.ERROR_MESSAGE);
+    public static void showError(String message) {
+        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    public static void showError(String message, Exception e, JFrame parentComponent) {
+    public static void showError(String message, Exception e) {
         e.printStackTrace();
-        showError(message + ": " + e.getMessage(), parentComponent);
+        showError(message + ": " + e.getMessage());
     }
 
-    public static void showInfo(String message, JFrame parentComponent) {
-        JOptionPane.showMessageDialog(parentComponent, message, "Info", JOptionPane.INFORMATION_MESSAGE);
+    public static void showInfo(String message) {
+        JOptionPane.showMessageDialog(null, message, "Info", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public static double parseDoubleField(JTextField textField, JFrame parentComponent) {
+    public static double parseDoubleField(JTextField textField) {
         try {
             return Double.parseDouble(textField.getText());
         } catch (NumberFormatException e) {
-            showError("Invalid input: " + textField.getText(), parentComponent);
+            showError("Invalid input: " + textField.getText());
             return 0.0;
         }
     }
 
-    public static int parseIntField(JTextField textField, JFrame parentComponent) {
+    public static int parseIntField(JTextField textField) {
         try {
             return Integer.parseInt(textField.getText());
         } catch (NumberFormatException e) {
-            showError("Invalid input: " + textField.getText(), parentComponent);
+            showError("Invalid input: " + textField.getText());
             return 0;
         }
     }
