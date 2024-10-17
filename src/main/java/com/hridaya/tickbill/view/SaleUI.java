@@ -6,10 +6,7 @@ package com.hridaya.tickbill.view;
 
 import com.hridaya.tickbill.database.DbConnection;
 import com.hridaya.tickbill.session.SessionManager;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
 
 import java.awt.HeadlessException;
@@ -494,9 +491,8 @@ public class SaleUI extends javax.swing.JPanel {
             productName = productNameComboBox.getSelectedItem().toString();
         }
 
-        try (Connection conn = DbConnection.getConnection();
-             PreparedStatement ps =
-                     conn.prepareStatement("SELECT product_rate FROM inventory WHERE product_name = ?")) {
+        try (Connection conn = DbConnection.getConnection(); PreparedStatement ps
+                = conn.prepareStatement("SELECT product_rate FROM inventory WHERE product_name = ?")) {
             ps.setString(1, productName);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -579,7 +575,7 @@ public class SaleUI extends javax.swing.JPanel {
 
             // Determine payment status
             String status;
-            if (dueAmount == 0.0) {
+            if (dueAmount == 0.0 || dueAmount < 0) {
                 status = "Paid";
             } else if (paidAmount == 0.0) {
                 status = "Pending";
@@ -590,8 +586,8 @@ public class SaleUI extends javax.swing.JPanel {
             }
 
             // Insert sales data into the database
-            String salesSql = "INSERT INTO sales (invoice_id, user_id, customer_name, total_bill, status, due) " +
-                    "VALUES (?, ?, ?, ?, ?, ?)";
+            String salesSql = "INSERT INTO sales (invoice_id, user_id, customer_name, total_bill, status, due) "
+                    + "VALUES (?, ?, ?, ?, ?, ?)";
             try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(salesSql)) {
                 pst.setInt(1, invoiceId);
                 pst.setInt(2, userId);
@@ -625,7 +621,7 @@ public class SaleUI extends javax.swing.JPanel {
             Utils.showError("Invalid invoice ID format: " + nfe.getMessage());
         }
 
-        // Save Sales History
+        // Save Sales History, this is for generating invoices on pay & print
         try {
             int invoiceId = Integer.parseInt(showInvoiceLabel.getText());
             String customerName = customerNameTextField.getText();
@@ -634,14 +630,14 @@ public class SaleUI extends javax.swing.JPanel {
             DefaultTableModel dtm = (DefaultTableModel) salesTable.getModel();
             int rowCount = dtm.getRowCount();
 
-            String sql = "INSERT INTO sales_history (invoice_id, user_id, customer_name, product_name, " +
-                    "product_rate, product_quantity, product_price, total_bill) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String salesHistorySql = "INSERT INTO sales_history (invoice_id, user_id, customer_name, product_name, "
+                    + "product_rate, product_quantity, product_price, total_bill) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-            try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql)) {
+            try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(salesHistorySql)) {
                 for (int i = 0; i < rowCount; i++) {
-                    String productName =  dtm.getValueAt(i, 1).toString();
-                    String productQuantity =  dtm.getValueAt(i, 2).toString();
-                    String productUnitPrice =  dtm.getValueAt(i, 3).toString();
+                    String productName = dtm.getValueAt(i, 1).toString();
+                    String productQuantity = dtm.getValueAt(i, 2).toString();
+                    String productUnitPrice = dtm.getValueAt(i, 3).toString();
                     String productTotalPrice = dtm.getValueAt(i, 4).toString();
 
                     String totalBill = totalAmountTextField.getText();
@@ -663,9 +659,62 @@ public class SaleUI extends javax.swing.JPanel {
             Utils.showError("Database error: " + ex.getMessage());
         }
 
+        // save to per user invoice
+        try {
+            String perUserInvoiceSql = "INSERT INTO user_invoice (invoice_id, customer_name, status, total_bill, due, "
+                    + "user_id, product_name, product_rate, product_quantity, product_price) VALUES (?,?,?,?,?,?,?,?,?,?)";
+            DefaultTableModel dtm = (DefaultTableModel) salesTable.getModel();
+            int rowCount = dtm.getRowCount();
+
+            try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(perUserInvoiceSql)) {
+                for (int i = 0; i < rowCount; i++) {
+                    String productName = dtm.getValueAt(i, 1).toString();
+                    String productQuantity = dtm.getValueAt(i, 2).toString();
+                    String productUnitPrice = dtm.getValueAt(i, 3).toString();
+                    String productTotalPrice = dtm.getValueAt(i, 4).toString();
+
+                    int invoiceId = Integer.parseInt(showInvoiceLabel.getText());
+                    String totalBill = totalAmountTextField.getText();
+                    String customerName = customerNameTextField.getText();
+
+                    double paidAmount = Double.parseDouble(paidAmountTextField.getText());
+                    double dueAmount = Double.parseDouble(balanceTextField.getText());
+
+                    int userId = SessionManager.getInstance().getUserId();
+
+                    // Determine payment status
+                    String status;
+                    if (dueAmount == 0.0 || dueAmount < 0) {
+                        status = "Paid";
+                    } else if (paidAmount == 0.0) {
+                        status = "Pending";
+                    } else if (dueAmount > paidAmount) {
+                        status = "Due";
+                    } else {
+                        status = "Partial";
+                    }
+
+                    pst.setInt(1, invoiceId);
+                    pst.setString(2, customerName);
+                    pst.setString(3, status);
+                    pst.setString(4, totalBill);
+                    pst.setDouble(5, dueAmount);
+                    pst.setInt(6, userId);
+                    pst.setString(7, productName);
+                    pst.setString(8, productUnitPrice);
+                    pst.setString(9, productQuantity);
+                    pst.setString(10, productTotalPrice);
+                    pst.executeUpdate();
+                    pst.clearParameters();
+                }
+            }
+        } catch (Exception ex) {
+            Utils.showError("Error: " + ex.getMessage());
+        }
+
         try {
             HashMap param = new HashMap();
-            param.put("invoiceId" , showInvoiceLabel.getText());
+            param.put("invoiceId", showInvoiceLabel.getText());
             ReportView reportView = new ReportView("src/main/java/com/hridaya/tickbill/report/SaleInvoice.jasper", param);
             reportView.setVisible(true);
         } catch (Exception ex) {

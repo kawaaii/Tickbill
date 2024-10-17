@@ -50,6 +50,7 @@ public class LoginUI extends javax.swing.JFrame {
                     SessionManager.getInstance().setUserId(userId);
                     SessionManager.getInstance().setUserName(userName);
 
+                    // equalsIgnoreCase = ignore UPPER or LOWER case and == (compare)
                     if (userRole.equalsIgnoreCase("admin")) {
                         SessionManager.getInstance().setUserRole(SessionManager.userRoleEnum.ADMIN);
                     } else if (userRole.equalsIgnoreCase("employee")) {
@@ -63,12 +64,12 @@ public class LoginUI extends javax.swing.JFrame {
                         mainFrame.setVisible(true);
                     });
                 } else {
-                    Utils.showError( "Invalid username or password.");
+                    Utils.showError("Invalid username or password.");
                 }
                 rs.close();
 
             } catch (SQLException ex) {
-                Utils.showError( "Error during login." + ex.getMessage());
+                Utils.showError("Error during login." + ex.getMessage());
             }
         }
     }

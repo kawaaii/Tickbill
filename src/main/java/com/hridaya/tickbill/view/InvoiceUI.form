@@ -67,7 +67,7 @@
         <Component class="javax.swing.JTable" name="invoiceUiMainTable">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="6" rowCount="4">
+              <Table columnCount="6" rowCount="0">
                 <Column editable="true" title="Invoice ID" type="java.lang.Object"/>
                 <Column editable="true" title="Customer" type="java.lang.Object"/>
                 <Column editable="true" title="Total bill" type="java.lang.Object"/>
@@ -76,8 +76,12 @@
                 <Column editable="true" title="Billed by (User ID)" type="java.lang.Object"/>
               </Table>
             </Property>
+            <Property name="focusable" type="boolean" value="false"/>
             <Property name="showGrid" type="boolean" value="true"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="invoiceUiMainTableMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

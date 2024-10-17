@@ -9,7 +9,7 @@ CREATE TABLE user
     last_name    VARCHAR(255)        NOT NULL,
     username     VARCHAR(50) UNIQUE,
     password     VARCHAR(255), -- Consider hashing passwords
-    user_role    VARCHAR(50), -- Allow for longer role names
+    user_role    VARCHAR(50),  -- Allow for longer role names
     user_address VARCHAR(255)        NOT NULL,
     user_email   VARCHAR(100) UNIQUE NOT NULL,
     phone_no     VARCHAR(15)         NOT NULL
@@ -70,4 +70,29 @@ CREATE TABLE sales_history
     FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE,
     FOREIGN KEY (invoice_id) REFERENCES sales (invoice_id) ON DELETE CASCADE,
     FOREIGN KEY (product_name) REFERENCES inventory (product_name) ON DELETE CASCADE
+);
+
+-- Per user invoice table
+-- first need to create index
+CREATE INDEX idx_product_rate ON sales_history (product_rate);
+CREATE INDEX idx_product_quantity ON sales_history (product_quantity);
+
+CREATE TABLE user_invoice
+(
+    id               INT PRIMARY KEY AUTO_INCREMENT,
+    invoice_id       INT            NOT NULL,
+    customer_name    VARCHAR(255)   NOT NULL,
+    status           VARCHAR(20)    NOT NULL DEFAULT 'Pending',
+    total_bill       DECIMAL(10, 2) NOT NULL,
+    due              DECIMAL(10, 2) NOT NULL,
+    user_id          INT            NOT NULL,
+    product_name     VARCHAR(255)   NOT NULL,
+    product_rate     DECIMAL(10, 2) NOT NULL,
+    product_quantity INT            NOT NULL,
+    product_price   DOUBLE          NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE,
+    FOREIGN KEY (invoice_id) REFERENCES sales (invoice_id) ON DELETE CASCADE,
+    FOREIGN KEY (product_name) REFERENCES inventory (product_name) ON DELETE CASCADE,
+    foreign key (product_rate) REFERENCES sales_history (product_rate) ON DELETE CASCADE,
+    foreign key (product_quantity) references sales_history (product_quantity) ON DELETE CASCADE
 );

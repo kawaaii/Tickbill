@@ -45,7 +45,6 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
 
-
     private void checkDbConnectionStatus() {
         Connection conn = DbConnection.getConnection();
         if (conn != null) {

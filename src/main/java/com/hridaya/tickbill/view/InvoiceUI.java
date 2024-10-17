@@ -94,16 +94,19 @@ public class InvoiceUI extends javax.swing.JPanel {
 
         invoiceUiMainTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "Invoice ID", "Customer", "Total bill", "Status", "Due Amount", "Billed by (User ID)"
             }
         ));
+        invoiceUiMainTable.setFocusable(false);
         invoiceUiMainTable.setShowGrid(true);
+        invoiceUiMainTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                invoiceUiMainTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(invoiceUiMainTable);
 
         invoiceIdLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -286,13 +289,22 @@ public class InvoiceUI extends javax.swing.JPanel {
         String paidAmount = paidAmountTextField.getText();
         String invoiceId = invoiceIdTextField.getText();
 
-        Double total = Double.valueOf(totalAmount);
-        Double paid = Double.valueOf(paidAmount);
+        double total = Double.parseDouble(totalAmount);
+        double paid = Double.parseDouble(paidAmount);
 
-        Double due = total - paid;
+        double due = total - paid;
 
         String dueAmount = Double.toString(due);
 
+        if (customerName.isEmpty()
+                || invoiceStatusComboBox.getSelectedItem().toString().isEmpty()
+                || totalAmount.isEmpty()
+                || dueAmount.isEmpty()) {
+            Utils.showError("Input fields are absent.");
+            return;
+        }
+
+        // sales db
         try {
             String sql = "UPDATE sales SET customer_name = ?, total_bill = ?, status = ?, due = ? "
                     + "WHERE invoice_id = ?";
@@ -305,7 +317,7 @@ public class InvoiceUI extends javax.swing.JPanel {
             pst.setString(5, invoiceId);
             int rowsAffected = pst.executeUpdate();
             if (rowsAffected > 0) {
-                Utils.showInfo("Invoice updated successfully.");
+                Utils.showInfo("Per user invoice updated successfully.");
             } else {
                 Utils.showError("Failed to update invoice.");
             }
@@ -313,6 +325,35 @@ public class InvoiceUI extends javax.swing.JPanel {
         } catch (Exception ex) {
             Utils.showError(ex.getMessage());
         }
+
+        // per person invoice db
+        // but no product related entries changed
+        // just customer name, total bill, status, and due can be changed
+        try {
+            String sql = "UPDATE user_invoice SET customer_name = ?, total_bill = ?, status = ?, due = ? "
+                    + "WHERE invoice_id = ?";
+            PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql);
+
+            pst.setString(1, customerName);
+            pst.setDouble(2, total);
+            pst.setString(3, invoiceStatus);
+            pst.setDouble(4, due);
+            pst.setInt(5, Integer.parseInt(invoiceId));
+
+            int rowsAffected = pst.executeUpdate();
+            if (rowsAffected > 0) {
+                Utils.showInfo("Invoice updated successfully.");
+            } else {
+                Utils.showError("Failed to update invoice. Invoice ID may not exist.");
+            }
+            pst.close();
+        } catch (SQLException ex) {
+            Utils.showError("Database error: " + ex.getMessage());
+        } catch (Exception ex) {
+            Utils.showError("Error: " + ex.getMessage());
+        }
+
+
         invoiceLoad();
     }//GEN-LAST:event_updateButtonActionPerformed
 
@@ -367,6 +408,14 @@ public class InvoiceUI extends javax.swing.JPanel {
         invoiceLoad();
     }//GEN-LAST:event_deleteButtonActionPerformed
 
+    private void invoiceUiMainTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_invoiceUiMainTableMouseClicked
+        DefaultTableModel dtm = (DefaultTableModel) invoiceUiMainTable.getModel();
+        int selectedRow = invoiceUiMainTable.getSelectedRow();
+        String invoiceId = dtm.getValueAt(selectedRow, 0).toString();
+        PerUserInvoiceUI pui = new PerUserInvoiceUI();
+        pui.loadUserInvoice(Integer.parseInt(invoiceId));
+        pui.setVisible(true);
+    }//GEN-LAST:event_invoiceUiMainTableMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel customerNameLabel;
