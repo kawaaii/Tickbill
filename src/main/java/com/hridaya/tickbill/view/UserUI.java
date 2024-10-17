@@ -407,7 +407,7 @@ public class UserUI extends javax.swing.JPanel {
         String phoneNumber = phoneNumberTextField.getText();
         String username = userNameTextField.getText();
         String password = passwordTextField.getText();
-        String role = "";
+        String role = null;
         if (userRoleComboBox.getSelectedItem() != null) {
             role = userRoleComboBox.getSelectedItem().toString().trim();
         }
@@ -518,18 +518,22 @@ public class UserUI extends javax.swing.JPanel {
                 String email = rs.getString("user_email");
                 String phoneNumber = rs.getString("phone_no");
 
+                // db has everything in lowerspace, meanwhile combobox have first letter capital
+                // so while getting user role assign it to another string which will then capitalize first word
+                String userRole = role.substring(0,1).toUpperCase() + role.substring(1).toLowerCase();
+
                 firstNameTextField.setText(firstName);
                 lastNameTextField.setText(lastName);
                 userNameTextField.setText(username);
                 passwordTextField.setText(password);
-                userRoleComboBox.setSelectedItem(role);
+                userRoleComboBox.setSelectedItem(userRole);
                 addressTextField.setText(address);
                 emailTextField.setText(email);
                 phoneNumberTextField.setText(phoneNumber);
             } else {
                 Utils.showInfo("User not found");
             }
-            pst.close();
+            rs.close();
         } catch (Exception ex) {
             Utils.showError("Error while searching user" + ex.getMessage());
         }
