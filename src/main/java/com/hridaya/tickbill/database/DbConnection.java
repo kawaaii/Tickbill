@@ -6,19 +6,14 @@ import java.sql.SQLException;
 
 public class DbConnection {
     private static Connection conn;
-    private static DbConnection instance;
 
     private DbConnection() {
     }
 
-    public static synchronized DbConnection getInstance() {
-        if (instance == null) {
-            instance = new DbConnection();
+    public static synchronized Connection getConnection() {
+        if (conn != null) {
+            return conn;
         }
-        return instance;
-    }
-
-    public static Connection getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(
@@ -28,5 +23,16 @@ public class DbConnection {
         }
 
         return conn;
+    }
+
+    public static void closeConnection() {
+        if (conn != null) {
+            try {
+                conn.close();
+                conn = null;
+            } catch (SQLException ex) {
+                System.err.println("Failed to close the database connection: " + ex.getMessage());
+            }
+        }
     }
 }
