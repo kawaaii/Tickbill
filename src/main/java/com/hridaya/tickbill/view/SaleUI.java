@@ -93,7 +93,7 @@ public class SaleUI extends javax.swing.JPanel {
         Double productPrice = Double.valueOf(productUnitPriceLabel.getText());
 
         Double totalPrice = productQuantity * productPrice;
-        productTotalPriceLabel.setText(String.valueOf(totalPrice));
+        productTotalPriceLabel.setText(String.format("%.2f", totalPrice));
     }
 
     private void cartTotalPrice() {
@@ -714,6 +714,50 @@ public class SaleUI extends javax.swing.JPanel {
             }
         } catch (NumberFormatException | SQLException ex) {
             Utils.showError("Error: " + ex.getMessage());
+        }
+
+        // rt inventory qty changes
+        try {
+            Connection conn = DbConnection.getConnection();
+            conn.setAutoCommit(false);
+
+            DefaultTableModel dtm = (DefaultTableModel) salesTable.getModel();
+            int rowCount = dtm.getRowCount();
+
+            PreparedStatement pstSelect = conn.prepareStatement(
+                    "SELECT product_quantity FROM inventory WHERE product_name = ?");
+            PreparedStatement pstUpdate = conn.prepareStatement(
+                    "UPDATE inventory SET product_quantity = ? WHERE product_name = ?");
+
+            for (int i = 0; i < rowCount; i++) {
+                String productName = (String) dtm.getValueAt(i, 1);
+                String productQuantityStr = (String) dtm.getValueAt(i, 2);
+                int productQuantity = Integer.parseInt(productQuantityStr);
+
+                pstSelect.setString(1, productName);
+                try (ResultSet rs = pstSelect.executeQuery()) {
+                    if (rs.next()) {
+                        int currentQuantity = rs.getInt("product_quantity");
+                        int finalQuantity = currentQuantity - productQuantity;
+
+                        pstUpdate.setInt(1, finalQuantity);
+                        pstUpdate.setString(2, productName);
+                        pstUpdate.addBatch();
+                    }
+                }
+            }
+
+            pstUpdate.executeBatch();
+
+            conn.commit();
+            conn.setAutoCommit(true);
+
+            pstSelect.close();
+            pstUpdate.close();
+        } catch (SQLException ex) {
+            Utils.showError("Error updating inventory: " + ex.getMessage());
+        } catch (NumberFormatException ex) {
+            Utils.showError("Error converting quantity to number: " + ex.getMessage());
         }
 
         try {
