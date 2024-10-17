@@ -173,7 +173,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(userNameLabel)
@@ -183,12 +183,12 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(userIdLabel)
                         .addGap(32, 32, 32)
                         .addComponent(showUserIdLabel)))
-                .addContainerGap())
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(userIdLabel)
                     .addComponent(showUserIdLabel))
@@ -196,7 +196,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(userNameLabel)
                     .addComponent(showUserNameLabel))
-                .addContainerGap())
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout headerPanelLayout = new javax.swing.GroupLayout(headerPanel);
@@ -206,14 +206,14 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38))
+                .addGap(86, 86, 86))
         );
         headerPanelLayout.setVerticalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerPanelLayout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
+                .addContainerGap(18, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24))
+                .addGap(15, 15, 15))
         );
 
         dbConnectionStatusLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -267,7 +267,8 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_showProductsButtonActionPerformed
 
     private void showInvoiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showInvoiceButtonActionPerformed
-        // TODO add your handling code here:
+        InvoiceUI invoiceUI = new InvoiceUI();
+        jPanelLoader.JPanelLoader(panelLoader, invoiceUI);
     }//GEN-LAST:event_showInvoiceButtonActionPerformed
 
     private void showSalesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showSalesButtonActionPerformed

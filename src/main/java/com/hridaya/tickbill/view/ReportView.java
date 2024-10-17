@@ -17,7 +17,7 @@ public class ReportView extends JFrame {
     }
 
     public ReportView(String fileName, HashMap params) {
-        super("Tickbill Invoice");
+        super("Tickbill Invoice Generator");
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         try {
