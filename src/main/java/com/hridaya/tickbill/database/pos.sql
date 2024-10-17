@@ -5,14 +5,14 @@ USE pos;
 CREATE TABLE user
 (
     user_id      INT PRIMARY KEY AUTO_INCREMENT,
-    first_name   VARCHAR(255)        NOT NULL,
-    last_name    VARCHAR(255)        NOT NULL,
+    first_name   VARCHAR(255)               NOT NULL,
+    last_name    VARCHAR(255)               NOT NULL,
     username     VARCHAR(50) UNIQUE,
-    password     VARCHAR(255), -- Consider hashing passwords
-    user_role    VARCHAR(50),  -- Allow for longer role names
-    user_address VARCHAR(255)        NOT NULL,
-    user_email   VARCHAR(100) UNIQUE NOT NULL,
-    phone_no     VARCHAR(15)         NOT NULL
+    password     VARCHAR(255),
+    user_role    ENUM ('admin', 'employee') NOT NULL,
+    user_address VARCHAR(255)               NOT NULL,
+    user_email   VARCHAR(100) UNIQUE        NOT NULL,
+    phone_no     VARCHAR(15)                NOT NULL
 );
 
 -- Insert an admin user
@@ -39,11 +39,11 @@ VALUES ('French Fries', 19.99, 150),
 CREATE TABLE sales
 (
     invoice_id    INT PRIMARY KEY AUTO_INCREMENT,
-    user_id       INT            NOT NULL,
-    customer_name VARCHAR(255)   NOT NULL,
-    total_bill    DECIMAL(10, 2) NOT NULL,
-    status        VARCHAR(20)    NOT NULL DEFAULT 'Pending', -- Example default status
-    due           DECIMAL(10, 2) NOT NULL,
+    user_id       INT                                        NOT NULL,
+    customer_name VARCHAR(255)                               NOT NULL,
+    total_bill    DECIMAL(10, 2)                             NOT NULL,
+    status        ENUM ('Pending', 'Paid', 'Due', 'Partial') NOT NULL DEFAULT 'Pending',
+    due           DECIMAL(10, 2)                             NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE
 );
 
@@ -66,33 +66,32 @@ CREATE TABLE sales_history
     product_name     VARCHAR(255)   NOT NULL,
     product_rate     DECIMAL(10, 2) NOT NULL,
     product_quantity INT            NOT NULL CHECK (product_quantity > 0),
+    product_price    DOUBLE         NOT NULL,
     total_bill       DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE,
     FOREIGN KEY (invoice_id) REFERENCES sales (invoice_id) ON DELETE CASCADE,
     FOREIGN KEY (product_name) REFERENCES inventory (product_name) ON DELETE CASCADE
 );
 
--- Per user invoice table
--- first need to create index
+-- Create indexes for performance
 CREATE INDEX idx_product_rate ON sales_history (product_rate);
 CREATE INDEX idx_product_quantity ON sales_history (product_quantity);
 
+-- User invoice table creation
 CREATE TABLE user_invoice
 (
     id               INT PRIMARY KEY AUTO_INCREMENT,
-    invoice_id       INT            NOT NULL,
-    customer_name    VARCHAR(255)   NOT NULL,
-    status           VARCHAR(20)    NOT NULL DEFAULT 'Pending',
-    total_bill       DECIMAL(10, 2) NOT NULL,
-    due              DECIMAL(10, 2) NOT NULL,
-    user_id          INT            NOT NULL,
-    product_name     VARCHAR(255)   NOT NULL,
-    product_rate     DECIMAL(10, 2) NOT NULL,
-    product_quantity INT            NOT NULL,
-    product_price   DOUBLE          NOT NULL,
+    invoice_id       INT                                        NOT NULL,
+    customer_name    VARCHAR(255)                               NOT NULL,
+    status           ENUM ('Pending', 'Paid', 'Due', 'Partial') NOT NULL DEFAULT 'Pending',
+    total_bill       DECIMAL(10, 2)                             NOT NULL,
+    due              DECIMAL(10, 2)                             NOT NULL,
+    user_id          INT                                        NOT NULL,
+    product_name     VARCHAR(255)                               NOT NULL,
+    product_rate     DECIMAL(10, 2)                             NOT NULL,
+    product_quantity INT                                        NOT NULL,
+    product_price    DOUBLE                                     NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE,
     FOREIGN KEY (invoice_id) REFERENCES sales (invoice_id) ON DELETE CASCADE,
-    FOREIGN KEY (product_name) REFERENCES inventory (product_name) ON DELETE CASCADE,
-    foreign key (product_rate) REFERENCES sales_history (product_rate) ON DELETE CASCADE,
-    foreign key (product_quantity) references sales_history (product_quantity) ON DELETE CASCADE
+    FOREIGN KEY (product_name) REFERENCES inventory (product_name) ON DELETE CASCADE
 );
