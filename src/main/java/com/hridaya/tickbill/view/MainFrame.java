@@ -5,6 +5,7 @@
 package com.hridaya.tickbill.view;
 
 import com.hridaya.tickbill.database.DbConnection;
+import com.hridaya.tickbill.session.SessionManager;
 
 import java.sql.Connection;
 
@@ -19,9 +20,21 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
+
         this.setExtendedState(MainFrame.MAXIMIZED_BOTH);
+
         checkDbConnectionStatus();
+        loadUserInfo();
     }
+
+    private void loadUserInfo() {
+        String username = SessionManager.getInstance().getUserName();
+        int userId = SessionManager.getInstance().getUserId();
+
+        showUserIdLabel.setText(String.valueOf(userId));
+        showUserNameLabel.setText(username);
+    }
+
 
     private void checkDbConnectionStatus() {
         Connection conn = DbConnection.getConnection();
@@ -51,6 +64,11 @@ public class MainFrame extends javax.swing.JFrame {
         showSalesButton = new javax.swing.JToggleButton();
         panelLoader = new javax.swing.JPanel();
         headerPanel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        userIdLabel = new javax.swing.JLabel();
+        userNameLabel = new javax.swing.JLabel();
+        showUserIdLabel = new javax.swing.JLabel();
+        showUserNameLabel = new javax.swing.JLabel();
         dbConnectionStatusLabel = new javax.swing.JLabel();
         dbConnectionShowStatusLabel = new javax.swing.JLabel();
 
@@ -127,7 +145,7 @@ public class MainFrame extends javax.swing.JFrame {
         panelLoader.setLayout(panelLoaderLayout);
         panelLoaderLayout.setHorizontalGroup(
             panelLoaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1502, Short.MAX_VALUE)
+            .addGap(0, 1518, Short.MAX_VALUE)
         );
         panelLoaderLayout.setVerticalGroup(
             panelLoaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,15 +154,66 @@ public class MainFrame extends javax.swing.JFrame {
 
         headerPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        userIdLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        userIdLabel.setText("User ID:");
+
+        userNameLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        userNameLabel.setText("Username:");
+
+        showUserIdLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        showUserIdLabel.setText("0000");
+
+        showUserNameLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        showUserNameLabel.setText("placeholder");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(userNameLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(showUserNameLabel))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(userIdLabel)
+                        .addGap(32, 32, 32)
+                        .addComponent(showUserIdLabel)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(userIdLabel)
+                    .addComponent(showUserIdLabel))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(userNameLabel)
+                    .addComponent(showUserNameLabel))
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout headerPanelLayout = new javax.swing.GroupLayout(headerPanel);
         headerPanel.setLayout(headerPanelLayout);
         headerPanelLayout.setHorizontalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38))
         );
         headerPanelLayout.setVerticalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerPanelLayout.createSequentialGroup()
+                .addContainerGap(26, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
         );
 
         dbConnectionStatusLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -164,8 +233,8 @@ public class MainFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(sidebarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
-                        .addComponent(panelLoader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(55, Short.MAX_VALUE))
+                        .addComponent(panelLoader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(33, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(dbConnectionStatusLabel)
@@ -186,7 +255,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(dbConnectionStatusLabel)
                     .addComponent(dbConnectionShowStatusLabel))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -250,12 +319,17 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel dbConnectionShowStatusLabel;
     private javax.swing.JLabel dbConnectionStatusLabel;
     private javax.swing.JPanel headerPanel;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel panelLoader;
     private javax.swing.JToggleButton showInvoiceButton;
     private javax.swing.JToggleButton showProductsButton;
     private javax.swing.JToggleButton showSalesButton;
+    private javax.swing.JLabel showUserIdLabel;
+    private javax.swing.JLabel showUserNameLabel;
     private javax.swing.JToggleButton showUsersButton;
     private javax.swing.ButtonGroup sideBarButtonGroup;
     private javax.swing.JPanel sidebarPanel;
+    private javax.swing.JLabel userIdLabel;
+    private javax.swing.JLabel userNameLabel;
     // End of variables declaration//GEN-END:variables
 }

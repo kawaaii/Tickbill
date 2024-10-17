@@ -44,8 +44,10 @@ public class LoginUI extends javax.swing.JFrame {
 
                 if (rs.next()) {
                     int userId = rs.getInt("user_id");
-                    System.out.println("User ID: " + userId);
+                    String userName = rs.getString("username");
+
                     SessionManager.getInstance().setUserId(userId);
+                    SessionManager.getInstance().setUserName(userName);
 
                     Utils.showInfo("Login successful!");
                     this.dispose();
