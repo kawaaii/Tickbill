@@ -28,48 +28,42 @@ public class PerUserInvoiceUI extends javax.swing.JFrame {
     }
 
     public void loadUserInvoice(int invoiceId) {
-        // Change the SQL query to use a placeholder for invoice_id
         String sql = "SELECT * FROM user_invoice WHERE invoice_id = ?";
         DefaultTableModel dtm = (DefaultTableModel) perUserInvoiceTable.getModel();
 
         invoiceTextField.setText(String.valueOf(invoiceId));
 
-        try {
-            // Prepare the statement with the new SQL query
-            PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql);
-            // Set the invoiceId parameter
+        try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql)) {
             pst.setInt(1, invoiceId);
 
-            // Execute the query
-            ResultSet rs = pst.executeQuery();
-            int i = 1;
-            while (rs.next()) {
-                Vector v = new Vector();
-
-                v.add(i++);
-                v.add(rs.getString("product_name")); // item name
-                v.add(rs.getString("product_rate")); // item rate
-                v.add(rs.getString("product_quantity")); // item quantity
-                v.add(rs.getString("product_price")); // item rate * quantity
-
-                // Set text fields
-                customerNameTextField.setText(rs.getString("customer_name")); // customer name
-                totalAmountTextField.setText(rs.getString("total_bill")); // total bill
-                dueAmountTextField.setText(rs.getString("due"));
-
-                double paidAmount = Double.parseDouble(rs.getString("total_bill"))
-                        - Double.parseDouble(rs.getString("due"));
-                paidAmountTextField.setText(String.valueOf(paidAmount));
-
-                billedUserIdTextField.setText(rs.getString("user_id")); // billed by
-                invoiceTextField.setText(rs.getString("invoice_id"));
-                invoiceStatusTextField.setText(rs.getString("status"));
-
-                dtm.addRow(v);
+            try (ResultSet rs = pst.executeQuery()) {
+                int i = 1;
+                while (rs.next()) {
+                    Vector v = new Vector();
+                    
+                    v.add(i++);
+                    v.add(rs.getString("product_name")); // item name
+                    v.add(rs.getString("product_rate")); // item rate
+                    v.add(rs.getString("product_quantity")); // item quantity
+                    v.add(rs.getString("product_price")); // item rate * quantity
+                    
+                    // Set text fields
+                    customerNameTextField.setText(rs.getString("customer_name")); // customer name
+                    totalAmountTextField.setText(rs.getString("total_bill")); // total bill
+                    dueAmountTextField.setText(rs.getString("due"));
+                    
+                    double paidAmount = Double.parseDouble(rs.getString("total_bill"))
+                            - Double.parseDouble(rs.getString("due"));
+                    paidAmountTextField.setText(String.valueOf(paidAmount));
+                    
+                    billedUserIdTextField.setText(rs.getString("user_id")); // billed by
+                    invoiceTextField.setText(rs.getString("invoice_id"));
+                    invoiceStatusTextField.setText(rs.getString("status"));
+                    
+                    dtm.addRow(v);
+                }
             }
-            // Clean up resources
-            rs.close(); // Close the ResultSet
-            pst.close(); // Close the PreparedStatement
+            pst.close();
         } catch (Exception ex) {
             Utils.showError("Error: " + ex.getMessage());
         }
@@ -280,10 +274,8 @@ public class PerUserInvoiceUI extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PerUserInvoiceUI().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new PerUserInvoiceUI().setVisible(true);
         });
     }
 

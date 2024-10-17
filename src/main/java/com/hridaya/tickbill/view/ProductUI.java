@@ -6,7 +6,6 @@ package com.hridaya.tickbill.view;
 
 import com.hridaya.tickbill.database.DbConnection;
 
-import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;

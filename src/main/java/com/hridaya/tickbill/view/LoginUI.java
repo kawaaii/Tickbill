@@ -40,33 +40,32 @@ public class LoginUI extends javax.swing.JFrame {
                 stmt.setString(1, username);
                 stmt.setString(2, password);
 
-                ResultSet rs = stmt.executeQuery();
-
-                if (rs.next()) {
-                    int userId = rs.getInt("user_id");
-                    String userName = rs.getString("username");
-                    String userRole = rs.getString("user_role");
-
-                    SessionManager.getInstance().setUserId(userId);
-                    SessionManager.getInstance().setUserName(userName);
-
-                    // equalsIgnoreCase = ignore UPPER or LOWER case and == (compare)
-                    if (userRole.equalsIgnoreCase("admin")) {
-                        SessionManager.getInstance().setUserRole(SessionManager.userRoleEnum.ADMIN);
-                    } else if (userRole.equalsIgnoreCase("employee")) {
-                        SessionManager.getInstance().setUserRole(SessionManager.userRoleEnum.EMPLOYEE);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        int userId = rs.getInt("user_id");
+                        String userName = rs.getString("username");
+                        String userRole = rs.getString("user_role");
+                        
+                        SessionManager.getInstance().setUserId(userId);
+                        SessionManager.getInstance().setUserName(userName);
+                        
+                        // equalsIgnoreCase = ignore UPPER or LOWER case and == (compare)
+                        if (userRole.equalsIgnoreCase("admin")) {
+                            SessionManager.getInstance().setUserRole(SessionManager.userRoleEnum.ADMIN);
+                        } else if (userRole.equalsIgnoreCase("employee")) {
+                            SessionManager.getInstance().setUserRole(SessionManager.userRoleEnum.EMPLOYEE);
+                        }
+                        
+                        Utils.showInfo("Login successful!");
+                        this.dispose();
+                        SwingUtilities.invokeLater(() -> {
+                            MainFrame mainFrame = new MainFrame();
+                            mainFrame.setVisible(true);
+                        });
+                    } else {
+                        Utils.showError("Invalid username or password.");
                     }
-
-                    Utils.showInfo("Login successful!");
-                    this.dispose();
-                    SwingUtilities.invokeLater(() -> {
-                        MainFrame mainFrame = new MainFrame();
-                        mainFrame.setVisible(true);
-                    });
-                } else {
-                    Utils.showError("Invalid username or password.");
                 }
-                rs.close();
 
             } catch (SQLException ex) {
                 Utils.showError("Error during login." + ex.getMessage());

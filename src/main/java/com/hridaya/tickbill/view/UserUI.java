@@ -5,9 +5,7 @@
 package com.hridaya.tickbill.view;
 
 import com.hridaya.tickbill.database.DbConnection;
-import jdk.jshell.execution.Util;
 
-import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -415,12 +413,10 @@ public class UserUI extends javax.swing.JPanel {
         }
 
         if (userCreationValidation(firstName, lastName, address, emailAddress, phoneNumber)) {
-            try {
-                String sql = "INSERT INTO user "
-                        + "(first_name, last_name, username, password, user_role, user_address, user_email, phone_no) "
-                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-                PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql);
-
+            String sql = "INSERT INTO user "
+                    + "(first_name, last_name, username, password, user_role, user_address, user_email, phone_no) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql)) {
                 pst.setString(1, firstName);
                 pst.setString(2, lastName);
                 pst.setString(3, username);
@@ -458,12 +454,10 @@ public class UserUI extends javax.swing.JPanel {
         }
 
         if (userCreationValidation(firstName, lastName, address, emailAddress, phoneNumber)) {
-            try {
-                String sql = "UPDATE user SET first_name = ?, last_name = ?, username = ?, password = ?"
-                        + ", user_role = ?, user_address = ?, user_email = ?, phone_no = ? "
-                        + "WHERE user_id = ?";
-                PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql);
-
+            String sql = "UPDATE user SET first_name = ?, last_name = ?, username = ?, password = ?"
+                    + ", user_role = ?, user_address = ?, user_email = ?, phone_no = ? "
+                    + "WHERE user_id = ?";
+            try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql)) {
                 pst.setString(1, firstName);
                 pst.setString(2, lastName);
                 pst.setString(3, username);
@@ -482,7 +476,6 @@ public class UserUI extends javax.swing.JPanel {
                 }
                 pst.close();
             } catch (Exception ex) {
-                ex.printStackTrace();  // This will print the error to the console
                 Utils.showError("Error while registering new user" + ex.getMessage());
             }
         }
@@ -496,8 +489,7 @@ public class UserUI extends javax.swing.JPanel {
             return;
         }
 
-        try {
-            PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql);
+        try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql)) {
             pst.setString(1, userId);
             pst.executeUpdate();
             Utils.showInfo("User deleted successfully.");
@@ -512,8 +504,7 @@ public class UserUI extends javax.swing.JPanel {
         String userId = userIdTextField.getText();
         String sql = "SELECT * FROM user WHERE user_id = ?";
 
-        try {
-            PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql);
+        try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql)) {
             pst.setString(1, userId);
             ResultSet rs = pst.executeQuery();
 

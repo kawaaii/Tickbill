@@ -708,7 +708,7 @@ public class SaleUI extends javax.swing.JPanel {
                     pst.clearParameters();
                 }
             }
-        } catch (Exception ex) {
+        } catch (NumberFormatException | SQLException ex) {
             Utils.showError("Error: " + ex.getMessage());
         }
 

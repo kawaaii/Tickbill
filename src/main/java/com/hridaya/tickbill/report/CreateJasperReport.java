@@ -4,6 +4,7 @@
  */
 package com.hridaya.tickbill.report;
 
+import com.hridaya.tickbill.view.Utils;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -13,6 +14,8 @@ import net.sf.jasperreports.view.JasperViewer;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
+import net.sf.jasperreports.engine.JRException;
 
 /**
  *
@@ -93,10 +96,10 @@ public class CreateJasperReport extends javax.swing.JFrame {
 
             File f = new File("src\\main\\java\\com\\hridaya\\tickbill\\report\\SaleInvoice.jrxml");
             JasperReport jr = JasperCompileManager.compileReport(f.getAbsolutePath());
-            JasperPrint jp = JasperFillManager.fillReport(jr,null, con);
-            JasperViewer.viewReport(jp,false);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            JasperPrint jp = JasperFillManager.fillReport(jr, null, con);
+            JasperViewer.viewReport(jp, false);
+        } catch (ClassNotFoundException | SQLException | JRException ex) {
+            Utils.showError(ex.getMessage());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -128,10 +131,8 @@ public class CreateJasperReport extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CreateJasperReport().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new CreateJasperReport().setVisible(true);
         });
     }
 

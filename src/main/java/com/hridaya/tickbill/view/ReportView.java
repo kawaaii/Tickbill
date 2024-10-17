@@ -29,8 +29,4 @@ public class ReportView extends JFrame {
             System.out.println(e.getMessage());
         }
     }
-
-    void print() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 }

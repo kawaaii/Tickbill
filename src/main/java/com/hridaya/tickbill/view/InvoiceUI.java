@@ -308,21 +308,20 @@ public class InvoiceUI extends javax.swing.JPanel {
         try {
             String sql = "UPDATE sales SET customer_name = ?, total_bill = ?, status = ?, due = ? "
                     + "WHERE invoice_id = ?";
-            PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql);
-
-            pst.setString(1, customerName);
-            pst.setString(2, totalAmount);
-            pst.setString(3, invoiceStatus);
-            pst.setString(4, dueAmount);
-            pst.setString(5, invoiceId);
-            int rowsAffected = pst.executeUpdate();
-            if (rowsAffected > 0) {
-                Utils.showInfo("Per user invoice updated successfully.");
-            } else {
-                Utils.showError("Failed to update invoice.");
+            try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql)) {
+                pst.setString(1, customerName);
+                pst.setString(2, totalAmount);
+                pst.setString(3, invoiceStatus);
+                pst.setString(4, dueAmount);
+                pst.setString(5, invoiceId);
+                int rowsAffected = pst.executeUpdate();
+                if (rowsAffected > 0) {
+                    Utils.showInfo("Per user invoice updated successfully.");
+                } else {
+                    Utils.showError("Failed to update invoice.");
+                }
             }
-            pst.close();
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             Utils.showError(ex.getMessage());
         }
 
@@ -332,24 +331,23 @@ public class InvoiceUI extends javax.swing.JPanel {
         try {
             String sql = "UPDATE user_invoice SET customer_name = ?, total_bill = ?, status = ?, due = ? "
                     + "WHERE invoice_id = ?";
-            PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql);
-
-            pst.setString(1, customerName);
-            pst.setDouble(2, total);
-            pst.setString(3, invoiceStatus);
-            pst.setDouble(4, due);
-            pst.setInt(5, Integer.parseInt(invoiceId));
-
-            int rowsAffected = pst.executeUpdate();
-            if (rowsAffected > 0) {
-                Utils.showInfo("Invoice updated successfully.");
-            } else {
-                Utils.showError("Failed to update invoice. Invoice ID may not exist.");
+            try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql)) {
+                pst.setString(1, customerName);
+                pst.setDouble(2, total);
+                pst.setString(3, invoiceStatus);
+                pst.setDouble(4, due);
+                pst.setInt(5, Integer.parseInt(invoiceId));
+                
+                int rowsAffected = pst.executeUpdate();
+                if (rowsAffected > 0) {
+                    Utils.showInfo("Invoice updated successfully.");
+                } else {
+                    Utils.showError("Failed to update invoice. Invoice ID may not exist.");
+                }
             }
-            pst.close();
         } catch (SQLException ex) {
             Utils.showError("Database error: " + ex.getMessage());
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             Utils.showError("Error: " + ex.getMessage());
         }
 
@@ -361,8 +359,7 @@ public class InvoiceUI extends javax.swing.JPanel {
         String invoiceId = invoiceIdTextField.getText();
         String sql = "SELECT * FROM sales WHERE invoice_id = ?";
 
-        try {
-            PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql);
+        try(PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql)) {
             pst.setString(1, invoiceId);
             ResultSet rs = pst.executeQuery();
 
@@ -372,8 +369,8 @@ public class InvoiceUI extends javax.swing.JPanel {
                 String status = rs.getString("status");
                 String due = rs.getString("due");
 
-                Double totalBillAmount = Double.parseDouble(total_bill);
-                Double dueAmount = Double.parseDouble(due);
+                Double totalBillAmount = Double.valueOf(total_bill);
+                Double dueAmount = Double.valueOf(due);
                 Double paidAmount = totalBillAmount - dueAmount;
 
                 customerNameTextField.setText(customer_name);
@@ -385,7 +382,7 @@ public class InvoiceUI extends javax.swing.JPanel {
                 Utils.showInfo("Invoice ID not found");
             }
             pst.close();
-        } catch (Exception ex) {
+        } catch (NumberFormatException | SQLException ex) {
             Utils.showError(ex.getMessage());
         }
         invoiceLoad();
@@ -401,7 +398,7 @@ public class InvoiceUI extends javax.swing.JPanel {
             pst.executeUpdate();
 
             Utils.showInfo("Invoice deleted successfully.");
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             Utils.showError(ex.getMessage());
         }
 
