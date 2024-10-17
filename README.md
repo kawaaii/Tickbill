@@ -20,3 +20,5 @@ Tickbill is an open-source alternative to existing POS systems. It utilizes Mave
 ---
 > [!NOTE] 
 >Don't forget to change your port number in [DBConnection.java](src/main/java/com/hridaya/tickbill/database/DbConnection.java).
+
+This project is licensed under [MIT](LICENSE).
