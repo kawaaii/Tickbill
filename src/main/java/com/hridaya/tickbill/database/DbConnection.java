@@ -11,9 +11,6 @@ public class DbConnection {
     }
 
     public static synchronized Connection getConnection() {
-        if (conn != null) {
-            return conn;
-        }
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(
@@ -21,7 +18,6 @@ public class DbConnection {
         } catch (ClassNotFoundException | SQLException ex) {
             System.err.println("Failed to create a database connection: " + ex.getMessage());
         }
-
         return conn;
     }
 

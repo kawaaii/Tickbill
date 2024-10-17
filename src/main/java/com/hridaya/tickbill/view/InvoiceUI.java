@@ -284,7 +284,12 @@ public class InvoiceUI extends javax.swing.JPanel {
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         String customerName = customerNameTextField.getText();
-        String invoiceStatus = invoiceStatusComboBox.getSelectedItem().toString();
+        String invoiceStatus;
+        if (invoiceStatusComboBox.getSelectedItem().toString().trim().isEmpty()){
+            invoiceStatus = "";
+        } else {
+            invoiceStatus = invoiceStatusComboBox.getSelectedItem().toString();
+        }
         String totalAmount = totalAmountTextField.getText();
         String paidAmount = paidAmountTextField.getText();
         String invoiceId = invoiceIdTextField.getText();
@@ -390,18 +395,25 @@ public class InvoiceUI extends javax.swing.JPanel {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         String invoiceId = invoiceIdTextField.getText();
-        String sql = "DELETE FROM sales WHERE invoice_id = ?";
+        String checkSql = "SELECT * FROM sales WHERE invoice_id = ?";
+        String deleteSql = "DELETE FROM sales WHERE invoice_id = ?";
 
-        try {
-            PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql);
-            pst.setString(1, invoiceId);
-            pst.executeUpdate();
+        try (PreparedStatement checkPst = DbConnection.getConnection().prepareStatement(checkSql)) {
+            checkPst.setString(1, invoiceId);
+            ResultSet rs = checkPst.executeQuery();
 
-            Utils.showInfo("Invoice deleted successfully.");
+            if (rs.next()) {
+                try (PreparedStatement deletePst = DbConnection.getConnection().prepareStatement(deleteSql)) {
+                    deletePst.setString(1, invoiceId);
+                    deletePst.executeUpdate();
+                    Utils.showInfo("Invoice deleted successfully.");
+                }
+            } else {
+                Utils.showInfo("Invoice not found. Deletion aborted.");
+            }
         } catch (SQLException ex) {
             Utils.showError(ex.getMessage());
         }
-
         invoiceLoad();
     }//GEN-LAST:event_deleteButtonActionPerformed
 

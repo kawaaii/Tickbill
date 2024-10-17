@@ -6,14 +6,11 @@ package com.hridaya.tickbill.view;
 
 import com.hridaya.tickbill.database.DbConnection;
 import com.hridaya.tickbill.session.SessionManager;
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.view.JasperViewer;
 
 import java.awt.HeadlessException;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.io.File;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Vector;
@@ -64,6 +61,7 @@ public class SaleUI extends javax.swing.JPanel {
                 currentInvoiceId = rs.getInt("invoice_id") + 1;
             }
             showInvoiceLabel.setText(String.valueOf(currentInvoiceId));
+            st.close();
         } catch (SQLException ex) {
             Utils.showError("Error: " + ex.getMessage());
         }
@@ -491,8 +489,8 @@ public class SaleUI extends javax.swing.JPanel {
             productName = productNameComboBox.getSelectedItem().toString();
         }
 
-        try (Connection conn = DbConnection.getConnection(); PreparedStatement ps
-                = conn.prepareStatement("SELECT product_rate FROM inventory WHERE product_name = ?")) {
+        try (PreparedStatement ps = DbConnection.getConnection().prepareStatement
+                ("SELECT product_rate FROM inventory WHERE product_name = ?")) {
             ps.setString(1, productName);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -509,8 +507,14 @@ public class SaleUI extends javax.swing.JPanel {
         DefaultTableModel dtm = (DefaultTableModel) salesTable.getModel();
         Vector v = new Vector();
 
+        String productName;
+        if (productNameComboBox.getSelectedItem() == null) {
+            Utils.showError("Select an item first.");
+            return;
+        }
+        productName = productNameComboBox.getSelectedItem().toString();
         v.add(showInvoiceLabel.getText());
-        v.add(productNameComboBox.getSelectedItem().toString());
+        v.add(productName);
         v.add(productQuantityTextField.getText());
         v.add(productUnitPriceLabel.getText());
         v.add(productTotalPriceLabel.getText());
@@ -718,7 +722,7 @@ public class SaleUI extends javax.swing.JPanel {
             ReportView reportView = new ReportView("src/main/java/com/hridaya/tickbill/report/SaleInvoice.jasper", param);
             reportView.setVisible(true);
         } catch (Exception ex) {
-
+            Utils.showError(ex.getMessage());
         }
 
         panelClearAll();
