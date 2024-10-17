@@ -25,6 +25,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         checkDbConnectionStatus();
         loadUserInfo();
+        userAccess();
     }
 
     private void loadUserInfo() {
@@ -33,6 +34,15 @@ public class MainFrame extends javax.swing.JFrame {
 
         showUserIdLabel.setText(String.valueOf(userId));
         showUserNameLabel.setText(username);
+    }
+
+    private void userAccess() {
+        SessionManager.userRoleEnum userRole = SessionManager.getInstance().getUserRole();
+
+        if (userRole != SessionManager.userRoleEnum.ADMIN) {
+            showUsersButton.setEnabled(false);
+            showProductsButton.setEnabled(false);
+        }
     }
 
 

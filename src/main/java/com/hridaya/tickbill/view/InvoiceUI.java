@@ -5,6 +5,7 @@
 package com.hridaya.tickbill.view;
 
 import com.hridaya.tickbill.database.DbConnection;
+import com.hridaya.tickbill.session.SessionManager;
 
 import javax.swing.table.DefaultTableModel;
 import java.sql.PreparedStatement;
@@ -25,6 +26,15 @@ public class InvoiceUI extends javax.swing.JPanel {
     public InvoiceUI() {
         initComponents();
         invoiceLoad();
+        userAccess();
+    }
+
+    private void userAccess() {
+        SessionManager.userRoleEnum userRole = SessionManager.getInstance().getUserRole();
+
+        if (userRole != SessionManager.userRoleEnum.ADMIN) {
+            deleteButton.setEnabled(false);
+        }
     }
 
     private void invoiceLoad() {

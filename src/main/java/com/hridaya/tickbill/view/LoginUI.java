@@ -45,9 +45,16 @@ public class LoginUI extends javax.swing.JFrame {
                 if (rs.next()) {
                     int userId = rs.getInt("user_id");
                     String userName = rs.getString("username");
+                    String userRole = rs.getString("user_role");
 
                     SessionManager.getInstance().setUserId(userId);
                     SessionManager.getInstance().setUserName(userName);
+
+                    if (userRole.equalsIgnoreCase("admin")) {
+                        SessionManager.getInstance().setUserRole(SessionManager.userRoleEnum.ADMIN);
+                    } else if (userRole.equalsIgnoreCase("employee")) {
+                        SessionManager.getInstance().setUserRole(SessionManager.userRoleEnum.EMPLOYEE);
+                    }
 
                     Utils.showInfo("Login successful!");
                     this.dispose();

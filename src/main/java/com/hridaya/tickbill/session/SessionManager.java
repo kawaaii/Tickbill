@@ -4,8 +4,14 @@ public class SessionManager {
     private static SessionManager instance;
     private int userId;
     private String username;
+    private userRoleEnum userRole;
 
     private SessionManager() {
+    }
+
+    public enum userRoleEnum {
+        ADMIN,
+        EMPLOYEE,
     }
 
     public static SessionManager getInstance() {
@@ -31,4 +37,11 @@ public class SessionManager {
         this.username = username;
     }
 
+    public userRoleEnum getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(userRoleEnum userRole) {
+        this.userRole = userRole;
+    }
 }
