@@ -55,6 +55,8 @@ public class CSVConverter {
             return true;
         } catch (IOException | SQLException ex) {
             Utils.showError("Error during CSV import: " + ex.getMessage());
+            // since we delete all the existing datas
+            Utils.showError("CONTACT ADMIN. ALL DATAS ARE WIPED OUT.");
             return false;
         }
     }

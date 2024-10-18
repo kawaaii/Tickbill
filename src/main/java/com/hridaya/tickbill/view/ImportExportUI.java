@@ -232,7 +232,7 @@ public class ImportExportUI extends javax.swing.JPanel {
                     List<String> sqlQueries = new ArrayList<>();
                     if (userDetailCheckBox.isSelected()) {
                         // delete existing data from user table
-                        try (Statement st = DbConnection.getConnection().createStatement()){
+                        try (Statement st = DbConnection.getConnection().createStatement()) {
                             st.executeUpdate("DELETE FROM user");
                             st.close();
                         } catch (SQLException e) {
@@ -269,6 +269,8 @@ public class ImportExportUI extends javax.swing.JPanel {
                     for (String sql : sqlQueries) {
                         csvImporter.importCSV(sql, filePath);
                     }
+                } else {
+                    Utils.showError("File must be in CSV and proper format.");
                 }
             } catch (Exception ex) {
                 Utils.showError("Operation cancelled by user.");
