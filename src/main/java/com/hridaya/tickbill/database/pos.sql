@@ -61,6 +61,7 @@ CREATE TABLE sales_history
 (
     id               INT PRIMARY KEY AUTO_INCREMENT,
     user_id          INT            NOT NULL,
+    SN               INT            NOT NULL,
     invoice_id       INT            NOT NULL,
     customer_name    VARCHAR(255)   NOT NULL,
     product_name     VARCHAR(255)   NOT NULL,

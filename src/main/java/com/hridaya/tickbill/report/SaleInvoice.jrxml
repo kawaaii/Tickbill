@@ -1,9 +1,9 @@
 <!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
 <jasperReport name="SaleInvoice" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ab37c236-5757-45d8-8535-770b18577142">
-	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value="c2FsZXNfaGlzdG9yeSAsMTUsMTUsYTlhYjQ4ZWYtOTBkOC00ZTI4LTkyMmQtZDQyMWUwODJlNzFl&#xa;Ow=="/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="jdbcConnection"/>
 	<parameter name="invoiceId" class="java.lang.String"/>
-	<query language="SQL"><![CDATA[select * from sales_history where invoice_id =  $P{invoiceId} ]]></query>
+	<query language="SQL"><![CDATA[SELECT * FROM sales_history WHERE sales_history.invoice_id = $P{invoiceId}]]></query>
 	<field name="id" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="id"/>
 		<property name="com.jaspersoft.studio.field.label" value="id"/>
@@ -39,7 +39,7 @@
 		<property name="com.jaspersoft.studio.field.label" value="product_quantity"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="sales_history"/>
 	</field>
-	<field name="product_price" class="java.lang.Integer">
+	<field name="product_price" class="java.lang.Double">
 		<property name="com.jaspersoft.studio.field.name" value="product_price"/>
 		<property name="com.jaspersoft.studio.field.label" value="product_price"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="sales_history"/>
@@ -47,6 +47,11 @@
 	<field name="total_bill" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.name" value="total_bill"/>
 		<property name="com.jaspersoft.studio.field.label" value="total_bill"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sales_history"/>
+	</field>
+	<field name="SN" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="SN"/>
+		<property name="com.jaspersoft.studio.field.label" value="SN"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="sales_history"/>
 	</field>
 	<background splitType="Stretch"/>
@@ -94,7 +99,7 @@
 	<detail>
 		<band height="29" splitType="Stretch">
 			<element kind="textField" uuid="12d308a8-5ddd-4644-ac00-60ef36e8a94b" x="0" y="0" width="111" height="20" fontSize="10.0" hTextAlign="Center">
-				<expression><![CDATA[$F{id}]]></expression>
+				<expression><![CDATA[$F{SN}]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="471dbf70-cf96-46d8-ae35-353a2ce67bef"/>
 			</element>
 			<element kind="textField" uuid="a6cf9695-e90e-40d3-a375-e6daa97b22fa" x="111" y="0" width="111" height="20" fontSize="10.0" hTextAlign="Center">

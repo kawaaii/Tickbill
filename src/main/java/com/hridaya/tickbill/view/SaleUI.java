@@ -634,30 +634,32 @@ public class SaleUI extends javax.swing.JPanel {
             DefaultTableModel dtm = (DefaultTableModel) salesTable.getModel();
             int rowCount = dtm.getRowCount();
 
-            String salesHistorySql = "INSERT INTO sales_history (invoice_id, user_id, customer_name, product_name, "
-                    + "product_rate, product_quantity, product_price, total_bill) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String salesHistorySql = "INSERT INTO sales_history (SN, invoice_id, user_id, customer_name, product_name, "
+                    + "product_rate, product_quantity, product_price, total_bill) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+            int serialNumber = 1;
             try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(salesHistorySql)) {
                 for (int i = 0; i < rowCount; i++) {
                     String productName = dtm.getValueAt(i, 1).toString();
                     String productQuantity = dtm.getValueAt(i, 2).toString();
                     String productUnitPrice = dtm.getValueAt(i, 3).toString();
                     String productTotalPrice = dtm.getValueAt(i, 4).toString();
-
                     String totalBill = totalAmountTextField.getText();
 
-                    pst.setInt(1, invoiceId);
-                    pst.setInt(2, userId);
-                    pst.setString(3, customerName);
-                    pst.setString(4, productName);
-                    pst.setString(5, productUnitPrice);
-                    pst.setString(6, productQuantity);
-                    pst.setString(7, productTotalPrice);
-                    pst.setString(8, totalBill);
+                    pst.setInt(1, serialNumber);
+                    pst.setInt(2, invoiceId);
+                    pst.setInt(3, userId);
+                    pst.setString(4, customerName);
+                    pst.setString(5, productName);
+                    pst.setString(6, productUnitPrice);
+                    pst.setString(7, productQuantity);
+                    pst.setString(8, productTotalPrice);
+                    pst.setString(9, totalBill);
 
-                    pst.executeUpdate();
-                    pst.clearParameters();
+                    pst.addBatch();
+                    serialNumber++;
                 }
+                pst.executeBatch();
             }
         } catch (SQLException ex) {
             Utils.showError("Database error: " + ex.getMessage());
@@ -688,7 +690,7 @@ public class SaleUI extends javax.swing.JPanel {
 
                     // Determine payment status
                     String status;
-                    if (dueAmount == 0.0 || dueAmount < 0) {
+                    if (dueAmount <= 0) {
                         status = "Paid";
                     } else if (paidAmount == 0.0) {
                         status = "Pending";
@@ -743,7 +745,8 @@ public class SaleUI extends javax.swing.JPanel {
                             Utils.showInfo("Requested product: " + productName + " exceeds available inventory." +
                                     "\nCurrent stock: " + currentQuantity +
                                     "\nRequested quantity: " + productQuantity +
-                                    "\nProceeding with transaction. Inventory of requested product will be zero." +
+                                    "\nProceeding with transaction." +
+                                    "\nInventory of requested product will be zero." +
                                     "\nContact admin.");
                             productQuantity = currentQuantity;
                         }
@@ -769,6 +772,7 @@ public class SaleUI extends javax.swing.JPanel {
             Utils.showError("Error converting quantity to number: " + ex.getMessage());
         }
 
+        // generate invoice
         try {
             HashMap param = new HashMap();
             param.put("invoiceId", showInvoiceLabel.getText());

@@ -57,6 +57,7 @@ public class InvoiceUI extends javax.swing.JPanel {
 
                 dtm.addRow(v);
             }
+            rs.close();
         } catch (Exception e) {
             Utils.showError(e.getMessage());
         }
