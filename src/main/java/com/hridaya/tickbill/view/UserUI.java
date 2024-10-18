@@ -395,7 +395,7 @@ public class UserUI extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(createUserPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 581, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -432,7 +432,6 @@ public class UserUI extends javax.swing.JPanel {
                 } else {
                     Utils.showError("User creation failed.");
                 }
-                pst.close();
             } catch (SQLException sqle) {
                 Utils.showError("Error while registering new user" + sqle.getMessage());
             }

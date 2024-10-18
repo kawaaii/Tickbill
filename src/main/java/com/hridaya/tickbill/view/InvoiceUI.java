@@ -285,7 +285,7 @@ public class InvoiceUI extends javax.swing.JPanel {
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         String customerName = customerNameTextField.getText();
         String invoiceStatus;
-        if (invoiceStatusComboBox.getSelectedItem().toString().trim().isEmpty()){
+        if (invoiceStatusComboBox.getSelectedItem() == null){
             invoiceStatus = "";
         } else {
             invoiceStatus = invoiceStatusComboBox.getSelectedItem().toString();
@@ -294,6 +294,21 @@ public class InvoiceUI extends javax.swing.JPanel {
         String paidAmount = paidAmountTextField.getText();
         String invoiceId = invoiceIdTextField.getText();
 
+        if (invoiceId.isEmpty()) {
+            Utils.showError("Enter Invoice ID.");
+            return;
+        }
+
+        if (totalAmount == null) {
+            Utils.showError("Update the fields first with correct Invoice ID.");
+            return;
+        }
+
+        if (customerName.isEmpty() || invoiceStatusComboBox.getSelectedItem() == null) {
+            Utils.showError("Required input fields are absent.");
+            return;
+        }
+
         double total = Double.parseDouble(totalAmount);
         double paid = Double.parseDouble(paidAmount);
 
@@ -301,11 +316,8 @@ public class InvoiceUI extends javax.swing.JPanel {
 
         String dueAmount = Double.toString(due);
 
-        if (customerName.isEmpty()
-                || invoiceStatusComboBox.getSelectedItem().toString().isEmpty()
-                || totalAmount.isEmpty()
-                || dueAmount.isEmpty()) {
-            Utils.showError("Input fields are absent.");
+        if (paid < 0) {
+            Utils.showError("Paid amount cannot be negative.");
             return;
         }
 
@@ -356,13 +368,17 @@ public class InvoiceUI extends javax.swing.JPanel {
             Utils.showError("Error: " + ex.getMessage());
         }
 
-
         invoiceLoad();
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         String invoiceId = invoiceIdTextField.getText();
         String sql = "SELECT * FROM sales WHERE invoice_id = ?";
+
+        if (invoiceId.isEmpty()) {
+            Utils.showError("Enter Invoice ID.");
+            return;
+        }
 
         try(PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql)) {
             pst.setString(1, invoiceId);
@@ -383,10 +399,8 @@ public class InvoiceUI extends javax.swing.JPanel {
                 totalAmountTextField.setText(total_bill);
                 dueAmountTextField.setText(due);
                 paidAmountTextField.setText(String.valueOf(paidAmount));
-            } else {
-                Utils.showInfo("Invoice ID not found");
             }
-            pst.close();
+            rs.close();
         } catch (NumberFormatException | SQLException ex) {
             Utils.showError(ex.getMessage());
         }
@@ -409,7 +423,7 @@ public class InvoiceUI extends javax.swing.JPanel {
                     Utils.showInfo("Invoice deleted successfully.");
                 }
             } else {
-                Utils.showInfo("Invoice not found. Deletion aborted.");
+                Utils.showInfo("Invalid invoice ID. Deletion aborted.");
             }
         } catch (SQLException ex) {
             Utils.showError(ex.getMessage());

@@ -4,7 +4,7 @@
 
 package com.hridaya.tickbill;
 
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.hridaya.tickbill.view.LoginUI;
 
 import javax.swing.*;
@@ -16,7 +16,7 @@ public class Tickbill {
 
     public static void main(String[] args) {
         try {
-            UIManager.setLookAndFeel(new FlatMacDarkLaf());
+            UIManager.setLookAndFeel(new FlatMacLightLaf());
         } catch (Exception ex) {
             System.err.println("Failed to initialize LaF");
         }

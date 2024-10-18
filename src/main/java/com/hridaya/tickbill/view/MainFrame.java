@@ -71,6 +71,7 @@ public class MainFrame extends javax.swing.JFrame {
         showProductsButton = new javax.swing.JToggleButton();
         showInvoiceButton = new javax.swing.JToggleButton();
         showSalesButton = new javax.swing.JToggleButton();
+        showReportsButton = new javax.swing.JToggleButton();
         panelLoader = new javax.swing.JPanel();
         headerPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -121,6 +122,15 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        sideBarButtonGroup.add(showReportsButton);
+        showReportsButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        showReportsButton.setText("Report");
+        showReportsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showReportsButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout sidebarPanelLayout = new javax.swing.GroupLayout(sidebarPanel);
         sidebarPanel.setLayout(sidebarPanelLayout);
         sidebarPanelLayout.setHorizontalGroup(
@@ -131,7 +141,8 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(showProductsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(showInvoiceButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(showSalesButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(showUsersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(showUsersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(showReportsButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
         sidebarPanelLayout.setVerticalGroup(
@@ -144,8 +155,10 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addComponent(showInvoiceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
+                .addComponent(showReportsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
                 .addComponent(showSalesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(269, Short.MAX_VALUE))
+                .addContainerGap(191, Short.MAX_VALUE))
         );
 
         panelLoader.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -154,7 +167,7 @@ public class MainFrame extends javax.swing.JFrame {
         panelLoader.setLayout(panelLoaderLayout);
         panelLoaderLayout.setHorizontalGroup(
             panelLoaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1518, Short.MAX_VALUE)
+            .addGap(0, 1502, Short.MAX_VALUE)
         );
         panelLoaderLayout.setVerticalGroup(
             panelLoaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -290,6 +303,11 @@ public class MainFrame extends javax.swing.JFrame {
         jPanelLoader.JPanelLoader(panelLoader, userUI);
     }//GEN-LAST:event_showUsersButtonActionPerformed
 
+    private void showReportsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showReportsButtonActionPerformed
+        ReportUI reportUI = new ReportUI();
+        jPanelLoader.JPanelLoader(panelLoader, reportUI);
+    }//GEN-LAST:event_showReportsButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -331,6 +349,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel panelLoader;
     private javax.swing.JToggleButton showInvoiceButton;
     private javax.swing.JToggleButton showProductsButton;
+    private javax.swing.JToggleButton showReportsButton;
     private javax.swing.JToggleButton showSalesButton;
     private javax.swing.JLabel showUserIdLabel;
     private javax.swing.JLabel showUserNameLabel;
