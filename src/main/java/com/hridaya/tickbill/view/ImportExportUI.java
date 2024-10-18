@@ -7,8 +7,6 @@ package com.hridaya.tickbill.view;
 import com.hridaya.tickbill.database.CSVExporter;
 
 import java.io.File;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -177,9 +175,9 @@ public class ImportExportUI extends javax.swing.JPanel {
 
     private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
         CSVExporter csvExporter = new CSVExporter();
-        if (userDetailCheckBox.isSelected() ||
-                invoiceDetailCheckBox.isSelected() ||
-                inventoryDetailCheckBox.isSelected()) {
+        if (userDetailCheckBox.isSelected()
+                || invoiceDetailCheckBox.isSelected()
+                || inventoryDetailCheckBox.isSelected()) {
             fileChooser.setVisible(true);
             fileChooser.showSaveDialog(this);
 

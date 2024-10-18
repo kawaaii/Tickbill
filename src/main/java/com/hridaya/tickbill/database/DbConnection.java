@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DbConnection {
+
     private static Connection conn;
     private static final String user = "root";
     private static final String password = "root";

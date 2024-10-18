@@ -58,7 +58,7 @@ public class InvoiceUI extends javax.swing.JPanel {
                 dtm.addRow(v);
             }
             rs.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             Utils.showError(e.getMessage());
         }
     }
@@ -314,7 +314,7 @@ public class InvoiceUI extends javax.swing.JPanel {
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         String customerName = customerNameTextField.getText();
         String invoiceStatus;
-        if (invoiceStatusComboBox.getSelectedItem() == null){
+        if (invoiceStatusComboBox.getSelectedItem() == null) {
             invoiceStatus = "";
         } else {
             invoiceStatus = invoiceStatusComboBox.getSelectedItem().toString();
@@ -383,7 +383,7 @@ public class InvoiceUI extends javax.swing.JPanel {
                 pst.setString(3, invoiceStatus);
                 pst.setDouble(4, due);
                 pst.setInt(5, Integer.parseInt(invoiceId));
-                
+
                 int rowsAffected = pst.executeUpdate();
                 if (rowsAffected > 0) {
                     Utils.showInfo("Invoice updated successfully.");
@@ -409,7 +409,7 @@ public class InvoiceUI extends javax.swing.JPanel {
             return;
         }
 
-        try(PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql)) {
+        try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql)) {
             pst.setString(1, invoiceId);
             ResultSet rs = pst.executeQuery();
 
