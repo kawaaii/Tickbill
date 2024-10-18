@@ -4,9 +4,12 @@
  */
 package com.hridaya.tickbill.view;
 
-import com.hridaya.tickbill.database.CSVExporter;
+import com.hridaya.tickbill.database.CSVConverter;
+import com.hridaya.tickbill.database.DbConnection;
 
 import java.io.File;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +60,11 @@ public class ImportExportUI extends javax.swing.JPanel {
 
         importButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         importButton.setText("Import");
+        importButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                importButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -174,7 +182,7 @@ public class ImportExportUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
-        CSVExporter csvExporter = new CSVExporter();
+        CSVConverter csvExporter = new CSVConverter();
         if (userDetailCheckBox.isSelected()
                 || invoiceDetailCheckBox.isSelected()
                 || inventoryDetailCheckBox.isSelected()) {
@@ -210,6 +218,65 @@ public class ImportExportUI extends javax.swing.JPanel {
             Utils.showError("Select at least one option from above checkboxes.");
         }
     }//GEN-LAST:event_exportButtonActionPerformed
+
+    private void importButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importButtonActionPerformed
+        CSVConverter csvImporter = new CSVConverter();
+        if (userDetailCheckBox.isSelected() || invoiceDetailCheckBox.isSelected() || inventoryDetailCheckBox.isSelected()) {
+            fileChooser.setVisible(true);
+            fileChooser.showOpenDialog(this);
+            try {
+                File selectedFile = fileChooser.getSelectedFile();
+                String filePath = selectedFile.getAbsolutePath();
+
+                if (filePath.toLowerCase().endsWith(".csv")) {
+                    List<String> sqlQueries = new ArrayList<>();
+                    if (userDetailCheckBox.isSelected()) {
+                        // delete existing data from user table
+                        try (Statement st = DbConnection.getConnection().createStatement()){
+                            st.executeUpdate("DELETE FROM user");
+                            st.close();
+                        } catch (SQLException e) {
+                            Utils.showError(e.getMessage());
+                        }
+                        sqlQueries.add("INSERT INTO user (user_id, first_name, last_name, username, password, "
+                                + "user_role, user_address, user_email, phone_no) VALUES "
+                                + "(?,?,?,?,?,?,?,?,?)");
+                    }
+                    if (invoiceDetailCheckBox.isSelected()) {
+                        // delete existing data from sales_history table
+                        try (Statement st = DbConnection.getConnection().createStatement()) {
+                            st.executeUpdate("DELETE FROM sales_history");
+                            st.close();
+                        } catch (SQLException e) {
+                            Utils.showError(e.getMessage());
+                        }
+                        sqlQueries.add("INSERT INTO sales_history (id, user_id, SN, invoice_id, customer_name, product_name, "
+                                + "product_rate, product_quantity, product_price, total_bill) VALUES "
+                                + "(?,?,?,?,?,?,?,?,?,?)");
+                    }
+                    if (inventoryDetailCheckBox.isSelected()) {
+                        // delete existing data from inventory table
+                        try (Statement st = DbConnection.getConnection().createStatement()) {
+                            st.executeUpdate("DELETE FROM inventory");
+                            st.close();
+                        } catch (SQLException e) {
+                            Utils.showError(e.getMessage());
+                        }
+                        sqlQueries.add("INSERT INTO inventory (product_id, product_name, product_rate, "
+                                + "product_quantity) VALUES (?,?,?,?)");
+                    }
+
+                    for (String sql : sqlQueries) {
+                        csvImporter.importCSV(sql, filePath);
+                    }
+                }
+            } catch (Exception ex) {
+                Utils.showError("Operation cancelled by user.");
+            }
+        } else {
+            Utils.showError("Select at least one option from above checkboxes.");
+        }
+    }//GEN-LAST:event_importButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
