@@ -34,8 +34,8 @@ public class LoginUI extends javax.swing.JFrame {
         String password = new String(passwordTextField.getPassword());
         if (username != null) {
 
-            try (Connection conn = DbConnection.getConnection(); PreparedStatement stmt
-                    = conn.prepareStatement("SELECT * FROM user WHERE username = ? AND password = ?")) {
+            try (PreparedStatement stmt
+                    = DbConnection.getConnection().prepareStatement("SELECT * FROM user WHERE username = ? AND password = ?")) {
 
                 stmt.setString(1, username);
                 stmt.setString(2, password);

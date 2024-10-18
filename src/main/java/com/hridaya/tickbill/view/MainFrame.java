@@ -72,6 +72,7 @@ public class MainFrame extends javax.swing.JFrame {
         showInvoiceButton = new javax.swing.JToggleButton();
         showSalesButton = new javax.swing.JToggleButton();
         showReportsButton = new javax.swing.JToggleButton();
+        exportImportButton = new javax.swing.JToggleButton();
         panelLoader = new javax.swing.JPanel();
         headerPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -83,6 +84,7 @@ public class MainFrame extends javax.swing.JFrame {
         dbConnectionShowStatusLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         sidebarPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -131,24 +133,34 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        sideBarButtonGroup.add(exportImportButton);
+        exportImportButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        exportImportButton.setText("Export / Import");
+        exportImportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportImportButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout sidebarPanelLayout = new javax.swing.GroupLayout(sidebarPanel);
         sidebarPanel.setLayout(sidebarPanelLayout);
         sidebarPanelLayout.setHorizontalGroup(
             sidebarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(sidebarPanelLayout.createSequentialGroup()
-                .addGap(39, 39, 39)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sidebarPanelLayout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
                 .addGroup(sidebarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(showProductsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(showInvoiceButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(showSalesButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(showUsersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(showReportsButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(41, Short.MAX_VALUE))
+                    .addComponent(exportImportButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(showReportsButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(showUsersButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
         );
         sidebarPanelLayout.setVerticalGroup(
             sidebarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sidebarPanelLayout.createSequentialGroup()
-                .addGap(175, 175, 175)
+                .addGap(107, 107, 107)
                 .addComponent(showUsersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(showProductsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -158,8 +170,12 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(showReportsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(showSalesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(191, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
+                .addComponent(exportImportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(201, Short.MAX_VALUE))
         );
+
+        getContentPane().add(sidebarPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 199, -1, -1));
 
         panelLoader.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -171,8 +187,10 @@ public class MainFrame extends javax.swing.JFrame {
         );
         panelLoaderLayout.setVerticalGroup(
             panelLoaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 699, Short.MAX_VALUE)
         );
+
+        getContentPane().add(panelLoader, new org.netbeans.lib.awtextra.AbsoluteConstraints(268, 199, -1, 703));
 
         headerPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -226,7 +244,7 @@ public class MainFrame extends javax.swing.JFrame {
         headerPanelLayout.setHorizontalGroup(
             headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(1407, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(86, 86, 86))
         );
@@ -238,47 +256,15 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(15, 15, 15))
         );
 
+        getContentPane().add(headerPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, 1714, -1));
+
         dbConnectionStatusLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         dbConnectionStatusLabel.setText("Database Connection Status:");
+        getContentPane().add(dbConnectionStatusLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1275, 920, -1, -1));
 
         dbConnectionShowStatusLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         dbConnectionShowStatusLabel.setText("STATUS");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(headerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(sidebarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(panelLoader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(33, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(dbConnectionStatusLabel)
-                .addGap(18, 18, 18)
-                .addComponent(dbConnectionShowStatusLabel)
-                .addGap(246, 246, 246))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(sidebarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelLoader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(dbConnectionStatusLabel)
-                    .addComponent(dbConnectionShowStatusLabel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        getContentPane().add(dbConnectionShowStatusLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1482, 920, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -307,6 +293,11 @@ public class MainFrame extends javax.swing.JFrame {
         ReportUI reportUI = new ReportUI();
         jPanelLoader.JPanelLoader(panelLoader, reportUI);
     }//GEN-LAST:event_showReportsButtonActionPerformed
+
+    private void exportImportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportImportButtonActionPerformed
+        ImportExportUI importExportUI = new ImportExportUI();
+        jPanelLoader.JPanelLoader(panelLoader, importExportUI);
+    }//GEN-LAST:event_exportImportButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -344,6 +335,7 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel dbConnectionShowStatusLabel;
     private javax.swing.JLabel dbConnectionStatusLabel;
+    private javax.swing.JToggleButton exportImportButton;
     private javax.swing.JPanel headerPanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel panelLoader;

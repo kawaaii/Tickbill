@@ -38,7 +38,16 @@
             <artifactId>jasperreports-excel-poi</artifactId>
             <version>7.0.1</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.jdatepicker/jdatepicker -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.12.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.external</groupId>
+            <artifactId>AbsoluteLayout</artifactId>
+            <version>RELEASE230</version>
+        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
