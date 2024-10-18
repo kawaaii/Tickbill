@@ -60,7 +60,30 @@ public class InvoiceUI extends javax.swing.JPanel {
         } catch (Exception e) {
             Utils.showError(e.getMessage());
         }
+    }
 
+    private void invoiceStatusChange() {
+        String totalAmount = totalAmountTextField.getText();
+        String paidAmount = paidAmountTextField.getText();
+
+        double total = Double.parseDouble(totalAmount);
+        double paid = Double.parseDouble(paidAmount);
+
+        double due = total - paid;
+
+        // Determine payment status
+        String status;
+        if (due <= 0) {
+            status = "Paid";
+        } else if (paid == 0) {
+            status = "Pending";
+        } else if (due > paid) {
+            status = "Due";
+        } else {
+            status = "Partial";
+        }
+
+        invoiceStatusComboBox.setSelectedItem(status);
     }
 
     /**
@@ -140,6 +163,11 @@ public class InvoiceUI extends javax.swing.JPanel {
         jLabel1.setText("Paid Amount:");
 
         paidAmountTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        paidAmountTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                paidAmountTextFieldKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -439,6 +467,10 @@ public class InvoiceUI extends javax.swing.JPanel {
         pui.loadUserInvoice(Integer.parseInt(invoiceId));
         pui.setVisible(true);
     }//GEN-LAST:event_invoiceUiMainTableMouseClicked
+
+    private void paidAmountTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_paidAmountTextFieldKeyReleased
+        invoiceStatusChange();
+    }//GEN-LAST:event_paidAmountTextFieldKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel customerNameLabel;

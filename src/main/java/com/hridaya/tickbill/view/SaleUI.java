@@ -738,6 +738,15 @@ public class SaleUI extends javax.swing.JPanel {
                 try (ResultSet rs = pstSelect.executeQuery()) {
                     if (rs.next()) {
                         int currentQuantity = rs.getInt("product_quantity");
+
+                        if (productQuantity > currentQuantity) {
+                            Utils.showInfo("Requested product: " + productName + " exceeds available inventory." +
+                                    "\nCurrent stock: " + currentQuantity +
+                                    "\nRequested quantity: " + productQuantity +
+                                    "\nProceeding with transaction. Inventory of requested product will be zero." +
+                                    "\nContact admin.");
+                            productQuantity = currentQuantity;
+                        }
                         int finalQuantity = currentQuantity - productQuantity;
 
                         pstUpdate.setInt(1, finalQuantity);
