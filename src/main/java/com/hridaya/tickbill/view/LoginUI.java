@@ -32,10 +32,12 @@ public class LoginUI extends javax.swing.JFrame {
     private void userLogin() {
         String username = userNameTextField.getText();
         String password = new String(passwordTextField.getPassword());
+        String loginSql = "SELECT * FROM user WHERE " +
+                "BINARY username = ? AND BINARY password = ?";
         if (username != null) {
 
             try (PreparedStatement stmt
-                    = DbConnection.getConnection().prepareStatement("SELECT * FROM user WHERE username = ? AND password = ?")) {
+                    = DbConnection.getConnection().prepareStatement(loginSql)) {
 
                 stmt.setString(1, username);
                 stmt.setString(2, password);
