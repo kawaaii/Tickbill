@@ -17,6 +17,9 @@ public class Tickbill {
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(new FlatMacLightLaf());
+            UIManager.put("TextComponent.arc", 10);
+            UIManager.put("Component.focusWidth", 2);
+            UIManager.put( "Component.arrowType", "chevron" );
         } catch (Exception ex) {
             System.err.println("Failed to initialize LaF");
         }

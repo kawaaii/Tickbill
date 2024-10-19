@@ -74,17 +74,15 @@ public class MainFrame extends javax.swing.JFrame {
         showReportsButton = new javax.swing.JToggleButton();
         exportImportButton = new javax.swing.JToggleButton();
         panelLoader = new javax.swing.JPanel();
-        headerPanel = new javax.swing.JPanel();
+        dbConnectionStatusLabel = new javax.swing.JLabel();
+        dbConnectionShowStatusLabel = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         userIdLabel = new javax.swing.JLabel();
         userNameLabel = new javax.swing.JLabel();
         showUserIdLabel = new javax.swing.JLabel();
         showUserNameLabel = new javax.swing.JLabel();
-        dbConnectionStatusLabel = new javax.swing.JLabel();
-        dbConnectionShowStatusLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         sidebarPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -154,13 +152,13 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(showSalesButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(exportImportButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(showReportsButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(showUsersButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(showUsersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20))
         );
         sidebarPanelLayout.setVerticalGroup(
             sidebarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sidebarPanelLayout.createSequentialGroup()
-                .addGap(107, 107, 107)
+                .addGap(200, 200, 200)
                 .addComponent(showUsersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(showProductsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -172,12 +170,12 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(showSalesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(exportImportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(201, Short.MAX_VALUE))
+                .addContainerGap(200, Short.MAX_VALUE))
         );
 
-        getContentPane().add(sidebarPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 199, -1, -1));
-
         panelLoader.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelLoader.setMaximumSize(new java.awt.Dimension(1506, 703));
+        panelLoader.setMinimumSize(new java.awt.Dimension(1506, 703));
 
         javax.swing.GroupLayout panelLoaderLayout = new javax.swing.GroupLayout(panelLoader);
         panelLoader.setLayout(panelLoaderLayout);
@@ -187,14 +185,14 @@ public class MainFrame extends javax.swing.JFrame {
         );
         panelLoaderLayout.setVerticalGroup(
             panelLoaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 699, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        getContentPane().add(panelLoader, new org.netbeans.lib.awtextra.AbsoluteConstraints(268, 199, -1, 703));
+        dbConnectionStatusLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        dbConnectionStatusLabel.setText("Database Connection Status:");
 
-        headerPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        dbConnectionShowStatusLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        dbConnectionShowStatusLabel.setText("STATUS");
 
         userIdLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         userIdLabel.setText("User ID:");
@@ -228,43 +226,50 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(userIdLabel)
                     .addComponent(showUserIdLabel))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(userNameLabel)
-                    .addComponent(showUserNameLabel))
-                .addContainerGap(20, Short.MAX_VALUE))
+                    .addComponent(showUserNameLabel)))
         );
 
-        javax.swing.GroupLayout headerPanelLayout = new javax.swing.GroupLayout(headerPanel);
-        headerPanel.setLayout(headerPanelLayout);
-        headerPanelLayout.setHorizontalGroup(
-            headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerPanelLayout.createSequentialGroup()
-                .addContainerGap(1407, Short.MAX_VALUE)
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(dbConnectionStatusLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(dbConnectionShowStatusLabel)
+                        .addGap(24, 24, 24))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(sidebarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(panelLoader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(59, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(14, 14, 14)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(86, 86, 86))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panelLoader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(sidebarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dbConnectionStatusLabel)
+                    .addComponent(dbConnectionShowStatusLabel))
+                .addContainerGap())
         );
-        headerPanelLayout.setVerticalGroup(
-            headerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerPanelLayout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15))
-        );
-
-        getContentPane().add(headerPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, 1714, -1));
-
-        dbConnectionStatusLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        dbConnectionStatusLabel.setText("Database Connection Status:");
-        getContentPane().add(dbConnectionStatusLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1275, 920, -1, -1));
-
-        dbConnectionShowStatusLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        dbConnectionShowStatusLabel.setText("STATUS");
-        getContentPane().add(dbConnectionShowStatusLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1482, 920, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -336,7 +341,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel dbConnectionShowStatusLabel;
     private javax.swing.JLabel dbConnectionStatusLabel;
     private javax.swing.JToggleButton exportImportButton;
-    private javax.swing.JPanel headerPanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel panelLoader;
     private javax.swing.JToggleButton showInvoiceButton;

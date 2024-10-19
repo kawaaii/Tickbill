@@ -58,51 +58,35 @@ public class ProductUI extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         productTable = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        productSaveButton = new javax.swing.JButton();
         productNameLabel = new javax.swing.JLabel();
         userIdLabel = new javax.swing.JLabel();
         productPriceLabel = new javax.swing.JLabel();
         productQuantityTextField = new javax.swing.JTextField();
-        productDeleteButton = new javax.swing.JButton();
-        productSearchButton = new javax.swing.JButton();
-        productUpdateButton = new javax.swing.JButton();
         productIdTextField = new javax.swing.JTextField();
         productNameTextField = new javax.swing.JTextField();
         productPriceTextField = new javax.swing.JTextField();
         productQuantityLabel = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        productUpdateButton = new javax.swing.JButton();
+        productDeleteButton = new javax.swing.JButton();
+        productSearchButton = new javax.swing.JButton();
+        productSaveButton = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
 
-        setPreferredSize(new java.awt.Dimension(1506, 4));
+        setMaximumSize(new java.awt.Dimension(1506, 703));
+        setMinimumSize(new java.awt.Dimension(1506, 703));
+        setPreferredSize(new java.awt.Dimension(1506, 703));
 
         productTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "ID", "Name", "Price", "Quantity"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        ));
+        productTable.setShowGrid(true);
         jScrollPane2.setViewportView(productTable);
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        productSaveButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        productSaveButton.setText("Create");
-        productSaveButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                productSaveButtonActionPerformed(evt);
-            }
-        });
 
         productNameLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         productNameLabel.setText("Name:");
@@ -113,30 +97,6 @@ public class ProductUI extends javax.swing.JPanel {
         productPriceLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         productPriceLabel.setText("Price:");
 
-        productDeleteButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        productDeleteButton.setText("Delete");
-        productDeleteButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                productDeleteButtonActionPerformed(evt);
-            }
-        });
-
-        productSearchButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        productSearchButton.setText("Search");
-        productSearchButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                productSearchButtonActionPerformed(evt);
-            }
-        });
-
-        productUpdateButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        productUpdateButton.setText("Update");
-        productUpdateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                productUpdateButtonActionPerformed(evt);
-            }
-        });
-
         productQuantityLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         productQuantityLabel.setText("Quantity:");
 
@@ -146,28 +106,18 @@ public class ProductUI extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(productSaveButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(productSearchButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(productUpdateButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(productDeleteButton))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(productPriceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(productNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(userIdLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(productQuantityLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(productIdTextField)
-                            .addComponent(productNameTextField)
-                            .addComponent(productPriceTextField)
-                            .addComponent(productQuantityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(productPriceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(productNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(userIdLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(productQuantityLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(productIdTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(productQuantityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(productNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(productPriceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,56 +138,149 @@ public class ProductUI extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(productQuantityLabel)
                     .addComponent(productQuantityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(productSaveButton)
-                    .addComponent(productSearchButton)
-                    .addComponent(productUpdateButton)
-                    .addComponent(productDeleteButton))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        productUpdateButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        productUpdateButton.setText("Update");
+        productUpdateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                productUpdateButtonActionPerformed(evt);
+            }
+        });
+
+        productDeleteButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        productDeleteButton.setText("Delete");
+        productDeleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                productDeleteButtonActionPerformed(evt);
+            }
+        });
+
+        productSearchButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        productSearchButton.setText("Search");
+        productSearchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                productSearchButtonActionPerformed(evt);
+            }
+        });
+
+        productSaveButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        productSaveButton.setText("Create");
+        productSaveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                productSaveButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(productSaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(productSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(productUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(productDeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(productSaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(productSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(productUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(productDeleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        jSeparator1.setBackground(new java.awt.Color(172, 172, 172));
+        jSeparator1.setForeground(new java.awt.Color(172, 172, 172));
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(82, 82, 82)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(139, 139, 139)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(462, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1037, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(54, 54, 54)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
-                .addContainerGap(133, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 416, Short.MAX_VALUE)))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void productSaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productSaveButtonActionPerformed
         String productName = productNameTextField.getText();
-        double productPrice = Utils.parseDoubleField(productPriceTextField);
-        int productQuantity = Utils.parseIntField(productQuantityTextField);
+        String productPrice = productPriceTextField.getText();
+        String productQuantity = productQuantityTextField.getText();
+
+        if (productName.isEmpty() || productPrice.isEmpty() || productQuantity.isEmpty()) {
+            Utils.showError("Provide valid input");
+            return;
+        }
 
         String sql = "INSERT INTO inventory(product_name, product_rate, product_quantity) VALUES ('" + productName + "', " + productPrice + ", " + productQuantity + ")";
-        Utils.executeUpdate(sql, "Product created successfully!");
+        try {
+            Statement st = DbConnection.getConnection().createStatement();
+            st.executeUpdate(sql);
+            st.close();
+        } catch (SQLException ex) {
+            Utils.showError(ex.getMessage());
+        }
         productLoad();
     }//GEN-LAST:event_productSaveButtonActionPerformed
 
     private void productUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productUpdateButtonActionPerformed
         String productId = productIdTextField.getText();
         String productName = productNameTextField.getText();
-        double productPrice = Utils.parseDoubleField(productPriceTextField);
-        int productQuantity = Utils.parseIntField(productQuantityTextField);
+        String productPrice = productPriceTextField.getText();
+        String productQuantity = productQuantityTextField.getText();
+
+        if (productId.isEmpty()) {
+            Utils.showError("Provide Product ID.");
+            return;
+        }
+
+        if (productName.isEmpty() || productPrice.isEmpty() || productQuantity.isEmpty()) {
+            Utils.showError("Provide valid input");
+            return;
+        }
 
         String sql = "UPDATE inventory SET product_name = '" + productName + "', product_rate = " + productPrice
                 + ", product_quantity = " + productQuantity + " WHERE product_id = '" + productId + "'";
-        Utils.executeUpdate(sql, "Product updated successfully!");
+        try {
+            Statement st = DbConnection.getConnection().createStatement();
+            st.executeUpdate(sql);
+            st.close();
+        } catch (SQLException ex) {
+            Utils.showError(ex.getMessage());
+        }
         productLoad();
     }//GEN-LAST:event_productUpdateButtonActionPerformed
 
@@ -245,30 +288,50 @@ public class ProductUI extends javax.swing.JPanel {
         String productId = productIdTextField.getText();
         String sql = "SELECT product_name, product_rate, product_quantity FROM inventory WHERE product_id = '" + productId + "'";
 
-        try (Statement st = DbConnection.getConnection().createStatement(); ResultSet rs = st.executeQuery(sql)) {
+        if (productId.isEmpty()) {
+            Utils.showError("Provide product ID");
+            return;
+        }
 
-            if (rs.next()) {
-                productNameTextField.setText(rs.getString("product_name,"));
-                productPriceTextField.setText(String.valueOf(rs.getDouble("product_rate")));
-                productQuantityTextField.setText(String.valueOf(rs.getInt("product_quantity")));
-            } else {
-                Utils.showInfo("Product not found");
+        try (Statement st = DbConnection.getConnection().createStatement()) {
+            try(ResultSet rs = st.executeQuery(sql)) {
+                if (rs.next()) {
+                    productNameTextField.setText(rs.getString("product_name,"));
+                    productPriceTextField.setText(String.valueOf(rs.getDouble("product_rate")));
+                    productQuantityTextField.setText(String.valueOf(rs.getInt("product_quantity")));
+                } else {
+                    Utils.showInfo("Product not found");
+                }
             }
-        } catch (SQLException e) {
-            Utils.showError("Error searching product", e);
+        } catch (SQLException ex) {
+            Utils.showError(ex.getMessage());
         }
     }//GEN-LAST:event_productSearchButtonActionPerformed
 
     private void productDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productDeleteButtonActionPerformed
         String productId = productIdTextField.getText();
+
+        if (productId.isEmpty()) {
+            Utils.showError("Product ID is empty");
+            return;
+        }
+
         String sql = "DELETE FROM inventory WHERE product_id = '" + productId + "'";
-        Utils.executeUpdate(sql, "Product deleted successfully!");
+        try {
+            Statement st = DbConnection.getConnection().createStatement();
+            st.executeUpdate(sql);
+            st.close();
+        } catch (SQLException e) {
+            Utils.showError("Error deleting product", e);
+        }
         productLoad();
     }//GEN-LAST:event_productDeleteButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton productDeleteButton;
     private javax.swing.JTextField productIdTextField;
     private javax.swing.JLabel productNameLabel;
