@@ -3,6 +3,7 @@ package com.hridaya.tickbill.view;
 import javax.swing.*;
 
 public class Utils {
+
     public static void showError(String message) {
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
     }

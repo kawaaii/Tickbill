@@ -47,14 +47,11 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
                       <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       <Component id="jPanel3" max="32767" attributes="0"/>
                   </Group>
+                  <Component id="jPanel2" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -95,7 +92,7 @@
                   <Component id="removeFromCartButton" min="-2" pref="50" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                   <Component id="removeAllFromCartButton" min="-2" pref="50" max="-2" attributes="0"/>
-                  <EmptySpace pref="222" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Component id="payAndPrintButton" min="-2" pref="135" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -105,10 +102,10 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="removeAllFromCartButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Remove All"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="16" style="1"/>
             </Property>
+            <Property name="text" type="java.lang.String" value="Remove All"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeAllFromCartButtonActionPerformed"/>
@@ -116,10 +113,10 @@
         </Component>
         <Component class="javax.swing.JButton" name="addToCartButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Add to Cart"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="16" style="1"/>
             </Property>
+            <Property name="text" type="java.lang.String" value="Add to Cart"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addToCartButtonActionPerformed"/>
@@ -127,10 +124,10 @@
         </Component>
         <Component class="javax.swing.JButton" name="removeFromCartButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Remove"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="16" style="1"/>
             </Property>
+            <Property name="text" type="java.lang.String" value="Remove"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeFromCartButtonActionPerformed"/>
@@ -138,10 +135,10 @@
         </Component>
         <Component class="javax.swing.JButton" name="payAndPrintButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Pay &amp; Print"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="18" style="1"/>
             </Property>
+            <Property name="text" type="java.lang.String" value="Pay &amp; Print"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="payAndPrintButtonActionPerformed"/>
@@ -246,6 +243,9 @@
       <SubComponents>
         <Component class="javax.swing.JComboBox" name="productNameComboBox">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="0"/>
+            </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="4">
                 <StringItem index="0" value="Item 1"/>
@@ -255,9 +255,6 @@
               </StringArray>
             </Property>
             <Property name="selectedIndex" type="int" value="-1"/>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="14" style="0"/>
-            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="productNameComboBoxActionPerformed"/>
@@ -268,34 +265,34 @@
         </Component>
         <Component class="javax.swing.JLabel" name="productQuantityLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Quantity:"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
             </Property>
+            <Property name="text" type="java.lang.String" value="Quantity:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="productUnitPriceLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="00.00"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
             </Property>
+            <Property name="text" type="java.lang.String" value="00.00"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="customerNameLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Customer:"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
             </Property>
+            <Property name="text" type="java.lang.String" value="Customer:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="productPriceLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Unit Price:"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
             </Property>
+            <Property name="text" type="java.lang.String" value="Unit Price:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="productQuantityTextField">
@@ -317,42 +314,42 @@
         </Component>
         <Component class="javax.swing.JLabel" name="productNameLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Product:"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
             </Property>
+            <Property name="text" type="java.lang.String" value="Product:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="productTotalLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Total Price:"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
             </Property>
+            <Property name="text" type="java.lang.String" value="Total Price:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="productTotalPriceLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="00.00"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
             </Property>
+            <Property name="text" type="java.lang.String" value="00.00"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="showInvoiceLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="00"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
             </Property>
+            <Property name="text" type="java.lang.String" value="00"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="invoiceLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="INVOICE NO."/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
             </Property>
+            <Property name="text" type="java.lang.String" value="INVOICE NO."/>
           </Properties>
         </Component>
       </SubComponents>
@@ -416,7 +413,7 @@
                       <Component id="balanceLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="balanceTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="16" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -432,10 +429,10 @@
         </Component>
         <Component class="javax.swing.JLabel" name="balanceLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Balance / Due:"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
             </Property>
+            <Property name="text" type="java.lang.String" value="Balance / Due:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="totalAmountTextField">
@@ -448,18 +445,18 @@
         </Component>
         <Component class="javax.swing.JLabel" name="totalAmountLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Total Amount:"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
             </Property>
+            <Property name="text" type="java.lang.String" value="Total Amount:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="paidAmountLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Paid Amount:"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>
             </Property>
+            <Property name="text" type="java.lang.String" value="Paid Amount:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="paidAmountTextField">

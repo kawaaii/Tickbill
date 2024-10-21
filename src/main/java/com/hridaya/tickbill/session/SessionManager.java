@@ -5,6 +5,7 @@ public class SessionManager {
     private int userId;
     private String username;
     private userRoleEnum userRole;
+    private String fullname;
 
     private SessionManager() {
     }
@@ -43,5 +44,13 @@ public class SessionManager {
 
     public void setUserRole(userRoleEnum userRole) {
         this.userRole = userRole;
+    }
+
+    public void setFullName(String fullname) {
+        this.fullname = fullname;
+    }
+
+    public String getFullName() {
+        return fullname;
     }
 }

@@ -9,7 +9,6 @@ import com.hridaya.tickbill.session.SessionManager;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,10 +46,15 @@ public class LoginUI extends javax.swing.JFrame {
                         int userId = rs.getInt("user_id");
                         String userName = rs.getString("username");
                         String userRole = rs.getString("user_role");
-                        
+                        String firstName = rs.getString("first_name");
+                        String lastName = rs.getString("last_name");
+
+                        String fullname = firstName + " " + lastName;
+
                         SessionManager.getInstance().setUserId(userId);
                         SessionManager.getInstance().setUserName(userName);
-                        
+                        SessionManager.getInstance().setFullName(fullname);
+
                         // equalsIgnoreCase = ignore UPPER or LOWER case and == (compare)
                         if (userRole.equalsIgnoreCase("admin")) {
                             SessionManager.getInstance().setUserRole(SessionManager.userRoleEnum.ADMIN);

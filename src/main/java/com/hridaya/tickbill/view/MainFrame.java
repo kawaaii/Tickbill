@@ -4,9 +4,12 @@
  */
 package com.hridaya.tickbill.view;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import com.hridaya.tickbill.database.DbConnection;
 import com.hridaya.tickbill.session.SessionManager;
 
+import javax.swing.border.Border;
+import java.awt.*;
 import java.sql.Connection;
 
 /**
@@ -24,17 +27,9 @@ public class MainFrame extends javax.swing.JFrame {
         this.setExtendedState(MainFrame.MAXIMIZED_BOTH);
 
         checkDbConnectionStatus();
-        loadUserInfo();
         userAccess();
     }
 
-    private void loadUserInfo() {
-        String username = SessionManager.getInstance().getUserName();
-        int userId = SessionManager.getInstance().getUserId();
-
-        showUserIdLabel.setText(String.valueOf(userId));
-        showUserNameLabel.setText(username);
-    }
 
     private void userAccess() {
         SessionManager.userRoleEnum userRole = SessionManager.getInstance().getUserRole();
@@ -76,11 +71,8 @@ public class MainFrame extends javax.swing.JFrame {
         panelLoader = new javax.swing.JPanel();
         dbConnectionStatusLabel = new javax.swing.JLabel();
         dbConnectionShowStatusLabel = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        userIdLabel = new javax.swing.JLabel();
-        userNameLabel = new javax.swing.JLabel();
-        showUserIdLabel = new javax.swing.JLabel();
-        showUserNameLabel = new javax.swing.JLabel();
+        terminateSessionButton = new javax.swing.JButton();
+        showUserInfoButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -176,6 +168,7 @@ public class MainFrame extends javax.swing.JFrame {
         panelLoader.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         panelLoader.setMaximumSize(new java.awt.Dimension(1506, 703));
         panelLoader.setMinimumSize(new java.awt.Dimension(1506, 703));
+        panelLoader.setPreferredSize(new java.awt.Dimension(1506, 703));
 
         javax.swing.GroupLayout panelLoaderLayout = new javax.swing.GroupLayout(panelLoader);
         panelLoader.setLayout(panelLoaderLayout);
@@ -194,47 +187,21 @@ public class MainFrame extends javax.swing.JFrame {
         dbConnectionShowStatusLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         dbConnectionShowStatusLabel.setText("STATUS");
 
-        userIdLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        userIdLabel.setText("User ID:");
+        terminateSessionButton.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        terminateSessionButton.setText("Terminate");
+        terminateSessionButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                terminateSessionButtonActionPerformed(evt);
+            }
+        });
 
-        userNameLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        userNameLabel.setText("Username:");
-
-        showUserIdLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        showUserIdLabel.setText("0000");
-
-        showUserNameLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        showUserNameLabel.setText("placeholder");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(userNameLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(showUserNameLabel))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(userIdLabel)
-                        .addGap(32, 32, 32)
-                        .addComponent(showUserIdLabel)))
-                .addContainerGap(30, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(userIdLabel)
-                    .addComponent(showUserIdLabel))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(userNameLabel)
-                    .addComponent(showUserNameLabel)))
-        );
+        showUserInfoButton.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        showUserInfoButton.setText("User Info");
+        showUserInfoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showUserInfoButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -243,7 +210,10 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(60, 60, 60)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(showUserInfoButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(terminateSessionButton))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(dbConnectionStatusLabel)
                         .addGap(18, 18, 18)
@@ -258,11 +228,13 @@ public class MainFrame extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(terminateSessionButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(showUserInfoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelLoader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelLoader, javax.swing.GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE)
                     .addComponent(sidebarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -304,6 +276,25 @@ public class MainFrame extends javax.swing.JFrame {
         jPanelLoader.JPanelLoader(panelLoader, importExportUI);
     }//GEN-LAST:event_exportImportButtonActionPerformed
 
+    private void showUserInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showUserInfoButtonActionPerformed
+        UserInfo userInfo = new UserInfo();
+        userInfo.setLocationRelativeTo(null);
+        userInfo.setVisible(true);
+    }//GEN-LAST:event_showUserInfoButtonActionPerformed
+
+    private void terminateSessionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_terminateSessionButtonActionPerformed
+        int response = javax.swing.JOptionPane.showConfirmDialog(this,
+                "Are you sure you want to terminate the session?",
+                "Terminate Session",
+                javax.swing.JOptionPane.YES_NO_OPTION,
+                javax.swing.JOptionPane.QUESTION_MESSAGE);
+
+        if (response == javax.swing.JOptionPane.YES_OPTION) {
+            this.dispose();
+            new LoginUI().setVisible(true);
+        }
+    }//GEN-LAST:event_terminateSessionButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -341,18 +332,15 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel dbConnectionShowStatusLabel;
     private javax.swing.JLabel dbConnectionStatusLabel;
     private javax.swing.JToggleButton exportImportButton;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel panelLoader;
     private javax.swing.JToggleButton showInvoiceButton;
     private javax.swing.JToggleButton showProductsButton;
     private javax.swing.JToggleButton showReportsButton;
     private javax.swing.JToggleButton showSalesButton;
-    private javax.swing.JLabel showUserIdLabel;
-    private javax.swing.JLabel showUserNameLabel;
+    private javax.swing.JButton showUserInfoButton;
     private javax.swing.JToggleButton showUsersButton;
     private javax.swing.ButtonGroup sideBarButtonGroup;
     private javax.swing.JPanel sidebarPanel;
-    private javax.swing.JLabel userIdLabel;
-    private javax.swing.JLabel userNameLabel;
+    private javax.swing.JButton terminateSessionButton;
     // End of variables declaration//GEN-END:variables
 }

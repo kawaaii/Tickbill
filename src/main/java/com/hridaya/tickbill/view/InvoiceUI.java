@@ -41,11 +41,11 @@ public class InvoiceUI extends javax.swing.JPanel {
         DefaultTableModel dtm = (DefaultTableModel) invoiceUiMainTable.getModel();
         dtm.setRowCount(0);
 
-        try (Statement st = DbConnection.getConnection().createStatement()){
+        try (Statement st = DbConnection.getConnection().createStatement()) {
             try (ResultSet rs = st.executeQuery("SELECT * FROM sales")) {
                 while (rs.next()) {
                     Vector v = new Vector();
-                    
+
                     // since datas in table get serially loaded
                     v.add(rs.getString(1)); // invoice ID
                     v.add(rs.getString(3)); // customer name
@@ -53,7 +53,7 @@ public class InvoiceUI extends javax.swing.JPanel {
                     v.add(rs.getString(5)); // status
                     v.add(rs.getString(6)); // due amount
                     v.add(rs.getString(2)); // billed by
-                    
+
                     dtm.addRow(v);
                 }
             }
@@ -426,11 +426,11 @@ public class InvoiceUI extends javax.swing.JPanel {
                     String total_bill = rs.getString("total_bill");
                     String status = rs.getString("status");
                     String due = rs.getString("due");
-                    
+
                     Double totalBillAmount = Double.valueOf(total_bill);
                     Double dueAmount = Double.valueOf(due);
                     Double paidAmount = totalBillAmount - dueAmount;
-                    
+
                     customerNameTextField.setText(customer_name);
                     invoiceStatusComboBox.setSelectedItem(status);
                     totalAmountTextField.setText(total_bill);

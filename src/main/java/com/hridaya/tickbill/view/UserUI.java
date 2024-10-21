@@ -508,7 +508,7 @@ public class UserUI extends javax.swing.JPanel {
 
                 // db has everything in lowerspace, meanwhile combobox have first letter capital
                 // so while getting user role assign it to another string which will then capitalize first word
-                String userRole = role.substring(0,1).toUpperCase() + role.substring(1).toLowerCase();
+                String userRole = role.substring(0, 1).toUpperCase() + role.substring(1).toLowerCase();
 
                 firstNameTextField.setText(firstName);
                 lastNameTextField.setText(lastName);

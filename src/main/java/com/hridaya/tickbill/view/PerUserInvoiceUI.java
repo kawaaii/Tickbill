@@ -40,26 +40,26 @@ public class PerUserInvoiceUI extends javax.swing.JFrame {
                 int i = 1;
                 while (rs.next()) {
                     Vector v = new Vector();
-                    
+
                     v.add(i++);
                     v.add(rs.getString("product_name")); // item name
                     v.add(rs.getString("product_rate")); // item rate
                     v.add(rs.getString("product_quantity")); // item quantity
                     v.add(rs.getString("product_price")); // item rate * quantity
-                    
+
                     // Set text fields
                     customerNameTextField.setText(rs.getString("customer_name")); // customer name
                     totalAmountTextField.setText(rs.getString("total_bill")); // total bill
                     dueAmountTextField.setText(rs.getString("due"));
-                    
+
                     double paidAmount = Double.parseDouble(rs.getString("total_bill"))
                             - Double.parseDouble(rs.getString("due"));
                     paidAmountTextField.setText(String.valueOf(paidAmount));
-                    
+
                     billedUserIdTextField.setText(rs.getString("user_id")); // billed by
                     invoiceTextField.setText(rs.getString("invoice_id"));
                     invoiceStatusTextField.setText(rs.getString("status"));
-                    
+
                     dtm.addRow(v);
                 }
             }
