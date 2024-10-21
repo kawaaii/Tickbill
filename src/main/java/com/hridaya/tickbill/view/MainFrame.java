@@ -291,6 +291,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         if (response == javax.swing.JOptionPane.YES_OPTION) {
             this.dispose();
+            DbConnection.closeConnection();
             new LoginUI().setVisible(true);
         }
     }//GEN-LAST:event_terminateSessionButtonActionPerformed
