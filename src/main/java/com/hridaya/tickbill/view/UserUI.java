@@ -128,16 +128,23 @@ public class UserUI extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         userTable = new javax.swing.JTable();
 
-        setMaximumSize(new java.awt.Dimension(1506, 703));
-        setMinimumSize(new java.awt.Dimension(1506, 703));
-        setPreferredSize(new java.awt.Dimension(1506, 703));
+        setMaximumSize(new java.awt.Dimension(1300, 680));
+        setMinimumSize(new java.awt.Dimension(1300, 680));
+        setPreferredSize(new java.awt.Dimension(1300, 680));
 
         createUserPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        createUserPanel.setMaximumSize(new java.awt.Dimension(1300, 680));
+        createUserPanel.setMinimumSize(new java.awt.Dimension(1300, 680));
+        createUserPanel.setPreferredSize(new java.awt.Dimension(1300, 680));
         createUserPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 createUserPanelMouseClicked(evt);
             }
         });
+
+        jPanel1.setMaximumSize(new java.awt.Dimension(1300, 680));
+        jPanel1.setMinimumSize(new java.awt.Dimension(1300, 680));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1300, 680));
 
         phoneNumberTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -334,7 +341,7 @@ public class UserUI extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(838, Short.MAX_VALUE))
+                .addContainerGap(791, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -343,10 +350,14 @@ public class UserUI extends javax.swing.JPanel {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(276, Short.MAX_VALUE))
+                .addContainerGap(292, Short.MAX_VALUE))
         );
 
         createUserPanel.addTab("Create new user", jPanel1);
+
+        jPanel2.setMaximumSize(new java.awt.Dimension(1300, 680));
+        jPanel2.setMinimumSize(new java.awt.Dimension(1300, 680));
+        jPanel2.setPreferredSize(new java.awt.Dimension(1300, 680));
 
         userTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -373,7 +384,7 @@ public class UserUI extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(40, 40, 40)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(197, Short.MAX_VALUE))
+                .addContainerGap(213, Short.MAX_VALUE))
         );
 
         createUserPanel.addTab("All users", jPanel2);
@@ -382,11 +393,11 @@ public class UserUI extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(createUserPanel)
+            .addComponent(createUserPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1459, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(createUserPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 703, Short.MAX_VALUE)
+            .addComponent(createUserPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

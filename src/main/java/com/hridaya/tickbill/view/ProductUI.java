@@ -73,9 +73,9 @@ public class ProductUI extends javax.swing.JPanel {
         productSaveButton = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
 
-        setMaximumSize(new java.awt.Dimension(1506, 703));
-        setMinimumSize(new java.awt.Dimension(1506, 703));
-        setPreferredSize(new java.awt.Dimension(1506, 703));
+        setMaximumSize(new java.awt.Dimension(1300, 680));
+        setMinimumSize(new java.awt.Dimension(1300, 680));
+        setPreferredSize(new java.awt.Dimension(1300, 680));
 
         productTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

@@ -48,9 +48,9 @@ public class ImportExportUI extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         fileChooser = new javax.swing.JFileChooser();
 
-        setMaximumSize(new java.awt.Dimension(1506, 4));
-        setMinimumSize(new java.awt.Dimension(1506, 4));
-        setPreferredSize(new java.awt.Dimension(1506, 4));
+        setMaximumSize(new java.awt.Dimension(1300, 680));
+        setMinimumSize(new java.awt.Dimension(1300, 680));
+        setPreferredSize(new java.awt.Dimension(1300, 680));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -176,7 +176,7 @@ public class ImportExportUI extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(236, 236, 236)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
                 .addComponent(fileChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents

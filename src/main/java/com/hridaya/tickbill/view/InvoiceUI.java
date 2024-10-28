@@ -116,6 +116,9 @@ public class InvoiceUI extends javax.swing.JPanel {
         deleteButton = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
 
+        setMaximumSize(new java.awt.Dimension(1300, 680));
+        setMinimumSize(new java.awt.Dimension(1300, 680));
+
         invoiceUiMainTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -301,7 +304,7 @@ public class InvoiceUI extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 948, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(

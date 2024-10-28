@@ -163,32 +163,32 @@ public class SaleUI extends javax.swing.JPanel {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        removeAllFromCartButton.setText("Remove All");
         removeAllFromCartButton.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        removeAllFromCartButton.setText("Remove All");
         removeAllFromCartButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeAllFromCartButtonActionPerformed(evt);
             }
         });
 
-        addToCartButton.setText("Add to Cart");
         addToCartButton.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        addToCartButton.setText("Add to Cart");
         addToCartButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addToCartButtonActionPerformed(evt);
             }
         });
 
-        removeFromCartButton.setText("Remove");
         removeFromCartButton.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        removeFromCartButton.setText("Remove");
         removeFromCartButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeFromCartButtonActionPerformed(evt);
             }
         });
 
-        payAndPrintButton.setText("Pay & Print");
         payAndPrintButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        payAndPrintButton.setText("Pay & Print");
         payAndPrintButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 payAndPrintButtonActionPerformed(evt);
@@ -218,7 +218,7 @@ public class SaleUI extends javax.swing.JPanel {
                 .addGap(30, 30, 30)
                 .addComponent(removeAllFromCartButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(payAndPrintButton, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(payAndPrintButton, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -242,26 +242,26 @@ public class SaleUI extends javax.swing.JPanel {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        productNameComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         productNameComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         productNameComboBox.setSelectedIndex(-1);
-        productNameComboBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         productNameComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 productNameComboBoxActionPerformed(evt);
             }
         });
 
-        productQuantityLabel.setText("Quantity:");
         productQuantityLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        productQuantityLabel.setText("Quantity:");
 
-        productUnitPriceLabel.setText("00.00");
         productUnitPriceLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        productUnitPriceLabel.setText("00.00");
 
-        customerNameLabel.setText("Customer:");
         customerNameLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        customerNameLabel.setText("Customer:");
 
-        productPriceLabel.setText("Unit Price:");
         productPriceLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        productPriceLabel.setText("Unit Price:");
 
         productQuantityTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         productQuantityTextField.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -272,20 +272,20 @@ public class SaleUI extends javax.swing.JPanel {
 
         customerNameTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        productNameLabel.setText("Product:");
         productNameLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        productNameLabel.setText("Product:");
 
-        productTotalLabel.setText("Total Price:");
         productTotalLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        productTotalLabel.setText("Total Price:");
 
-        productTotalPriceLabel.setText("00.00");
         productTotalPriceLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        productTotalPriceLabel.setText("00.00");
 
-        showInvoiceLabel.setText("00");
         showInvoiceLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        showInvoiceLabel.setText("00");
 
-        invoiceLabel.setText("INVOICE NO.");
         invoiceLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        invoiceLabel.setText("INVOICE NO.");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -347,17 +347,17 @@ public class SaleUI extends javax.swing.JPanel {
         balanceTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         balanceTextField.setEnabled(false);
 
-        balanceLabel.setText("Balance / Due:");
         balanceLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        balanceLabel.setText("Balance / Due:");
 
         totalAmountTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         totalAmountTextField.setEnabled(false);
 
-        totalAmountLabel.setText("Total Amount:");
         totalAmountLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        totalAmountLabel.setText("Total Amount:");
 
-        paidAmountLabel.setText("Paid Amount:");
         paidAmountLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        paidAmountLabel.setText("Paid Amount:");
 
         paidAmountTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         paidAmountTextField.setText("0.00");
@@ -406,7 +406,7 @@ public class SaleUI extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(balanceLabel)
                     .addComponent(balanceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -435,11 +435,11 @@ public class SaleUI extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGap(12, 12, 12))
         );
     }// </editor-fold>//GEN-END:initComponents
 
