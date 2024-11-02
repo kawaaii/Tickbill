@@ -21,10 +21,6 @@ with Java Swing.
 3. **Compile and run**.
 
 ---
-> [!WARNING]
-> Currently Tickbill doesn't account for any database mismatches, so make sure you execute SQL
-> script [pos.sql](src/main/java/com/hridaya/tickbill/database/pos.sql) before running the project.
-
 > [!NOTE]
 > Don't forget to change your port number
 > in [DBConnection.java](src/main/java/com/hridaya/tickbill/database/DbConnection.java).
