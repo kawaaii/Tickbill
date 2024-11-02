@@ -31,50 +31,49 @@ public class LoginUI extends javax.swing.JFrame {
     private void userLogin() {
         String username = userNameTextField.getText();
         String password = new String(passwordTextField.getPassword());
-        String loginSql = "SELECT * FROM user WHERE " +
-                "BINARY username = ? AND BINARY password = ?";
-        if (username != null) {
+        String loginSql = "SELECT * FROM user WHERE "
+                + "BINARY username = ? AND BINARY password = ?";
 
-            try (PreparedStatement stmt
-                    = DbConnection.getConnection().prepareStatement(loginSql)) {
+        if (DbConnection.getInitialConnection()) {
+            if (username != null) {
+                try (PreparedStatement stmt = DbConnection.getConnection().prepareStatement(loginSql)) {
+                    stmt.setString(1, username);
+                    stmt.setString(2, password);
 
-                stmt.setString(1, username);
-                stmt.setString(2, password);
+                    try (ResultSet rs = stmt.executeQuery()) {
+                        if (rs.next()) {
+                            int userId = rs.getInt("user_id");
+                            String userName = rs.getString("username");
+                            String userRole = rs.getString("user_role");
+                            String firstName = rs.getString("first_name");
+                            String lastName = rs.getString("last_name");
 
-                try (ResultSet rs = stmt.executeQuery()) {
-                    if (rs.next()) {
-                        int userId = rs.getInt("user_id");
-                        String userName = rs.getString("username");
-                        String userRole = rs.getString("user_role");
-                        String firstName = rs.getString("first_name");
-                        String lastName = rs.getString("last_name");
+                            String fullname = firstName + " " + lastName;
 
-                        String fullname = firstName + " " + lastName;
+                            SessionManager.getInstance().setUserId(userId);
+                            SessionManager.getInstance().setUserName(userName);
+                            SessionManager.getInstance().setFullName(fullname);
 
-                        SessionManager.getInstance().setUserId(userId);
-                        SessionManager.getInstance().setUserName(userName);
-                        SessionManager.getInstance().setFullName(fullname);
+                            // equalsIgnoreCase = ignore UPPER or LOWER case and == (compare)
+                            if (userRole.equalsIgnoreCase("admin")) {
+                                SessionManager.getInstance().setUserRole(SessionManager.userRoleEnum.ADMIN);
+                            } else if (userRole.equalsIgnoreCase("employee")) {
+                                SessionManager.getInstance().setUserRole(SessionManager.userRoleEnum.EMPLOYEE);
+                            }
 
-                        // equalsIgnoreCase = ignore UPPER or LOWER case and == (compare)
-                        if (userRole.equalsIgnoreCase("admin")) {
-                            SessionManager.getInstance().setUserRole(SessionManager.userRoleEnum.ADMIN);
-                        } else if (userRole.equalsIgnoreCase("employee")) {
-                            SessionManager.getInstance().setUserRole(SessionManager.userRoleEnum.EMPLOYEE);
+                            Utils.showInfo("Login successful!");
+                            this.dispose();
+                            SwingUtilities.invokeLater(() -> {
+                                MainFrame mainFrame = new MainFrame();
+                                mainFrame.setVisible(true);
+                            });
+                        } else {
+                            Utils.showError("Invalid username or password.");
                         }
-                        
-                        Utils.showInfo("Login successful!");
-                        this.dispose();
-                        SwingUtilities.invokeLater(() -> {
-                            MainFrame mainFrame = new MainFrame();
-                            mainFrame.setVisible(true);
-                        });
-                    } else {
-                        Utils.showError("Invalid username or password.");
                     }
+                } catch (SQLException ex) {
+                    Utils.showError("Error during login." + ex.getMessage());
                 }
-
-            } catch (SQLException ex) {
-                Utils.showError("Error during login." + ex.getMessage());
             }
         }
     }
@@ -221,10 +220,8 @@ public class LoginUI extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LoginUI().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new LoginUI().setVisible(true);
         });
     }
 
