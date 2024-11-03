@@ -160,6 +160,9 @@ public class SaleUI extends javax.swing.JPanel {
         paidAmountTextField = new javax.swing.JTextField();
 
         setToolTipText("");
+        setMaximumSize(new java.awt.Dimension(1300, 680));
+        setMinimumSize(new java.awt.Dimension(1300, 680));
+        setPreferredSize(new java.awt.Dimension(1300, 680));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
