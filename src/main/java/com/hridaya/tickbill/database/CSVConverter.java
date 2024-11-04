@@ -10,7 +10,6 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,11 +17,10 @@ import java.sql.SQLException;
 public class CSVConverter {
 
     private boolean exportFile(String sqlQuery, String csvFilePath) {
-        try (Connection conn = DbConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sqlQuery);
-             ResultSet rs = stmt.executeQuery();
-             BufferedWriter writer = new BufferedWriter(new FileWriter(csvFilePath));
-             CSVPrinter printer = new CSVPrinter(writer, CSVFormat.EXCEL.withHeader(rs))) {
+        try (PreparedStatement stmt = DbConnection.getConnection().prepareStatement(sqlQuery)) {
+            ResultSet rs = stmt.executeQuery();
+            BufferedWriter writer = new BufferedWriter(new FileWriter(csvFilePath));
+            CSVPrinter printer = new CSVPrinter(writer, CSVFormat.EXCEL.withHeader(rs));
 
             printer.printRecords(rs);
             return true;
@@ -40,10 +38,9 @@ public class CSVConverter {
     }
 
     private boolean importFile(String sqlQuery, String csvFilePath) {
-        try (Connection conn = DbConnection.getConnection();
-             FileReader reader = new FileReader(csvFilePath);
-             CSVParser parser = new CSVParser(reader, CSVFormat.EXCEL.withHeader());
-             PreparedStatement stmt = conn.prepareStatement(sqlQuery)) {
+        try (PreparedStatement stmt = DbConnection.getConnection().prepareStatement(sqlQuery)) {
+            FileReader reader = new FileReader(csvFilePath);
+            CSVParser parser = new CSVParser(reader, CSVFormat.EXCEL.withHeader());
 
             for (CSVRecord record : parser) {
                 for (int i = 0; i < record.size(); i++) {
