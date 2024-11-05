@@ -234,7 +234,6 @@ public class ImportExportUI extends javax.swing.JPanel {
                         // delete existing data from user table
                         try (Statement st = DbConnection.getConnection().createStatement()) {
                             st.executeUpdate("DELETE FROM user");
-                            st.close();
                         } catch (SQLException e) {
                             Utils.showError(e.getMessage());
                         }
@@ -246,7 +245,6 @@ public class ImportExportUI extends javax.swing.JPanel {
                         // delete existing data from sales_history table
                         try (Statement st = DbConnection.getConnection().createStatement()) {
                             st.executeUpdate("DELETE FROM sales_history");
-                            st.close();
                         } catch (SQLException e) {
                             Utils.showError(e.getMessage());
                         }
@@ -258,7 +256,6 @@ public class ImportExportUI extends javax.swing.JPanel {
                         // delete existing data from inventory table
                         try (Statement st = DbConnection.getConnection().createStatement()) {
                             st.executeUpdate("DELETE FROM inventory");
-                            st.close();
                         } catch (SQLException e) {
                             Utils.showError(e.getMessage());
                         }
