@@ -292,6 +292,8 @@ public class InvoiceUI extends javax.swing.JPanel {
                 .addContainerGap(108, Short.MAX_VALUE))
         );
 
+        jSeparator1.setBackground(new java.awt.Color(172, 172, 172));
+        jSeparator1.setForeground(new java.awt.Color(172, 172, 172));
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
