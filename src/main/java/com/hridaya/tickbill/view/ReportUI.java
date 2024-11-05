@@ -4,6 +4,15 @@
  */
 package com.hridaya.tickbill.view;
 
+import net.miginfocom.swing.MigLayout;
+import raven.datetime.component.date.DateEvent;
+import raven.datetime.component.date.DatePicker;
+import raven.datetime.component.date.DateSelectionAble;
+import raven.datetime.component.date.DateSelectionListener;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 /**
  *
  * @author hridaya
@@ -15,6 +24,33 @@ public class ReportUI extends javax.swing.JPanel {
      */
     public ReportUI() {
         initComponents();
+
+        loadCurrentDate();
+    }
+
+    private void loadCurrentDate() {
+        DatePicker reportDatePicker = new DatePicker();
+        reportDatePicker.setDateSelectionMode(DatePicker.DateSelectionMode.BETWEEN_DATE_SELECTED);
+        reportDatePicker.setSeparator(" - ");
+        reportDatePicker.setUsePanelOption(true);
+        reportDatePicker.setEditor(dateEditor);
+        reportDatePicker.now();
+        reportDatePicker.setCloseAfterSelected(true);
+        reportDatePicker.setDateFormat("dd-MM-yyyy");
+        reportDatePicker.setDateSelectionAble(localDate -> !localDate.isAfter(LocalDate.now()));
+
+        reportDatePicker.addDateSelectionListener(new DateSelectionListener() {
+            private String initialDate = null;
+            private String endDate = null;
+
+            @Override
+            public void dateSelected(DateEvent dateEvent) {
+                LocalDate[] dates = reportDatePicker.getSelectedDateRange();
+                initialDate = String.valueOf(dates[0]);
+                endDate = String.valueOf(dates[1]);
+                System.out.println(initialDate + " to " + endDate);
+            }
+        });
     }
 
     /**
@@ -26,19 +62,56 @@ public class ReportUI extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        dateEditor = new javax.swing.JFormattedTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+
+        setMaximumSize(new java.awt.Dimension(1300, 680));
+        setMinimumSize(new java.awt.Dimension(1300, 680));
+        setPreferredSize(new java.awt.Dimension(1300, 680));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setText("Date:");
+
+        jLabel2.setText("Total items sold:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1506, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(dateEditor, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(1030, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2))
+                .addGap(323, 323, 323))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 665, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(dateEditor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addContainerGap(600, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JFormattedTextField dateEditor;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }
