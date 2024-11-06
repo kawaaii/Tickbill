@@ -16,6 +16,7 @@ import java.sql.SQLException;
 
 public class CSVConverter {
 
+    @SuppressWarnings("deprecation")
     private boolean exportFile(String sqlQuery, String csvFilePath) {
         try (PreparedStatement stmt = DbConnection.getConnection().prepareStatement(sqlQuery);
              BufferedWriter writer = new BufferedWriter(new FileWriter(csvFilePath));
@@ -36,6 +37,7 @@ public class CSVConverter {
         }
     }
 
+    @SuppressWarnings("deprecation")
     private boolean importFile(String sqlQuery, String csvFilePath) {
         try (PreparedStatement stmt = DbConnection.getConnection().prepareStatement(sqlQuery);
              FileReader reader = new FileReader(csvFilePath)) {

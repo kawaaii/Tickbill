@@ -65,6 +65,7 @@ public class SaleUI extends javax.swing.JPanel {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void loadProduct() {
         try (Statement st = DbConnection.getConnection().createStatement()) {
             ResultSet rs = st.executeQuery("SELECT * FROM inventory");
