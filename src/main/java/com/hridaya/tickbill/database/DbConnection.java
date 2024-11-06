@@ -14,7 +14,6 @@ public class DbConnection {
     private static final String host = "localhost";
     private static final String databaseName = "pos";
     private static final String databaseType = "mysql";
-    private static int port;
     private static String serverUrl;
     private static String jdbcDatabaseUrl;
     private static Connection conn;
@@ -23,7 +22,6 @@ public class DbConnection {
     }
 
     public static void setPort(int port) {
-        DbConnection.port = port;
         serverUrl = "jdbc:" + databaseType + "://" + host + ":" + port;
         jdbcDatabaseUrl = "jdbc:" + databaseType + "://" + host + ":" + port + "/" + databaseName;
     }
