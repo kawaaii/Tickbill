@@ -296,7 +296,7 @@ public class ProductUI extends javax.swing.JPanel {
         try (Statement st = DbConnection.getConnection().createStatement()) {
             try (ResultSet rs = st.executeQuery(sql)) {
                 if (rs.next()) {
-                    productNameTextField.setText(rs.getString("product_name,"));
+                    productNameTextField.setText(rs.getString("product_name"));
                     productPriceTextField.setText(String.valueOf(rs.getDouble("product_rate")));
                     productQuantityTextField.setText(String.valueOf(rs.getInt("product_quantity")));
                 } else {
