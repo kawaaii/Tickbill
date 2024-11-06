@@ -12,6 +12,7 @@ import java.awt.HeadlessException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -68,13 +69,13 @@ public class SaleUI extends javax.swing.JPanel {
         try (Statement st = DbConnection.getConnection().createStatement()) {
             ResultSet rs = st.executeQuery("SELECT * FROM inventory");
 
-            Vector v = new Vector();
+            ArrayList<String> productName = new ArrayList<>();
 
             while (rs.next()) {
-                v.add(rs.getString("product_name"));
+                productName.add(rs.getString("product_name"));
             }
 
-            DefaultComboBoxModel model = new DefaultComboBoxModel<>(v);
+            DefaultComboBoxModel model = new DefaultComboBoxModel<>(productName.toArray());
             productNameComboBox.setModel(model);
             productQuantityTextField.setText("1");
             productNameComboBox.setSelectedIndex(-1);
@@ -491,7 +492,7 @@ public class SaleUI extends javax.swing.JPanel {
 
     private void addToCartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToCartButtonActionPerformed
         DefaultTableModel dtm = (DefaultTableModel) salesTable.getModel();
-        Vector v = new Vector();
+        ArrayList<String> cartItems = new ArrayList<>();
 
         String productName;
         if (productNameComboBox.getSelectedItem() == null) {
@@ -499,13 +500,13 @@ public class SaleUI extends javax.swing.JPanel {
             return;
         }
         productName = productNameComboBox.getSelectedItem().toString();
-        v.add(showInvoiceLabel.getText());
-        v.add(productName);
-        v.add(productQuantityTextField.getText());
-        v.add(productUnitPriceLabel.getText());
-        v.add(productTotalPriceLabel.getText());
+        cartItems.add(showInvoiceLabel.getText());
+        cartItems.add(productName);
+        cartItems.add(productQuantityTextField.getText());
+        cartItems.add(productUnitPriceLabel.getText());
+        cartItems.add(productTotalPriceLabel.getText());
 
-        dtm.addRow(v);
+        dtm.addRow(cartItems.toArray());
         cartTotalPrice();
         dueAmount();
     }//GEN-LAST:event_addToCartButtonActionPerformed
@@ -743,7 +744,7 @@ public class SaleUI extends javax.swing.JPanel {
 
         // generate invoice
         try {
-            HashMap param = new HashMap();
+            HashMap<String, Object> param = new HashMap<>();
             param.put("invoiceId", showInvoiceLabel.getText());
             ReportView reportView = new ReportView("src/main/java/com/hridaya/tickbill/report/SaleInvoice.jasper", param);
             reportView.setVisible(true);

@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Vector;
 
 /**
@@ -44,17 +45,17 @@ public class InvoiceUI extends javax.swing.JPanel {
         try (Statement st = DbConnection.getConnection().createStatement()) {
             try (ResultSet rs = st.executeQuery("SELECT * FROM sales")) {
                 while (rs.next()) {
-                    Vector v = new Vector();
+                    ArrayList<String> invoiceLoad = new ArrayList<>();
 
-                    // since datas in table get serially loaded
-                    v.add(rs.getString("invoice_id")); // invoice ID
-                    v.add(rs.getString("customer_name")); // customer name
-                    v.add(rs.getString("total_bill")); // total bill
-                    v.add(rs.getString("status")); // status
-                    v.add(rs.getString("due")); // due amount
-                    v.add(rs.getString("user_id")); // billed by
+                    // since data in table get serially loaded
+                    invoiceLoad.add(rs.getString("invoice_id")); // invoice ID
+                    invoiceLoad.add(rs.getString("customer_name")); // customer name
+                    invoiceLoad.add(rs.getString("total_bill")); // total bill
+                    invoiceLoad.add(rs.getString("status")); // status
+                    invoiceLoad.add(rs.getString("due")); // due amount
+                    invoiceLoad.add(rs.getString("user_id")); // billed by
 
-                    dtm.addRow(v);
+                    dtm.addRow(invoiceLoad.toArray());
                 }
             }
         } catch (SQLException e) {

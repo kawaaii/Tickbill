@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Vector;
 
 /**
@@ -37,18 +38,18 @@ public class UserUI extends javax.swing.JPanel {
                     ResultSet rs = st.executeQuery("SELECT * FROM user")) {
 
                 while (rs.next()) {
-                    Vector v = new Vector();
-                    v.add(rs.getString("user_id"));
-                    v.add(rs.getString("first_name"));
-                    v.add(rs.getString("last_name"));
-                    v.add(rs.getString("username"));
-                    v.add(rs.getString("password"));
-                    v.add(rs.getString("user_role"));
-                    v.add(rs.getString("user_address"));
-                    v.add(rs.getString("user_email"));
-                    v.add(rs.getString("phone_no"));
+                    ArrayList<String> userInfo = new ArrayList<>();
+                    userInfo.add(rs.getString("user_id"));
+                    userInfo.add(rs.getString("first_name"));
+                    userInfo.add(rs.getString("last_name"));
+                    userInfo.add(rs.getString("username"));
+                    userInfo.add(rs.getString("password"));
+                    userInfo.add(rs.getString("user_role"));
+                    userInfo.add(rs.getString("user_address"));
+                    userInfo.add(rs.getString("user_email"));
+                    userInfo.add(rs.getString("phone_no"));
 
-                    dtm.addRow(v);
+                    dtm.addRow(userInfo.toArray());
                 }
             }
         } catch (SQLException e) {

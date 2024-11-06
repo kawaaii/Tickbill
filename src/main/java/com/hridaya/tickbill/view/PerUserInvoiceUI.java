@@ -9,6 +9,7 @@ import com.hridaya.tickbill.database.DbConnection;
 import javax.swing.table.DefaultTableModel;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Vector;
 
 /**
@@ -39,31 +40,31 @@ public class PerUserInvoiceUI extends javax.swing.JFrame {
             try (ResultSet rs = pst.executeQuery()) {
                 int i = 1;
                 while (rs.next()) {
-                    Vector v = new Vector();
-
-                    v.add(i++);
-                    v.add(rs.getString("product_name")); // item name
-                    v.add(rs.getString("product_rate")); // item rate
-                    v.add(rs.getString("product_quantity")); // item quantity
-                    v.add(rs.getString("product_price")); // item rate * quantity
+                    ArrayList<String> loadUserInvoice = new ArrayList<>();
+                    loadUserInvoice.add(String.valueOf(i++));
+                    loadUserInvoice.add(rs.getString("product_name")); // item name
+                    loadUserInvoice.add(rs.getString("product_rate")); // item rate
+                    loadUserInvoice.add(rs.getString("product_quantity")); // item quantity
+                    loadUserInvoice.add(rs.getString("product_price")); // item rate * quantity
 
                     // Set text fields
                     customerNameTextField.setText(rs.getString("customer_name")); // customer name
                     totalAmountTextField.setText(rs.getString("total_bill")); // total bill
                     dueAmountTextField.setText(rs.getString("due"));
 
-                    double paidAmount = Double.parseDouble(rs.getString("total_bill"))
-                            - Double.parseDouble(rs.getString("due"));
+                    double totalAmount = Double.parseDouble(rs.getString("total_bill"));
+                    double dueAmount = Double.parseDouble(rs.getString("due"));
+                    double paidAmount =totalAmount - dueAmount;
+
                     paidAmountTextField.setText(String.valueOf(paidAmount));
 
                     billedUserIdTextField.setText(rs.getString("user_id")); // billed by
                     invoiceTextField.setText(rs.getString("invoice_id"));
                     invoiceStatusTextField.setText(rs.getString("status"));
 
-                    dtm.addRow(v);
+                    dtm.addRow(loadUserInvoice.toArray());
                 }
             }
-            pst.close();
         } catch (Exception ex) {
             Utils.showError("Error: " + ex.getMessage());
         }
