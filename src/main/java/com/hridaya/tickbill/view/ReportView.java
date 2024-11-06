@@ -12,20 +12,17 @@ import java.util.HashMap;
 
 public class ReportView extends JFrame {
 
-    public ReportView(String fileName) {
-        this(fileName, null);
-    }
-
     public ReportView(String fileName, HashMap<String, Object> params) {
         super("Tickbill Invoice Generator");
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setSize(800, 1280);
+        this.setLocationRelativeTo(null);
 
         try {
             JasperPrint print = JasperFillManager.fillReport(fileName, params, DbConnection.getConnection());
             if (print != null) {
                 JRViewer viewer = new JRViewer(print);
                 Container container = getContentPane();
-                container.add(viewer, BorderLayout.CENTER);
+                container.add(viewer);
             }
         } catch (JRException e) {
             Utils.showError(e.getMessage());

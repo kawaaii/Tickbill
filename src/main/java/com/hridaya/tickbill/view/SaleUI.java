@@ -499,6 +499,12 @@ public class SaleUI extends javax.swing.JPanel {
             Utils.showError("Select an item first.");
             return;
         }
+
+        if (productQuantityTextField.getText().isEmpty()) {
+            Utils.showError("Product quantity cannot be empty.");
+            return;
+        }
+
         productName = productNameComboBox.getSelectedItem().toString();
         cartItems.add(showInvoiceLabel.getText());
         cartItems.add(productName);
