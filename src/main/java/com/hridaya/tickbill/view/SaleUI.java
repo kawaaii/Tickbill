@@ -679,59 +679,6 @@ public class SaleUI extends javax.swing.JPanel {
             Utils.showError("Database error: " + ex.getMessage());
         }
 
-        // save to per user invoice
-        try {
-            String perUserInvoiceSql = "INSERT INTO user_invoice (invoice_id, customer_name, status, total_bill, due, "
-                    + "user_id, product_name, product_rate, product_quantity, product_price) VALUES (?,?,?,?,?,?,?,?,?,?)";
-            DefaultTableModel dtm = (DefaultTableModel) salesTable.getModel();
-            int rowCount = dtm.getRowCount();
-
-            try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(perUserInvoiceSql)) {
-                for (int i = 0; i < rowCount; i++) {
-                    String productName = dtm.getValueAt(i, 1).toString();
-                    String productQuantity = dtm.getValueAt(i, 2).toString();
-                    String productUnitPrice = dtm.getValueAt(i, 3).toString();
-                    String productTotalPrice = dtm.getValueAt(i, 4).toString();
-
-                    int invoiceId = Integer.parseInt(showInvoiceLabel.getText());
-                    String totalBill = totalAmountTextField.getText();
-                    String customerName = customerNameTextField.getText();
-
-                    double paidAmount = Double.parseDouble(paidAmountTextField.getText());
-                    double dueAmount = Double.parseDouble(balanceTextField.getText());
-
-                    int userId = SessionManager.getInstance().getUserId();
-
-                    // Determine payment status
-                    String status;
-                    if (dueAmount <= 0) {
-                        status = "Paid";
-                    } else if (paidAmount == 0.0) {
-                        status = "Pending";
-                    } else if (dueAmount > paidAmount) {
-                        status = "Due";
-                    } else {
-                        status = "Partial";
-                    }
-
-                    pst.setInt(1, invoiceId);
-                    pst.setString(2, customerName);
-                    pst.setString(3, status);
-                    pst.setString(4, totalBill);
-                    pst.setDouble(5, dueAmount);
-                    pst.setInt(6, userId);
-                    pst.setString(7, productName);
-                    pst.setString(8, productUnitPrice);
-                    pst.setString(9, productQuantity);
-                    pst.setString(10, productTotalPrice);
-                    pst.executeUpdate();
-                    pst.clearParameters();
-                }
-            }
-        } catch (NumberFormatException | SQLException ex) {
-            Utils.showError("Error: " + ex.getMessage());
-        }
-
         // generate invoice
         try {
             HashMap<String, Object> param = new HashMap<>();

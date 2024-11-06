@@ -1,7 +1,6 @@
 CREATE DATABASE pos;
 USE pos;
 
--- User table creation
 CREATE TABLE user
 (
     user_id      INT PRIMARY KEY AUTO_INCREMENT,
@@ -15,11 +14,9 @@ CREATE TABLE user
     password     VARCHAR(255)
 );
 
--- Insert an admin user
 INSERT INTO user (first_name, last_name, username, password, user_role, user_address, user_email, phone_no)
 VALUES ('admin', 'admin', 'admin', 'admin123', 'admin', 'earth', 'admin@123.com', '1234567890');
 
--- Inventory table creation
 CREATE TABLE inventory
 (
     product_id       INT PRIMARY KEY AUTO_INCREMENT,
@@ -28,14 +25,13 @@ CREATE TABLE inventory
     product_quantity INT UNSIGNED        NOT NULL DEFAULT 0
 );
 
--- Insert inventory items
 INSERT INTO inventory (product_name, product_rate, product_quantity)
 VALUES ('French Fries', 19.99, 150),
        ('Fried Chicken', 29.50, 75),
        ('Burger', 15.00, 200),
        ('Steak', 45.00, 10);
 
--- Sales table creation
+-- For invoice section
 CREATE TABLE sales
 (
     invoice_id    INT PRIMARY KEY AUTO_INCREMENT,
@@ -44,46 +40,45 @@ CREATE TABLE sales
     total_bill    DECIMAL(10, 2)                             NOT NULL,
     status        ENUM ('Pending', 'Paid', 'Due', 'Partial') NOT NULL DEFAULT 'Pending',
     due           DECIMAL(10, 2)                             NOT NULL,
+    created_at    TIMESTAMP                                           DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE
 );
 
--- Sales history table creation
+-- For generating invoice
 CREATE TABLE sales_history
 (
     id               INT PRIMARY KEY AUTO_INCREMENT,
-    user_id          INT            NOT NULL,
-    SN               INT            NOT NULL,
     invoice_id       INT            NOT NULL,
+    user_id          INT            NOT NULL,
     customer_name    VARCHAR(255)   NOT NULL,
+    SN               INT            NOT NULL,
     product_name     VARCHAR(255)   NOT NULL,
     product_rate     DECIMAL(10, 2) NOT NULL,
     product_quantity INT            NOT NULL CHECK (product_quantity > 0),
-    product_price    DOUBLE         NOT NULL,
+    product_price    DECIMAL(10, 2) NOT NULL,
     total_bill       DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE,
     FOREIGN KEY (invoice_id) REFERENCES sales (invoice_id) ON DELETE CASCADE,
-    FOREIGN KEY (product_name) REFERENCES inventory (product_name) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE
 );
 
--- Create indexes for performance
-CREATE INDEX idx_product_rate ON sales_history (product_rate);
-CREATE INDEX idx_product_quantity ON sales_history (product_quantity);
 
--- User invoice table creation
-CREATE TABLE user_invoice
-(
-    id               INT PRIMARY KEY AUTO_INCREMENT,
-    invoice_id       INT                                        NOT NULL,
-    customer_name    VARCHAR(255)                               NOT NULL,
-    status           ENUM ('Pending', 'Paid', 'Due', 'Partial') NOT NULL DEFAULT 'Pending',
-    total_bill       DECIMAL(10, 2)                             NOT NULL,
-    due              DECIMAL(10, 2)                             NOT NULL,
-    user_id          INT                                        NOT NULL,
-    product_name     VARCHAR(255)                               NOT NULL,
-    product_rate     DECIMAL(10, 2)                             NOT NULL,
-    product_quantity INT                                        NOT NULL,
-    product_price    DOUBLE                                     NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE,
-    FOREIGN KEY (invoice_id) REFERENCES sales (invoice_id) ON DELETE CASCADE,
-    FOREIGN KEY (product_name) REFERENCES inventory (product_name) ON DELETE CASCADE
-);
+-- Per user invoice
+CREATE VIEW user_invoice AS
+SELECT s.invoice_id,
+       s.customer_name,
+       s.status,
+       s.total_bill,
+       s.due,
+       u.user_id,
+       CONCAT(u.first_name, ' ', u.last_name)                       AS user_name,
+       sh.product_name,
+       sh.product_rate,
+       ROW_NUMBER() OVER (PARTITION BY s.invoice_id ORDER BY sh.id) AS SN,
+       sh.product_quantity,
+       sh.product_price,
+       sh.total_bill                                                AS product_total_bill,
+       sh.customer_name                                             AS sale_customer_name
+FROM sales s
+         JOIN user u ON s.user_id = u.user_id
+         JOIN sales_history sh ON s.invoice_id = sh.invoice_id
+ORDER BY s.invoice_id, sh.SN;
