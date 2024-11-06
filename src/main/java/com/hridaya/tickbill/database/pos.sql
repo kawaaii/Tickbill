@@ -47,15 +47,6 @@ CREATE TABLE sales
     FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE
 );
 
--- Invoice IDs table creation
-CREATE TABLE invoice_ids
-(
-    i_id       INT PRIMARY KEY AUTO_INCREMENT,
-    invoice_id INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (invoice_id) REFERENCES sales (invoice_id) ON DELETE CASCADE
-);
-
 -- Sales history table creation
 CREATE TABLE sales_history
 (

@@ -50,7 +50,7 @@ public class SaleUI extends javax.swing.JPanel {
     }
 
     private void loadInvoice() {
-        String sql = "SELECT invoice_id FROM invoice_ids ORDER BY invoice_id DESC LIMIT 1";
+        String sql = "SELECT invoice_id FROM sales ORDER BY invoice_id DESC LIMIT 1";
         try (Statement st = DbConnection.getConnection().createStatement()) {
             ResultSet rs = st.executeQuery(sql);
 
@@ -637,20 +637,6 @@ public class SaleUI extends javax.swing.JPanel {
             Utils.showError("Database error: " + sqlEx.getMessage());
         } catch (HeadlessException ex) {
             Utils.showError("Error: " + ex.getMessage());
-        }
-
-        // Save invoice id
-        try {
-            int invoiceId = Integer.parseInt(showInvoiceLabel.getText());
-            String invoiceSql = "INSERT INTO invoice_ids (invoice_id) VALUES (?)";
-            try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(invoiceSql)) {
-                pst.setInt(1, invoiceId);
-                pst.executeUpdate();
-            }
-        } catch (SQLException ex) {
-            Utils.showError("Error saving invoice ID: " + ex.getMessage());
-        } catch (NumberFormatException nfe) {
-            Utils.showError("Invalid invoice ID format: " + nfe.getMessage());
         }
 
         // Save Sales History, this is for generating invoices on pay & print
