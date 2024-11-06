@@ -16,17 +16,19 @@ public class ReportView extends JFrame {
         this(fileName, null);
     }
 
-    public ReportView(String fileName, HashMap params) {
+    public ReportView(String fileName, HashMap<String, Object> params) {
         super("Tickbill Invoice Generator");
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         try {
             JasperPrint print = JasperFillManager.fillReport(fileName, params, DbConnection.getConnection());
-            JRViewer viewer = new JRViewer(print);
-            Container container = getContentPane();
-            container.add(viewer);
+            if (print != null) {
+                JRViewer viewer = new JRViewer(print);
+                Container container = getContentPane();
+                container.add(viewer, BorderLayout.CENTER);
+            }
         } catch (JRException e) {
-            System.out.println(e.getMessage());
+            Utils.showError(e.getMessage());
         }
     }
 }
