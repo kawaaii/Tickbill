@@ -77,7 +77,7 @@ public class SaleUI extends javax.swing.JPanel {
 
             DefaultComboBoxModel model = new DefaultComboBoxModel<>(productName.toArray());
             productNameComboBox.setModel(model);
-            productQuantityTextField.setText("1");
+            productQuantityTextField.setText("0");
             productNameComboBox.setSelectedIndex(-1);
         } catch (SQLException e) {
             Utils.showError("Error: " + e.getMessage());
@@ -558,9 +558,8 @@ public class SaleUI extends javax.swing.JPanel {
             String selectSql = "SELECT product_quantity FROM inventory WHERE product_name = ?";
             String updateSql = "UPDATE inventory SET product_quantity = ? WHERE product_name = ?";
 
-            try (Connection conn = DbConnection.getConnection();
-                 PreparedStatement pstSelect = conn.prepareStatement(selectSql);
-                 PreparedStatement pstUpdate = conn.prepareStatement(updateSql)) {
+            try (PreparedStatement pstSelect = DbConnection.getConnection().prepareStatement(selectSql);
+                 PreparedStatement pstUpdate = DbConnection.getConnection().prepareStatement(updateSql)) {
 
                 for (int i = 0; i < rowCount; i++) {
                     String productName = (String) dtm.getValueAt(i, 1);
