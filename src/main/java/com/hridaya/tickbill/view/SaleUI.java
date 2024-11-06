@@ -49,10 +49,8 @@ public class SaleUI extends javax.swing.JPanel {
     }
 
     private void loadInvoice() {
-        try {
-            Statement st = DbConnection.getConnection().createStatement();
-
-            String sql = "SELECT invoice_id FROM invoice_ids ORDER BY invoice_id DESC LIMIT 1";
+        String sql = "SELECT invoice_id FROM invoice_ids ORDER BY invoice_id DESC LIMIT 1";
+        try (Statement st = DbConnection.getConnection().createStatement()) {
             ResultSet rs = st.executeQuery(sql);
 
             // default if no invoice are found
@@ -61,15 +59,13 @@ public class SaleUI extends javax.swing.JPanel {
                 currentInvoiceId = rs.getInt("invoice_id") + 1;
             }
             showInvoiceLabel.setText(String.valueOf(currentInvoiceId));
-            st.close();
         } catch (SQLException ex) {
             Utils.showError("Error: " + ex.getMessage());
         }
     }
 
     private void loadProduct() {
-        try {
-            Statement st = DbConnection.getConnection().createStatement();
+        try (Statement st = DbConnection.getConnection().createStatement()) {
             ResultSet rs = st.executeQuery("SELECT * FROM inventory");
 
             Vector v = new Vector();
@@ -77,6 +73,7 @@ public class SaleUI extends javax.swing.JPanel {
             while (rs.next()) {
                 v.add(rs.getString("product_name"));
             }
+
             DefaultComboBoxModel model = new DefaultComboBoxModel<>(v);
             productNameComboBox.setModel(model);
             productQuantityTextField.setText("1");
@@ -86,6 +83,31 @@ public class SaleUI extends javax.swing.JPanel {
         }
         cartTotalPrice();
         dueAmount();
+    }
+
+    private void queryProductQuantity() {
+        String productName = String.valueOf(productNameComboBox.getSelectedItem());
+        int requestedQuantity = Integer.parseInt(productQuantityTextField.getText());
+
+        String querySql = "SELECT product_quantity FROM inventory WHERE product_name = ?";
+        try (PreparedStatement stmt = DbConnection.getConnection().prepareStatement(querySql)) {
+            stmt.setString(1, productName);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    int productQuantity = rs.getInt("product_quantity");
+                    if (requestedQuantity > productQuantity) {
+                        requestedQuantity = productQuantity;
+                        Utils.showInfo("Requested quantity is higher than what is available in the inventory."
+                                + "\nMaking the requested quantity as same as remaining inventory quantity."
+                                + "\nContact admin for increasing inventory quantity.");
+                        productQuantityTextField.setText(String.valueOf(requestedQuantity));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            Utils.showError("Error: " + e.getMessage());
+        }
     }
 
     private void totalPrice() {
@@ -454,8 +476,7 @@ public class SaleUI extends javax.swing.JPanel {
             productName = productNameComboBox.getSelectedItem().toString();
         }
 
-        try (PreparedStatement ps = DbConnection.getConnection().prepareStatement
-                ("SELECT product_rate FROM inventory WHERE product_name = ?")) {
+        try (PreparedStatement ps = DbConnection.getConnection().prepareStatement("SELECT product_rate FROM inventory WHERE product_name = ?")) {
             ps.setString(1, productName);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -490,6 +511,7 @@ public class SaleUI extends javax.swing.JPanel {
     }//GEN-LAST:event_addToCartButtonActionPerformed
 
     private void productQuantityTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_productQuantityTextFieldKeyReleased
+        queryProductQuantity();
         totalPrice();
     }//GEN-LAST:event_productQuantityTextFieldKeyReleased
 
@@ -527,6 +549,42 @@ public class SaleUI extends javax.swing.JPanel {
     }//GEN-LAST:event_paidAmountTextFieldKeyReleased
 
     private void payAndPrintButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_payAndPrintButtonActionPerformed
+        // rt inventory qty changes
+        try {
+            DefaultTableModel dtm = (DefaultTableModel) salesTable.getModel();
+            int rowCount = dtm.getRowCount();
+
+            String selectSql = "SELECT product_quantity FROM inventory WHERE product_name = ?";
+            String updateSql = "UPDATE inventory SET product_quantity = ? WHERE product_name = ?";
+
+            try (Connection conn = DbConnection.getConnection();
+                 PreparedStatement pstSelect = conn.prepareStatement(selectSql);
+                 PreparedStatement pstUpdate = conn.prepareStatement(updateSql)) {
+
+                for (int i = 0; i < rowCount; i++) {
+                    String productName = (String) dtm.getValueAt(i, 1);
+                    String productQuantityStr = (String) dtm.getValueAt(i, 2);
+                    int requestedQuantity = Integer.parseInt(productQuantityStr); // requested qty
+
+                    pstSelect.setString(1, productName);
+                    try (ResultSet rs = pstSelect.executeQuery()) {
+                        if (rs.next()) {
+                            int currentQuantity = rs.getInt("product_quantity"); // inventory qty
+                            int finalQuantity = currentQuantity - requestedQuantity;
+
+                            pstUpdate.setInt(1, finalQuantity);
+                            pstUpdate.setString(2, productName);
+                            pstUpdate.executeUpdate();
+                        }
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            Utils.showError("Error updating inventory: " + ex.getMessage());
+        } catch (NumberFormatException ex) {
+            Utils.showError("Error converting quantity to number: " + ex.getMessage());
+        }
+
         // Sales DB
         try {
             // Retrieve and validate input data
@@ -681,60 +739,6 @@ public class SaleUI extends javax.swing.JPanel {
             }
         } catch (NumberFormatException | SQLException ex) {
             Utils.showError("Error: " + ex.getMessage());
-        }
-
-        // rt inventory qty changes
-        try {
-            Connection conn = DbConnection.getConnection();
-            conn.setAutoCommit(false);
-
-            DefaultTableModel dtm = (DefaultTableModel) salesTable.getModel();
-            int rowCount = dtm.getRowCount();
-
-            PreparedStatement pstSelect = conn.prepareStatement(
-                    "SELECT product_quantity FROM inventory WHERE product_name = ?");
-            PreparedStatement pstUpdate = conn.prepareStatement(
-                    "UPDATE inventory SET product_quantity = ? WHERE product_name = ?");
-
-            for (int i = 0; i < rowCount; i++) {
-                String productName = (String) dtm.getValueAt(i, 1);
-                String productQuantityStr = (String) dtm.getValueAt(i, 2);
-                int productQuantity = Integer.parseInt(productQuantityStr);
-
-                pstSelect.setString(1, productName);
-                try (ResultSet rs = pstSelect.executeQuery()) {
-                    if (rs.next()) {
-                        int currentQuantity = rs.getInt("product_quantity");
-
-                        if (productQuantity > currentQuantity) {
-                            Utils.showInfo("Requested product: " + productName + " exceeds available inventory." +
-                                    "\nCurrent stock: " + currentQuantity +
-                                    "\nRequested quantity: " + productQuantity +
-                                    "\nProceeding with transaction." +
-                                    "\nInventory of requested product will be zero." +
-                                    "\nContact admin.");
-                            productQuantity = currentQuantity;
-                        }
-                        int finalQuantity = currentQuantity - productQuantity;
-
-                        pstUpdate.setInt(1, finalQuantity);
-                        pstUpdate.setString(2, productName);
-                        pstUpdate.addBatch();
-                    }
-                }
-            }
-
-            pstUpdate.executeBatch();
-
-            conn.commit();
-            conn.setAutoCommit(true);
-
-            pstSelect.close();
-            pstUpdate.close();
-        } catch (SQLException ex) {
-            Utils.showError("Error updating inventory: " + ex.getMessage());
-        } catch (NumberFormatException ex) {
-            Utils.showError("Error converting quantity to number: " + ex.getMessage());
         }
 
         // generate invoice

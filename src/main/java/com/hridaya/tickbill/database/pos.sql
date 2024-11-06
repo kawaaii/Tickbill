@@ -7,12 +7,12 @@ CREATE TABLE user
     user_id      INT PRIMARY KEY AUTO_INCREMENT,
     first_name   VARCHAR(255)               NOT NULL,
     last_name    VARCHAR(255)               NOT NULL,
-    username     VARCHAR(50) UNIQUE,
-    password     VARCHAR(255),
     user_role    ENUM ('admin', 'employee') NOT NULL,
     user_address VARCHAR(255)               NOT NULL,
     user_email   VARCHAR(100) UNIQUE        NOT NULL,
-    phone_no     VARCHAR(15)                NOT NULL
+    phone_no     VARCHAR(15) UNIQUE         NOT NULL,
+    username     VARCHAR(50) UNIQUE,
+    password     VARCHAR(255)
 );
 
 -- Insert an admin user
