@@ -494,7 +494,6 @@ public class SaleUI extends javax.swing.JPanel {
         DefaultTableModel dtm = (DefaultTableModel) salesTable.getModel();
         ArrayList<String> cartItems = new ArrayList<>();
 
-        String productName;
         if (productNameComboBox.getSelectedItem() == null) {
             Utils.showError("Select an item first.");
             return;
@@ -505,9 +504,8 @@ public class SaleUI extends javax.swing.JPanel {
             return;
         }
 
-        productName = productNameComboBox.getSelectedItem().toString();
         cartItems.add(showInvoiceLabel.getText());
-        cartItems.add(productName);
+        cartItems.add(productNameComboBox.getSelectedItem().toString());
         cartItems.add(productQuantityTextField.getText());
         cartItems.add(productUnitPriceLabel.getText());
         cartItems.add(productTotalPriceLabel.getText());
