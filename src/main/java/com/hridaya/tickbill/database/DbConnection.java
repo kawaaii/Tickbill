@@ -12,14 +12,24 @@ public class DbConnection {
     private static final String user = "root";
     private static final String password = "root";
     private static final String host = "localhost";
-    private static final int port = 3307;
     private static final String databaseName = "pos";
     private static final String databaseType = "mysql";
-    private static final String serverUrl = "jdbc:" + databaseType + "://" + host + ":" + port;
-    private static final String jdbcDatabaseUrl = "jdbc:" + databaseType + "://" + host + ":" + port + "/" + databaseName;
+    private static int port;
+    private static String serverUrl;
+    private static String jdbcDatabaseUrl;
     private static Connection conn;
 
     private DbConnection() {
+    }
+
+    public static int getPort() {
+        return port;
+    }
+
+    public static void setPort(int port) {
+        DbConnection.port = port;
+        serverUrl = "jdbc:" + databaseType + "://" + host + ":" + port;
+        jdbcDatabaseUrl = "jdbc:" + databaseType + "://" + host + ":" + port + "/" + databaseName;
     }
 
     public static synchronized Connection getConnection() {
@@ -35,6 +45,7 @@ public class DbConnection {
     }
 
     public static boolean getInitialConnection() {
+        port = getPort();
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection initialConn = DriverManager.getConnection(serverUrl, user, password);
@@ -47,8 +58,8 @@ public class DbConnection {
                         return true;
                     } else {
                         Utils.showInfo("""
-                                       Creating new database, since no database is found.
-                                       Login again.""");
+                                Creating new database, since no database is found.
+                                Login again.""");
                         createDatabase(initialConn);
                     }
                 }

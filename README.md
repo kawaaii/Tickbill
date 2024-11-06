@@ -21,8 +21,5 @@ with Java Swing.
 3. **Compile and run**.
 
 ---
-> [!NOTE]
-> Don't forget to change your port number
-> in [DBConnection.java](src/main/java/com/hridaya/tickbill/database/DbConnection.java).
 
 This project is licensed under [MIT](LICENSE).
