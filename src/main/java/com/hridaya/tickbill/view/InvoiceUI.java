@@ -47,12 +47,12 @@ public class InvoiceUI extends javax.swing.JPanel {
                     Vector v = new Vector();
 
                     // since datas in table get serially loaded
-                    v.add(rs.getString(1)); // invoice ID
-                    v.add(rs.getString(3)); // customer name
-                    v.add(rs.getString(4)); // total bill
-                    v.add(rs.getString(5)); // status
-                    v.add(rs.getString(6)); // due amount
-                    v.add(rs.getString(2)); // billed by
+                    v.add(rs.getString("invoice_id")); // invoice ID
+                    v.add(rs.getString("customer_name")); // customer name
+                    v.add(rs.getString("total_bill")); // total bill
+                    v.add(rs.getString("status")); // status
+                    v.add(rs.getString("due")); // due amount
+                    v.add(rs.getString("user_id")); // billed by
 
                     dtm.addRow(v);
                 }

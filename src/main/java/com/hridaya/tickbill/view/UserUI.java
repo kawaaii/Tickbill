@@ -38,15 +38,15 @@ public class UserUI extends javax.swing.JPanel {
 
                 while (rs.next()) {
                     Vector v = new Vector();
-                    v.add(rs.getString(1));
-                    v.add(rs.getString(2));
-                    v.add(rs.getString(3));
-                    v.add(rs.getString(4));
-                    v.add(rs.getString(5));
-                    v.add(rs.getString(6));
-                    v.add(rs.getString(7));
-                    v.add(rs.getString(8));
-                    v.add(rs.getString(9));
+                    v.add(rs.getString("user_id"));
+                    v.add(rs.getString("first_name"));
+                    v.add(rs.getString("last_name"));
+                    v.add(rs.getString("username"));
+                    v.add(rs.getString("password"));
+                    v.add(rs.getString("user_role"));
+                    v.add(rs.getString("user_address"));
+                    v.add(rs.getString("user_email"));
+                    v.add(rs.getString("phone_no"));
 
                     dtm.addRow(v);
                 }
