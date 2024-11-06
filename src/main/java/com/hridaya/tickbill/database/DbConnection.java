@@ -22,10 +22,6 @@ public class DbConnection {
     private DbConnection() {
     }
 
-    public static int getPort() {
-        return port;
-    }
-
     public static void setPort(int port) {
         DbConnection.port = port;
         serverUrl = "jdbc:" + databaseType + "://" + host + ":" + port;
@@ -45,7 +41,6 @@ public class DbConnection {
     }
 
     public static boolean getInitialConnection() {
-        port = getPort();
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection initialConn = DriverManager.getConnection(serverUrl, user, password);
