@@ -10,7 +10,7 @@ import java.sql.*;
 public class DbConnection {
 
     private static final String user = "root";
-    private static final String password = "root";
+    private static String password = "root";
     private static final String host = "localhost";
     private static final String databaseName = "pos";
     private static final String databaseType = "mysql";
@@ -39,6 +39,10 @@ public class DbConnection {
     }
 
     public static boolean getInitialConnection() {
+        String host = System.getProperty("os.name");
+        if (host.startsWith("Mac")) {
+            password =  "";
+        }
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection initialConn = DriverManager.getConnection(serverUrl, user, password);
