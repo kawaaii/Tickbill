@@ -4,13 +4,9 @@
  */
 package com.hridaya.tickbill.view;
 
-import com.formdev.flatlaf.FlatClientProperties;
 import com.hridaya.tickbill.database.DbConnection;
 import com.hridaya.tickbill.session.SessionManager;
 
-import javax.swing.border.Border;
-import java.awt.*;
-import java.sql.Connection;
 
 /**
  *
@@ -23,13 +19,10 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
-
         this.setExtendedState(MainFrame.MAXIMIZED_BOTH);
 
-        checkDbConnectionStatus();
         userAccess();
     }
-
 
     private void userAccess() {
         SessionManager.userRoleEnum userRole = SessionManager.getInstance().getUserRole();
@@ -37,15 +30,6 @@ public class MainFrame extends javax.swing.JFrame {
         if (userRole != SessionManager.userRoleEnum.ADMIN) {
             showUsersButton.setEnabled(false);
             showProductsButton.setEnabled(false);
-        }
-    }
-
-    private void checkDbConnectionStatus() {
-        Connection conn = DbConnection.getConnection();
-        if (conn != null) {
-            dbConnectionShowStatusLabel.setText("CONNECTED");
-        } else {
-            dbConnectionShowStatusLabel.setText("DISCONNECTED");
         }
     }
 
@@ -69,8 +53,6 @@ public class MainFrame extends javax.swing.JFrame {
         showReportsButton = new javax.swing.JToggleButton();
         exportImportButton = new javax.swing.JToggleButton();
         panelLoader = new javax.swing.JPanel();
-        dbConnectionStatusLabel = new javax.swing.JLabel();
-        dbConnectionShowStatusLabel = new javax.swing.JLabel();
         terminateSessionButton = new javax.swing.JButton();
         showUserInfoButton = new javax.swing.JButton();
 
@@ -181,12 +163,6 @@ public class MainFrame extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        dbConnectionStatusLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        dbConnectionStatusLabel.setText("Database Connection Status:");
-
-        dbConnectionShowStatusLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        dbConnectionShowStatusLabel.setText("STATUS");
-
         terminateSessionButton.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         terminateSessionButton.setText("Terminate");
         terminateSessionButton.addActionListener(new java.awt.event.ActionListener() {
@@ -215,11 +191,6 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(terminateSessionButton))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(dbConnectionStatusLabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(dbConnectionShowStatusLabel)
-                        .addGap(24, 24, 24))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(sidebarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
                         .addComponent(panelLoader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -236,11 +207,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(panelLoader, javax.swing.GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE)
                     .addComponent(sidebarPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(dbConnectionStatusLabel)
-                    .addComponent(dbConnectionShowStatusLabel))
-                .addGap(20, 20, 20))
+                .addGap(52, 52, 52))
         );
 
         pack();
@@ -330,8 +297,6 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel dbConnectionShowStatusLabel;
-    private javax.swing.JLabel dbConnectionStatusLabel;
     private javax.swing.JToggleButton exportImportButton;
     private javax.swing.JPanel panelLoader;
     private javax.swing.JToggleButton showInvoiceButton;
