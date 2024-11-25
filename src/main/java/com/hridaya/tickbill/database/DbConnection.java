@@ -3,34 +3,37 @@ package com.hridaya.tickbill.database;
 import com.hridaya.tickbill.view.Utils;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.sql.*;
 
 public class DbConnection {
 
-    private static final String user = "root";
+    private static final String USER = "root";
+    private static final String HOST = "localhost";
+    private static final String DATABASE_NAME = "pos";
+    private static final String DATABASE_TYPE = "mysql";
     private static String password = "root";
-    private static final String host = "localhost";
-    private static final String databaseName = "pos";
-    private static final String databaseType = "mysql";
     private static String serverUrl;
     private static String jdbcDatabaseUrl;
     private static Connection conn;
 
     private DbConnection() {
+        getInitialConnection();
     }
 
     public static void setPort(int port) {
-        serverUrl = "jdbc:" + databaseType + "://" + host + ":" + port;
-        jdbcDatabaseUrl = "jdbc:" + databaseType + "://" + host + ":" + port + "/" + databaseName;
+        serverUrl = "jdbc:" + DATABASE_TYPE + "://" + HOST + ":" + port;
+        jdbcDatabaseUrl = serverUrl + "/" + DATABASE_NAME;
     }
 
     public static synchronized Connection getConnection() {
         if (conn == null) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                conn = DriverManager.getConnection(jdbcDatabaseUrl, user, password);
+                conn = DriverManager.getConnection(jdbcDatabaseUrl, USER, password);
             } catch (ClassNotFoundException | SQLException ex) {
                 System.err.println("Failed to create a database connection: " + ex.getMessage());
             }
@@ -38,25 +41,20 @@ public class DbConnection {
         return conn;
     }
 
-    public static boolean getInitialConnection() {
-        String host = System.getProperty("os.name");
-        if (host.startsWith("Mac")) {
-            password =  "";
+    public static void getInitialConnection() {
+        if (System.getProperty("os.name").startsWith("Mac")) {
+            password = "";
         }
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection initialConn = DriverManager.getConnection(serverUrl, user, password);
+            Connection initialConn = DriverManager.getConnection(serverUrl, USER, password);
 
             String queryDb = "SELECT SCHEMA_NAME FROM information_schema.SCHEMATA WHERE SCHEMA_NAME = ?";
             try (PreparedStatement stmt = initialConn.prepareStatement(queryDb)) {
-                stmt.setString(1, databaseName);
+                stmt.setString(1, DATABASE_NAME);
                 try (ResultSet rs = stmt.executeQuery()) {
-                    if (rs.next()) {
-                        return true;
-                    } else {
-                        Utils.showInfo("""
-                                Creating new database, since no database is found.
-                                Login again.""");
+                    if (!rs.next()) {
+                        Utils.showInfo("No database found. Creating new database.");
                         createDatabase(initialConn);
                     }
                 }
@@ -64,12 +62,18 @@ public class DbConnection {
         } catch (ClassNotFoundException | SQLException ex) {
             System.err.println("Failed to create a database connection: " + ex.getMessage());
         }
-        return false;
     }
 
     private static void createDatabase(Connection conn) {
         String filePath = "src/main/java/com/hridaya/tickbill/database/pos.sql";
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
+        File sqlFile = new File(filePath);
+
+        if (!sqlFile.exists()) {
+            Utils.showError("SQL file for database creation not found: " + filePath);
+            return;
+        }
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(sqlFile))) {
             StringBuilder query = new StringBuilder();
             String line;
             while ((line = bufferedReader.readLine()) != null) {
@@ -80,12 +84,14 @@ public class DbConnection {
                 if (line.trim().endsWith(";")) {
                     try (Statement stmt = conn.createStatement()) {
                         stmt.execute(query.toString().trim());
+                        query.setLength(0);
                     }
-                    query = new StringBuilder();
                 }
             }
-        } catch (IOException | SQLException e) {
-            Utils.showError(e.getMessage());
+        } catch (IOException e) {
+            Utils.showError("Error reading SQL file: " + e.getMessage());
+        } catch (SQLException e) {
+            Utils.showError("Error executing SQL: " + e.getMessage());
         }
     }
 
@@ -94,6 +100,7 @@ public class DbConnection {
             try {
                 conn.close();
                 conn = null;
+                System.out.println("Database connection closed successfully.");
             } catch (SQLException ex) {
                 System.err.println("Failed to close the database connection: " + ex.getMessage());
             }

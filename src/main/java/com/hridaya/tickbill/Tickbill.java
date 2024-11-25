@@ -5,6 +5,7 @@
 package com.hridaya.tickbill;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import com.hridaya.tickbill.database.DbConnection;
 import com.hridaya.tickbill.view.LoginUI;
 
 import javax.swing.*;
@@ -23,6 +24,8 @@ public class Tickbill {
         } catch (Exception ex) {
             System.err.println("Failed to initialize LaF");
         }
+        DbConnection.setPort(3306); // keep the default one
+        DbConnection.getInitialConnection();
         SwingUtilities.invokeLater(() -> {
             LoginUI loginUI = new LoginUI();
             loginUI.setVisible(true);

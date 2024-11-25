@@ -9,6 +9,7 @@ import com.hridaya.tickbill.session.SessionManager;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
+import java.net.ConnectException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,45 +38,45 @@ public class LoginUI extends javax.swing.JFrame {
         String portNumber = portNumberTextField.getText();
         DbConnection.setPort(Integer.parseInt(portNumber));
 
-        if (DbConnection.getInitialConnection()) {
-            if (username != null) {
-                try (PreparedStatement stmt = DbConnection.getConnection().prepareStatement(loginSql)) {
-                    stmt.setString(1, username);
-                    stmt.setString(2, password);
+        DbConnection.getInitialConnection();
 
-                    try (ResultSet rs = stmt.executeQuery()) {
-                        if (rs.next()) {
-                            int userId = rs.getInt("user_id");
-                            String userName = rs.getString("username");
-                            String userRole = rs.getString("user_role");
-                            String firstName = rs.getString("first_name");
-                            String lastName = rs.getString("last_name");
+        if (username != null) {
+            try (PreparedStatement stmt = DbConnection.getConnection().prepareStatement(loginSql)) {
+                stmt.setString(1, username);
+                stmt.setString(2, password);
 
-                            String fullname = firstName + " " + lastName;
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        int userId = rs.getInt("user_id");
+                        String userName = rs.getString("username");
+                        String userRole = rs.getString("user_role");
+                        String firstName = rs.getString("first_name");
+                        String lastName = rs.getString("last_name");
 
-                            SessionManager.getInstance().setUserId(userId);
-                            SessionManager.getInstance().setUserName(userName);
-                            SessionManager.getInstance().setFullName(fullname);
+                        String fullname = firstName + " " + lastName;
 
-                            // equalsIgnoreCase = ignore UPPER or LOWER case and == (compare)
-                            if (userRole.equalsIgnoreCase("admin")) {
-                                SessionManager.getInstance().setUserRole(SessionManager.userRoleEnum.ADMIN);
-                            } else if (userRole.equalsIgnoreCase("employee")) {
-                                SessionManager.getInstance().setUserRole(SessionManager.userRoleEnum.EMPLOYEE);
-                            }
+                        SessionManager.getInstance().setUserId(userId);
+                        SessionManager.getInstance().setUserName(userName);
+                        SessionManager.getInstance().setFullName(fullname);
 
-                            this.dispose();
-                            SwingUtilities.invokeLater(() -> {
-                                MainFrame mainFrame = new MainFrame();
-                                mainFrame.setVisible(true);
-                            });
-                        } else {
-                            Utils.showError("Invalid username or password.");
+                        // equalsIgnoreCase = ignore UPPER or LOWER case and == (compare)
+                        if (userRole.equalsIgnoreCase("admin")) {
+                            SessionManager.getInstance().setUserRole(SessionManager.userRoleEnum.ADMIN);
+                        } else if (userRole.equalsIgnoreCase("employee")) {
+                            SessionManager.getInstance().setUserRole(SessionManager.userRoleEnum.EMPLOYEE);
                         }
+
+                        this.dispose();
+                        SwingUtilities.invokeLater(() -> {
+                            MainFrame mainFrame = new MainFrame();
+                            mainFrame.setVisible(true);
+                        });
+                    } else {
+                        Utils.showError("Invalid username or password.");
                     }
-                } catch (SQLException ex) {
-                    Utils.showError("Error during login." + ex.getMessage());
                 }
+            } catch (SQLException ex) {
+                Utils.showError("Error during login." + ex.getMessage());
             }
         }
     }
@@ -233,8 +234,8 @@ public class LoginUI extends javax.swing.JFrame {
 
     private void portNumberTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_portNumberTextFieldKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (userNameTextField.getText().isEmpty() ||
-                    String.valueOf(passwordTextField.getPassword()).isEmpty()) {
+            if (userNameTextField.getText().isEmpty()
+                    || String.valueOf(passwordTextField.getPassword()).isEmpty()) {
                 Utils.showInfo("Enter valid credentials.");
             } else {
                 userLogin();
