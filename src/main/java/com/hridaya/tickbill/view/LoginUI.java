@@ -9,7 +9,6 @@ import com.hridaya.tickbill.session.SessionManager;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
-import java.net.ConnectException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
