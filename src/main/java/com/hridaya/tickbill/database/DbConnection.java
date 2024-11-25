@@ -20,10 +20,6 @@ public class DbConnection {
     private static String jdbcDatabaseUrl;
     private static Connection conn;
 
-    private DbConnection() {
-        getInitialConnection();
-    }
-
     public static void setPort(int port) {
         serverUrl = "jdbc:" + DATABASE_TYPE + "://" + HOST + ":" + port;
         jdbcDatabaseUrl = serverUrl + "/" + DATABASE_NAME;
