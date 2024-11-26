@@ -7,6 +7,7 @@ package com.hridaya.tickbill.view;
 import com.hridaya.tickbill.database.CSVConverter;
 import com.hridaya.tickbill.database.DbConnection;
 
+import javax.swing.*;
 import java.io.File;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -24,6 +25,15 @@ public class ImportExportUI extends javax.swing.JPanel {
      */
     public ImportExportUI() {
         initComponents();
+        createFileChooser();
+    }
+
+    // Create a JFileChooser
+    private JFileChooser fileChooser;
+
+    private void createFileChooser() {
+        fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         fileChooser.setVisible(false);
     }
 
@@ -46,7 +56,6 @@ public class ImportExportUI extends javax.swing.JPanel {
         userDetailCheckBox = new javax.swing.JCheckBox();
         inventoryDetailCheckBox = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
-        fileChooser = new javax.swing.JFileChooser();
 
         setMaximumSize(new java.awt.Dimension(1300, 680));
         setMinimumSize(new java.awt.Dimension(1300, 680));
@@ -164,20 +173,16 @@ public class ImportExportUI extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(500, 500, 500)
+                .addGap(426, 426, 426)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(651, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(fileChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(519, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(236, 236, 236)
+                .addGap(238, 238, 238)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
-                .addComponent(fileChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(243, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -281,7 +286,6 @@ public class ImportExportUI extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton exportButton;
-    private javax.swing.JFileChooser fileChooser;
     private javax.swing.JButton importButton;
     private javax.swing.JCheckBox inventoryDetailCheckBox;
     private javax.swing.JCheckBox invoiceDetailCheckBox;
