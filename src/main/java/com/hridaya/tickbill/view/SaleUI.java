@@ -555,11 +555,16 @@ public class SaleUI extends javax.swing.JPanel {
     }//GEN-LAST:event_paidAmountTextFieldKeyReleased
 
     private void payAndPrintButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_payAndPrintButtonActionPerformed
+        DefaultTableModel dtm = (DefaultTableModel) salesTable.getModel();
+        int rowCount = dtm.getRowCount();
+
+        if (rowCount == 0) {
+            Utils.showError("No products in the cart.");
+            return;
+        }
+
         // rt inventory qty changes
         try {
-            DefaultTableModel dtm = (DefaultTableModel) salesTable.getModel();
-            int rowCount = dtm.getRowCount();
-
             String selectSql = "SELECT product_quantity FROM inventory WHERE product_name = ?";
             String updateSql = "UPDATE inventory SET product_quantity = ? WHERE product_name = ?";
 
@@ -644,9 +649,6 @@ public class SaleUI extends javax.swing.JPanel {
             int invoiceId = Integer.parseInt(showInvoiceLabel.getText());
             String customerName = customerNameTextField.getText();
             int userId = SessionManager.getInstance().getUserId();
-
-            DefaultTableModel dtm = (DefaultTableModel) salesTable.getModel();
-            int rowCount = dtm.getRowCount();
 
             String salesHistorySql = "INSERT INTO sales_history (SN, invoice_id, user_id, customer_name, product_name, "
                     + "product_rate, product_quantity, product_price, total_bill) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
