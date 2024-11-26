@@ -100,9 +100,8 @@ public class SaleUI extends javax.swing.JPanel {
                     int productQuantity = rs.getInt("product_quantity");
                     if (requestedQuantity > productQuantity) {
                         requestedQuantity = productQuantity;
-                        Utils.showInfo("Requested quantity is higher than what is available in the inventory."
-                                + "\nMaking the requested quantity as same as remaining inventory quantity."
-                                + "\nContact admin for increasing inventory quantity.");
+                        Utils.showInfo("Quantity exceeds stock. Adjusted to available."
+                                + "\nContact admin.");
                         productQuantityTextField.setText(String.valueOf(requestedQuantity));
                     }
                 }
@@ -568,8 +567,7 @@ public class SaleUI extends javax.swing.JPanel {
             String selectSql = "SELECT product_quantity FROM inventory WHERE product_name = ?";
             String updateSql = "UPDATE inventory SET product_quantity = ? WHERE product_name = ?";
 
-            try (PreparedStatement pstSelect = DbConnection.getConnection().prepareStatement(selectSql);
-                 PreparedStatement pstUpdate = DbConnection.getConnection().prepareStatement(updateSql)) {
+            try (PreparedStatement pstSelect = DbConnection.getConnection().prepareStatement(selectSql); PreparedStatement pstUpdate = DbConnection.getConnection().prepareStatement(updateSql)) {
 
                 for (int i = 0; i < rowCount; i++) {
                     String productName = (String) dtm.getValueAt(i, 1);
