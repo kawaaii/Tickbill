@@ -386,32 +386,6 @@ public class InvoiceUI extends javax.swing.JPanel {
             Utils.showError(ex.getMessage());
         }
 
-        // per person invoice db
-        // but no product related entries changed
-        // just customer name, total bill, status, and due can be changed
-        try {
-            String sql = "UPDATE user_invoice SET customer_name = ?, total_bill = ?, status = ?, due = ? "
-                    + "WHERE invoice_id = ?";
-            try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql)) {
-                pst.setString(1, customerName);
-                pst.setDouble(2, total);
-                pst.setString(3, invoiceStatus);
-                pst.setDouble(4, due);
-                pst.setInt(5, Integer.parseInt(invoiceId));
-
-                int rowsAffected = pst.executeUpdate();
-                if (rowsAffected > 0) {
-                    Utils.showInfo("Invoice updated successfully.");
-                } else {
-                    Utils.showError("Failed to update invoice. Invoice ID may not exist.");
-                }
-            }
-        } catch (SQLException ex) {
-            Utils.showError("Database error: " + ex.getMessage());
-        } catch (NumberFormatException ex) {
-            Utils.showError("Error: " + ex.getMessage());
-        }
-
         invoiceLoad();
     }//GEN-LAST:event_updateButtonActionPerformed
 

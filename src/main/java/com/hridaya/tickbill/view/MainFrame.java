@@ -30,6 +30,8 @@ public class MainFrame extends javax.swing.JFrame {
         if (userRole != SessionManager.userRoleEnum.ADMIN) {
             showUsersButton.setEnabled(false);
             showProductsButton.setEnabled(false);
+            showReportsButton.setEnabled(false);
+            exportImportButton.setEnabled(false);
         }
     }
 
