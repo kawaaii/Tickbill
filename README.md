@@ -22,4 +22,7 @@ with Java Swing.
 
 ---
 
+> [!NOTE]
+> MacOS users can simply setup MariaDB using XAMPP, and run.
+
 This project is licensed under [MIT](LICENSE).
