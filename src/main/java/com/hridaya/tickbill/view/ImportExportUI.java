@@ -48,20 +48,65 @@ public class ImportExportUI extends javax.swing.JPanel {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        userDetailCheckBox = new javax.swing.JCheckBox();
+        inventoryDetailCheckBox = new javax.swing.JCheckBox();
+        salesDetailCheckBox = new javax.swing.JCheckBox();
+        invoiceDetailCheckBox = new javax.swing.JCheckBox();
+        jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         exportButton = new javax.swing.JButton();
         importButton = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        invoiceDetailCheckBox = new javax.swing.JCheckBox();
-        userDetailCheckBox = new javax.swing.JCheckBox();
-        inventoryDetailCheckBox = new javax.swing.JCheckBox();
-        jLabel1 = new javax.swing.JLabel();
 
         setMaximumSize(new java.awt.Dimension(1300, 680));
         setMinimumSize(new java.awt.Dimension(1300, 680));
         setPreferredSize(new java.awt.Dimension(1300, 680));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        buttonGroup1.add(userDetailCheckBox);
+        userDetailCheckBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        userDetailCheckBox.setText("User Details");
+
+        buttonGroup1.add(inventoryDetailCheckBox);
+        inventoryDetailCheckBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        inventoryDetailCheckBox.setText("Inventory");
+
+        buttonGroup1.add(salesDetailCheckBox);
+        salesDetailCheckBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        salesDetailCheckBox.setText("Sales History");
+
+        buttonGroup1.add(invoiceDetailCheckBox);
+        invoiceDetailCheckBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        invoiceDetailCheckBox.setText("Invoice Details");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(userDetailCheckBox)
+                .addGap(18, 18, 18)
+                .addComponent(inventoryDetailCheckBox)
+                .addGap(18, 18, 18)
+                .addComponent(salesDetailCheckBox)
+                .addGap(18, 18, 18)
+                .addComponent(invoiceDetailCheckBox)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 12, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(userDetailCheckBox)
+                    .addComponent(inventoryDetailCheckBox)
+                    .addComponent(salesDetailCheckBox)
+                    .addComponent(invoiceDetailCheckBox)))
+        );
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setText("Import and export can be done one at a time");
 
         exportButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         exportButton.setText("Export");
@@ -100,89 +145,61 @@ public class ImportExportUI extends javax.swing.JPanel {
                 .addGap(0, 6, Short.MAX_VALUE))
         );
 
-        buttonGroup1.add(invoiceDetailCheckBox);
-        invoiceDetailCheckBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        invoiceDetailCheckBox.setText("Invoice Details");
-
-        buttonGroup1.add(userDetailCheckBox);
-        userDetailCheckBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        userDetailCheckBox.setText("User Details");
-
-        buttonGroup1.add(inventoryDetailCheckBox);
-        inventoryDetailCheckBox.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        inventoryDetailCheckBox.setText("Inventory");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(userDetailCheckBox)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(80, 80, 80))))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(145, 145, 145)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(inventoryDetailCheckBox)
+                .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(invoiceDetailCheckBox)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 12, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(userDetailCheckBox)
-                    .addComponent(inventoryDetailCheckBox)
-                    .addComponent(invoiceDetailCheckBox)))
-        );
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setText("Import and export can be done one at a time");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(13, 13, 13)))
-                        .addGap(8, 8, 8))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(80, 80, 80))))
+                .addGap(361, 361, 361)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(467, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(9, 9, 9))
+                .addGap(239, 239, 239)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(271, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(426, 426, 426)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(519, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(238, 238, 238)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(243, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -190,12 +207,17 @@ public class ImportExportUI extends javax.swing.JPanel {
         CSVConverter csvExporter = new CSVConverter();
         if (userDetailCheckBox.isSelected()
                 || invoiceDetailCheckBox.isSelected()
-                || inventoryDetailCheckBox.isSelected()) {
+                || inventoryDetailCheckBox.isSelected()
+                || salesDetailCheckBox.isSelected()) {
             fileChooser.setVisible(true);
             fileChooser.showSaveDialog(this);
 
             try {
                 File selectedFile = fileChooser.getSelectedFile();
+                if (selectedFile == null) {
+                    Utils.showError("No file selected. Operation canceled.");
+                    return;
+                }
                 String filePath = selectedFile.getAbsolutePath();
 
                 if (!filePath.toLowerCase().endsWith(".csv")) {
@@ -203,11 +225,16 @@ public class ImportExportUI extends javax.swing.JPanel {
                 }
 
                 List<String> sqlQueries = new ArrayList<>();
+
                 if (userDetailCheckBox.isSelected()) {
                     sqlQueries.add("SELECT * FROM user");
                 }
                 if (invoiceDetailCheckBox.isSelected()) {
+                    Utils.showInfo("Make sure to backup Sales History as well.");
                     sqlQueries.add("SELECT * FROM sales_history");
+                }
+                if (salesDetailCheckBox.isSelected()) {
+                    sqlQueries.add("SELECT * FROM sales");
                 }
                 if (inventoryDetailCheckBox.isSelected()) {
                     sqlQueries.add("SELECT * FROM inventory");
@@ -226,7 +253,10 @@ public class ImportExportUI extends javax.swing.JPanel {
 
     private void importButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importButtonActionPerformed
         CSVConverter csvImporter = new CSVConverter();
-        if (userDetailCheckBox.isSelected() || invoiceDetailCheckBox.isSelected() || inventoryDetailCheckBox.isSelected()) {
+        if (userDetailCheckBox.isSelected()
+                || salesDetailCheckBox.isSelected()
+                || invoiceDetailCheckBox.isSelected()
+                || inventoryDetailCheckBox.isSelected()) {
             fileChooser.setVisible(true);
             fileChooser.showOpenDialog(this);
             try {
@@ -236,9 +266,8 @@ public class ImportExportUI extends javax.swing.JPanel {
                 if (filePath.toLowerCase().endsWith(".csv")) {
                     List<String> sqlQueries = new ArrayList<>();
 
-
                     DbConnection.getConnection().setAutoCommit(false);
-                    DbConnection.getConnection().setSavepoint();
+                    DbConnection.getConnection().setSavepoint("beforeCommit");
 
                     if (userDetailCheckBox.isSelected()) {
                         // delete existing data from user table
@@ -247,9 +276,18 @@ public class ImportExportUI extends javax.swing.JPanel {
                         } catch (SQLException e) {
                             Utils.showError(e.getMessage());
                         }
-                        sqlQueries.add("INSERT INTO user (user_id, first_name, last_name, username, password, "
-                                + "user_role, user_address, user_email, phone_no) VALUES "
-                                + "(?,?,?,?,?,?,?,?,?)");
+                        sqlQueries.add("INSERT INTO user "
+                                + "(user_id, first_name, last_name, user_role, user_address, user_email, phone_no, username, password)"
+                                + "VALUES (?,?,?,?,?,?,?,?,?)");
+                    }
+                    if (salesDetailCheckBox.isSelected()) {
+                        try (Statement st = DbConnection.getConnection().createStatement()) {
+                            st.executeUpdate("DELETE FROM sales");
+                        } catch (SQLException e) {
+                            Utils.showError(e.getMessage());
+                        }
+                        sqlQueries.add("INSERT INTO sales (invoice_id, user_id, customer_name, total_bill, status, due, created_at) "
+                                + "VALUES (?,?,?,?,?,?,?)");
                     }
                     if (invoiceDetailCheckBox.isSelected()) {
                         // delete existing data from sales_history table
@@ -258,7 +296,7 @@ public class ImportExportUI extends javax.swing.JPanel {
                         } catch (SQLException e) {
                             Utils.showError(e.getMessage());
                         }
-                        sqlQueries.add("INSERT INTO sales_history (id, user_id, SN, invoice_id, customer_name, product_name, "
+                        sqlQueries.add("INSERT INTO sales_history (id, invoice_id, user_id, customer_name, SN, product_name, "
                                 + "product_rate, product_quantity, product_price, total_bill) VALUES "
                                 + "(?,?,?,?,?,?,?,?,?,?)");
                     }
@@ -301,6 +339,8 @@ public class ImportExportUI extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JCheckBox salesDetailCheckBox;
     private javax.swing.JCheckBox userDetailCheckBox;
     // End of variables declaration//GEN-END:variables
 }
