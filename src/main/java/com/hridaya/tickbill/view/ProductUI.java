@@ -288,7 +288,7 @@ public class ProductUI extends javax.swing.JPanel {
 
     private void productSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productSearchButtonActionPerformed
         String productName = productNameTextField.getText();
-        String sql = "SELECT product_name, product_rate, product_quantity FROM inventory WHERE product_name = '" + productName + "'";
+        String sql = "SELECT product_name, product_rate, product_quantity FROM inventory WHERE product_name = ?";
 
         if (productName.isEmpty()) {
             Utils.showError("Provide product name");
@@ -312,8 +312,9 @@ public class ProductUI extends javax.swing.JPanel {
             return;
         }
 
-        try (Statement st = DbConnection.getConnection().createStatement()) {
-            try (ResultSet rs = st.executeQuery(sql)) {
+        try (PreparedStatement st = DbConnection.getConnection().prepareStatement(sql)) {
+            st.setString(1, productName);
+            try (ResultSet rs = st.executeQuery()) {
                 if (rs.next()) {
                     productNameTextField.setText(rs.getString("product_name"));
                     productPriceTextField.setText(String.valueOf(rs.getDouble("product_rate")));
@@ -335,11 +336,10 @@ public class ProductUI extends javax.swing.JPanel {
             return;
         }
 
-        String sql = "DELETE FROM inventory WHERE product_name = '" + productName + "'";
-        try {
-            Statement st = DbConnection.getConnection().createStatement();
-            st.executeUpdate(sql);
-            st.close();
+        String sql = "DELETE FROM inventory WHERE product_name = ?";
+        try (PreparedStatement st = DbConnection.getConnection().prepareStatement(sql)){
+            st.setString(1, productName);
+            st.executeUpdate();
         } catch (SQLException e) {
             Utils.showError("Error deleting product", e);
         }
