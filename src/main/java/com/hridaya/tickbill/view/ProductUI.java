@@ -7,6 +7,7 @@ package com.hridaya.tickbill.view;
 import com.hridaya.tickbill.database.DbConnection;
 
 import javax.swing.table.DefaultTableModel;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -25,6 +26,8 @@ public class ProductUI extends javax.swing.JPanel {
         initComponents();
         productLoad();
     }
+
+    private String cachedProductId;
 
     private void productLoad() {
         DefaultTableModel dtm = (DefaultTableModel) productTable.getModel();
@@ -59,10 +62,8 @@ public class ProductUI extends javax.swing.JPanel {
         productTable = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         productNameLabel = new javax.swing.JLabel();
-        userIdLabel = new javax.swing.JLabel();
         productPriceLabel = new javax.swing.JLabel();
         productQuantityTextField = new javax.swing.JTextField();
-        productIdTextField = new javax.swing.JTextField();
         productNameTextField = new javax.swing.JTextField();
         productPriceTextField = new javax.swing.JTextField();
         productQuantityLabel = new javax.swing.JLabel();
@@ -91,9 +92,6 @@ public class ProductUI extends javax.swing.JPanel {
         productNameLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         productNameLabel.setText("Name:");
 
-        userIdLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        userIdLabel.setText("Search ID:");
-
         productPriceLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         productPriceLabel.setText("Price:");
 
@@ -104,29 +102,23 @@ public class ProductUI extends javax.swing.JPanel {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(productPriceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(productNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(userIdLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(productQuantityLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(productIdTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(productQuantityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(productNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(productPriceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(userIdLabel)
-                    .addComponent(productIdTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(59, 59, 59)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(productNameLabel)
                     .addComponent(productNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -211,12 +203,15 @@ public class ProductUI extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(142, 142, 142))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1037, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 831, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -225,12 +220,13 @@ public class ProductUI extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 416, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -257,39 +253,62 @@ public class ProductUI extends javax.swing.JPanel {
     }//GEN-LAST:event_productSaveButtonActionPerformed
 
     private void productUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productUpdateButtonActionPerformed
-        String productId = productIdTextField.getText();
         String productName = productNameTextField.getText();
         String productPrice = productPriceTextField.getText();
         String productQuantity = productQuantityTextField.getText();
 
-        if (productId.isEmpty()) {
-            Utils.showError("Provide Product ID.");
+        if (productName.isEmpty()) {
+            Utils.showError("Provide product name.");
             return;
         }
 
-        if (productName.isEmpty() || productPrice.isEmpty() || productQuantity.isEmpty()) {
+        if (productPrice.isEmpty() || productQuantity.isEmpty()) {
             Utils.showError("Provide valid input");
             return;
         }
 
-        String sql = "UPDATE inventory SET product_name = '" + productName + "', product_rate = " + productPrice
-                + ", product_quantity = " + productQuantity + " WHERE product_id = '" + productId + "'";
-        try {
-            Statement st = DbConnection.getConnection().createStatement();
-            st.executeUpdate(sql);
-            st.close();
-        } catch (SQLException ex) {
-            Utils.showError(ex.getMessage());
+        String updateSql = "UPDATE inventory SET product_name = ?, product_rate = ?, product_quantity = ? WHERE product_id = ?";
+
+        if (cachedProductId != null) {
+            try (PreparedStatement psUpdate = DbConnection.getConnection().prepareStatement(updateSql)) {
+
+                psUpdate.setString(1, productName);
+                psUpdate.setDouble(2, Double.parseDouble(productPrice));
+                psUpdate.setInt(3, Integer.parseInt(productQuantity));
+                psUpdate.setString(4, cachedProductId);
+
+                psUpdate.executeUpdate();
+            } catch (SQLException ex) {
+                Utils.showError(ex.getMessage());
+            }
         }
+
         productLoad();
     }//GEN-LAST:event_productUpdateButtonActionPerformed
 
     private void productSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productSearchButtonActionPerformed
-        String productId = productIdTextField.getText();
-        String sql = "SELECT product_name, product_rate, product_quantity FROM inventory WHERE product_id = '" + productId + "'";
+        String productName = productNameTextField.getText();
+        String sql = "SELECT product_name, product_rate, product_quantity FROM inventory WHERE product_name = '" + productName + "'";
 
-        if (productId.isEmpty()) {
-            Utils.showError("Provide product ID");
+        if (productName.isEmpty()) {
+            Utils.showError("Provide product name");
+            return;
+        }
+
+        String querySql = "SELECT product_id FROM inventory WHERE product_name = ?";
+        try (PreparedStatement psSelect = DbConnection.getConnection().prepareStatement(querySql)) {
+
+            psSelect.setString(1, productName);
+            ResultSet rs = psSelect.executeQuery();
+
+            if (rs.next()) {
+                cachedProductId = rs.getString("product_id");
+            } else {
+                Utils.showError("Product not found.");
+                return;
+            }
+        } catch (SQLException ex) {
+            Utils.showError(ex.getMessage());
             return;
         }
 
@@ -309,14 +328,14 @@ public class ProductUI extends javax.swing.JPanel {
     }//GEN-LAST:event_productSearchButtonActionPerformed
 
     private void productDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productDeleteButtonActionPerformed
-        String productId = productIdTextField.getText();
+        String productName = productNameTextField.getText();
 
-        if (productId.isEmpty()) {
+        if (productName.isEmpty()) {
             Utils.showError("Product ID is empty");
             return;
         }
 
-        String sql = "DELETE FROM inventory WHERE product_id = '" + productId + "'";
+        String sql = "DELETE FROM inventory WHERE product_name = '" + productName + "'";
         try {
             Statement st = DbConnection.getConnection().createStatement();
             st.executeUpdate(sql);
@@ -333,7 +352,6 @@ public class ProductUI extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JButton productDeleteButton;
-    private javax.swing.JTextField productIdTextField;
     private javax.swing.JLabel productNameLabel;
     private javax.swing.JTextField productNameTextField;
     private javax.swing.JLabel productPriceLabel;
@@ -344,6 +362,5 @@ public class ProductUI extends javax.swing.JPanel {
     private javax.swing.JButton productSearchButton;
     private javax.swing.JTable productTable;
     private javax.swing.JButton productUpdateButton;
-    private javax.swing.JLabel userIdLabel;
     // End of variables declaration//GEN-END:variables
 }
