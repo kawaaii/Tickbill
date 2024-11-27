@@ -235,6 +235,11 @@ public class ImportExportUI extends javax.swing.JPanel {
 
                 if (filePath.toLowerCase().endsWith(".csv")) {
                     List<String> sqlQueries = new ArrayList<>();
+
+
+                    DbConnection.getConnection().setAutoCommit(false);
+                    DbConnection.getConnection().setSavepoint();
+
                     if (userDetailCheckBox.isSelected()) {
                         // delete existing data from user table
                         try (Statement st = DbConnection.getConnection().createStatement()) {
@@ -268,9 +273,12 @@ public class ImportExportUI extends javax.swing.JPanel {
                                 + "product_quantity) VALUES (?,?,?,?)");
                     }
 
+                    DbConnection.getConnection().commit();
+
                     for (String sql : sqlQueries) {
                         csvImporter.importCSV(sql, filePath);
                     }
+
                 } else {
                     Utils.showError("File must be in CSV and proper format.");
                 }

@@ -38,7 +38,7 @@ public class CSVConverter {
     }
 
     @SuppressWarnings("deprecation")
-    private boolean importFile(String sqlQuery, String csvFilePath) {
+    private boolean importFile(String sqlQuery, String csvFilePath) throws SQLException {
         try (PreparedStatement stmt = DbConnection.getConnection().prepareStatement(sqlQuery);
              FileReader reader = new FileReader(csvFilePath)) {
             CSVParser parser = new CSVParser(reader, CSVFormat.EXCEL.withHeader());
@@ -50,19 +50,27 @@ public class CSVConverter {
                 stmt.addBatch();
             }
             stmt.executeBatch();
+            DbConnection.getConnection().commit();
             return true;
         } catch (IOException | SQLException ex) {
-            Utils.showError("Error during CSV import: " + ex.getMessage());
-            // since we delete all the existing datas
-            Utils.showError("CONTACT ADMIN. ALL DATAS ARE WIPED OUT.");
+            Utils.showError("importFile: Error during CSV import: " + ex.getMessage());
+            Utils.showInfo("Rolling back to previous state.");
+            DbConnection.getConnection().rollback();
             return false;
+        } finally {
+            DbConnection.getConnection().setAutoCommit(true);
         }
     }
 
     public void importCSV(String sqlQuery, String csvFilePath) {
-        boolean success = importFile(sqlQuery, csvFilePath);
-        if (success) {
-            Utils.showInfo("File imported successfully.");
+        try {
+            boolean success = importFile(sqlQuery, csvFilePath);
+            if (success) {
+                Utils.showInfo("File imported successfully.");
+            }
+        } catch (SQLException ex) {
+            Utils.showError("importCSV: Error during CSV import: " + ex.getMessage());
         }
+
     }
 }
