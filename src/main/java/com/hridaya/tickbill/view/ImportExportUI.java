@@ -268,52 +268,28 @@ public class ImportExportUI extends javax.swing.JPanel {
                     List<String> sqlQueries = new ArrayList<>();
 
                     DbConnection.getConnection().setAutoCommit(false);
-                    Savepoint savepoint = DbConnection.getConnection().setSavepoint();
 
                     if (userDetailCheckBox.isSelected()) {
-                        // delete existing data from user table
-                        try (Statement st = DbConnection.getConnection().createStatement()) {
-                            st.executeUpdate("DELETE FROM user");
-                        } catch (SQLException e) {
-                            Utils.showError(e.getMessage());
-                        }
                         sqlQueries.add("INSERT INTO user "
                                 + "(user_id, first_name, last_name, user_role, user_address, user_email, phone_no, username, password)"
                                 + "VALUES (?,?,?,?,?,?,?,?,?)");
                     }
                     if (salesDetailCheckBox.isSelected()) {
-                        try (Statement st = DbConnection.getConnection().createStatement()) {
-                            st.executeUpdate("DELETE FROM sales");
-                        } catch (SQLException e) {
-                            Utils.showError(e.getMessage());
-                        }
                         sqlQueries.add("INSERT INTO sales (invoice_id, user_id, customer_name, total_bill, status, due, created_at) "
                                 + "VALUES (?,?,?,?,?,?,?)");
                     }
                     if (invoiceDetailCheckBox.isSelected()) {
-                        // delete existing data from sales_history table
-                        try (Statement st = DbConnection.getConnection().createStatement()) {
-                            st.executeUpdate("DELETE FROM sales_history");
-                        } catch (SQLException e) {
-                            Utils.showError(e.getMessage());
-                        }
                         sqlQueries.add("INSERT INTO sales_history (id, invoice_id, user_id, customer_name, SN, product_name, "
                                 + "product_rate, product_quantity, product_price, total_bill) VALUES "
                                 + "(?,?,?,?,?,?,?,?,?,?)");
                     }
                     if (inventoryDetailCheckBox.isSelected()) {
-                        // delete existing data from inventory table
-                        try (Statement st = DbConnection.getConnection().createStatement()) {
-                            st.executeUpdate("DELETE FROM inventory");
-                        } catch (SQLException e) {
-                            Utils.showError(e.getMessage());
-                        }
-                        sqlQueries.add("INSERT INTO inventory (product_id, product_name, product_rate, "
-                                + "product_quantity) VALUES (?,?,?,?)");
+                        sqlQueries.add("INSERT INTO inventory (product_name, product_rate, "
+                                + "product_quantity) VALUES (?,?,?)");
                     }
 
                     for (String sql : sqlQueries) {
-                        csvImporter.importCSV(sql, filePath, savepoint);
+                        csvImporter.importCSV(sql, filePath);
                     }
 
                 } else {

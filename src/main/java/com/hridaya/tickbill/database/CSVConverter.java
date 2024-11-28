@@ -39,14 +39,20 @@ public class CSVConverter {
     }
 
     @SuppressWarnings("deprecation")
-    private boolean importFile(String sqlQuery, String csvFilePath, Savepoint savepoint) throws SQLException {
+    private boolean importFile(String sqlQuery, String csvFilePath) throws SQLException {
+        Savepoint savepoint = DbConnection.getConnection().setSavepoint();
+
         try (PreparedStatement stmt = DbConnection.getConnection().prepareStatement(sqlQuery);
              FileReader reader = new FileReader(csvFilePath)) {
             CSVParser parser = new CSVParser(reader, CSVFormat.EXCEL.withHeader());
 
             for (CSVRecord record : parser) {
-                for (int i = 0; i < record.size(); i++) {
-                    stmt.setString(i + 1, record.get(i));
+                /*
+                * 0 = id (primary key)
+                * starting from 1 index, the real data begins
+                * */
+                for (int i = 1; i < record.size(); i++) {
+                    stmt.setString(i, record.get(i));
                 }
                 stmt.addBatch();
             }
@@ -63,9 +69,9 @@ public class CSVConverter {
         }
     }
 
-    public void importCSV(String sqlQuery, String csvFilePath, Savepoint savepoint) {
+    public void importCSV(String sqlQuery, String csvFilePath) {
         try {
-            boolean success = importFile(sqlQuery, csvFilePath, savepoint);
+            boolean success = importFile(sqlQuery, csvFilePath);
             if (success) {
                 Utils.showInfo("File imported successfully.");
             }
