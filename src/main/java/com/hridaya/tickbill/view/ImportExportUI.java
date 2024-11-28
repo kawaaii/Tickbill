@@ -10,6 +10,7 @@ import com.hridaya.tickbill.database.DbConnection;
 import javax.swing.*;
 import java.io.File;
 import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -267,7 +268,7 @@ public class ImportExportUI extends javax.swing.JPanel {
                     List<String> sqlQueries = new ArrayList<>();
 
                     DbConnection.getConnection().setAutoCommit(false);
-                    DbConnection.getConnection().setSavepoint("beforeCommit");
+                    Savepoint savepoint = DbConnection.getConnection().setSavepoint();
 
                     if (userDetailCheckBox.isSelected()) {
                         // delete existing data from user table
@@ -311,10 +312,8 @@ public class ImportExportUI extends javax.swing.JPanel {
                                 + "product_quantity) VALUES (?,?,?,?)");
                     }
 
-                    DbConnection.getConnection().commit();
-
                     for (String sql : sqlQueries) {
-                        csvImporter.importCSV(sql, filePath);
+                        csvImporter.importCSV(sql, filePath, savepoint);
                     }
 
                 } else {

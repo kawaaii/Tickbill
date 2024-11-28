@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Savepoint;
 
 public class CSVConverter {
 
@@ -38,7 +39,7 @@ public class CSVConverter {
     }
 
     @SuppressWarnings("deprecation")
-    private boolean importFile(String sqlQuery, String csvFilePath) throws SQLException {
+    private boolean importFile(String sqlQuery, String csvFilePath, Savepoint savepoint) throws SQLException {
         try (PreparedStatement stmt = DbConnection.getConnection().prepareStatement(sqlQuery);
              FileReader reader = new FileReader(csvFilePath)) {
             CSVParser parser = new CSVParser(reader, CSVFormat.EXCEL.withHeader());
@@ -53,23 +54,23 @@ public class CSVConverter {
             DbConnection.getConnection().commit();
             return true;
         } catch (IOException | SQLException ex) {
-            Utils.showError("importFile: Error during CSV import: " + ex.getMessage());
+            Utils.showError("Failed importing file. " + ex.getMessage());
             Utils.showInfo("Rolling back to previous state.");
-            DbConnection.getConnection().rollback();
+            DbConnection.getConnection().rollback(savepoint);
             return false;
         } finally {
             DbConnection.getConnection().setAutoCommit(true);
         }
     }
 
-    public void importCSV(String sqlQuery, String csvFilePath) {
+    public void importCSV(String sqlQuery, String csvFilePath, Savepoint savepoint) {
         try {
-            boolean success = importFile(sqlQuery, csvFilePath);
+            boolean success = importFile(sqlQuery, csvFilePath, savepoint);
             if (success) {
                 Utils.showInfo("File imported successfully.");
             }
         } catch (SQLException ex) {
-            Utils.showError("importCSV: Error during CSV import: " + ex.getMessage());
+            Utils.showError("Error during CSV import: " + ex.getMessage());
         }
 
     }
