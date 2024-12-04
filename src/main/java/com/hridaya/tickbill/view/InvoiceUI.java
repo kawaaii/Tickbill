@@ -35,6 +35,7 @@ public class InvoiceUI extends javax.swing.JPanel {
 
         if (userRole != SessionManager.userRoleEnum.ADMIN) {
             deleteButton.setEnabled(false);
+            updateButton.setEnabled(false);
         }
     }
 
