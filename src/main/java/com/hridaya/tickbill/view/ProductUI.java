@@ -329,7 +329,20 @@ public class ProductUI extends javax.swing.JPanel {
     }//GEN-LAST:event_productSearchButtonActionPerformed
 
     private void productDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productDeleteButtonActionPerformed
-        String productName = productNameTextField.getText();
+        int selectedRow = productTable.getSelectedRow();
+        String productName = "";
+        if (selectedRow != -1) {
+            try {
+                DefaultTableModel dtm = (DefaultTableModel) productTable.getModel();
+                productName = (String) dtm.getValueAt(selectedRow, 1); // 1: product name
+            } catch (Exception ex) {
+                Utils.showError("Error: " + ex.getMessage());
+            }
+        }
+
+        if (productName.isEmpty()) {
+            productName = productNameTextField.getText();
+        }
 
         if (productName.isEmpty()) {
             Utils.showError("Product name is empty");
