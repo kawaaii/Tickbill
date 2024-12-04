@@ -332,7 +332,7 @@ public class ProductUI extends javax.swing.JPanel {
         String productName = productNameTextField.getText();
 
         if (productName.isEmpty()) {
-            Utils.showError("Product ID is empty");
+            Utils.showError("Product name is empty");
             return;
         }
 
