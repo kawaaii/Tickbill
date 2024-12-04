@@ -75,9 +75,7 @@ SELECT s.invoice_id,
        sh.product_rate,
        ROW_NUMBER() OVER (PARTITION BY s.invoice_id ORDER BY sh.id) AS SN,
        sh.product_quantity,
-       sh.product_price,
-       sh.total_bill                                                AS product_total_bill,
-       sh.customer_name                                             AS sale_customer_name
+       sh.product_price
 FROM sales s
          JOIN user u ON s.user_id = u.user_id
          JOIN sales_history sh ON s.invoice_id = sh.invoice_id
