@@ -214,6 +214,7 @@ public class ImportExportUI extends javax.swing.JPanel {
             fileChooser.showSaveDialog(this);
 
             try {
+                // selectedFile for getting getAbsolutePath
                 File selectedFile = fileChooser.getSelectedFile();
                 if (selectedFile == null) {
                     Utils.showError("No file selected. Operation canceled.");
@@ -225,25 +226,24 @@ public class ImportExportUI extends javax.swing.JPanel {
                     filePath += ".csv";
                 }
 
-                List<String> sqlQueries = new ArrayList<>();
+                String sqlQueries = null;
 
                 if (userDetailCheckBox.isSelected()) {
-                    sqlQueries.add("SELECT * FROM user");
+                    sqlQueries = "SELECT * FROM user";
                 }
                 if (invoiceDetailCheckBox.isSelected()) {
                     Utils.showInfo("Make sure to backup Sales History as well.");
-                    sqlQueries.add("SELECT * FROM sales_history");
+                    sqlQueries = "SELECT * FROM sales_history";
                 }
                 if (salesDetailCheckBox.isSelected()) {
-                    sqlQueries.add("SELECT * FROM sales");
+                    sqlQueries = "SELECT * FROM sales";
                 }
                 if (inventoryDetailCheckBox.isSelected()) {
-                    sqlQueries.add("SELECT * FROM inventory");
+                    sqlQueries = "SELECT * FROM inventory";
                 }
 
-                for (String sql : sqlQueries) {
-                    csvExporter.exportAsCSV(sql, filePath);
-                }
+                csvExporter.exportAsCSV(sqlQueries, filePath);
+
             } catch (Exception e) {
                 Utils.showError("Operation cancelled by user.");
             }
