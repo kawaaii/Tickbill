@@ -9,9 +9,6 @@ import com.hridaya.tickbill.database.DbConnection;
 
 import javax.swing.*;
 import java.io.File;
-import java.sql.SQLException;
-import java.sql.Savepoint;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
