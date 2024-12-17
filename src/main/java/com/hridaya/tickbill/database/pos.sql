@@ -1,7 +1,7 @@
 CREATE DATABASE pos;
 USE pos;
 
-CREATE TABLE user
+CREATE TABLE users
 (
     user_id      INT PRIMARY KEY AUTO_INCREMENT,
     first_name   VARCHAR(255)               NOT NULL,
@@ -14,10 +14,10 @@ CREATE TABLE user
     password     VARCHAR(255)
 );
 
-INSERT INTO user (first_name, last_name, username, password, user_role, user_address, user_email, phone_no)
+INSERT INTO users (first_name, last_name, username, password, user_role, user_address, user_email, phone_no)
 VALUES ('admin', 'admin', 'admin', 'admin123', 'admin', 'earth', 'admin@123.com', '1234567890');
 
-CREATE TABLE inventory
+CREATE TABLE products
 (
     product_id       INT PRIMARY KEY AUTO_INCREMENT,
     product_name     VARCHAR(255) UNIQUE NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE inventory
     product_quantity INT UNSIGNED        NOT NULL DEFAULT 0
 );
 
-INSERT INTO inventory (product_name, product_rate, product_quantity)
+INSERT INTO products (product_name, product_rate, product_quantity)
 VALUES ('French Fries', 19.99, 150),
        ('Fried Chicken', 29.50, 75),
        ('Burger', 15.00, 200),
@@ -41,13 +41,13 @@ CREATE TABLE sales
     status        ENUM ('Pending', 'Paid', 'Due', 'Partial') NOT NULL DEFAULT 'Pending',
     due           DECIMAL(10, 2)                             NOT NULL,
     created_at    TIMESTAMP                                           DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
 );
 
 -- For generating invoice
 CREATE TABLE sales_history
 (
-    id               INT PRIMARY KEY AUTO_INCREMENT,
+    sales_id         INT PRIMARY KEY AUTO_INCREMENT,
     invoice_id       INT            NOT NULL,
     user_id          INT            NOT NULL,
     customer_name    VARCHAR(255)   NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE sales_history
     product_price    DECIMAL(10, 2) NOT NULL,
     total_bill       DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (invoice_id) REFERENCES sales (invoice_id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
 );
 
 
@@ -70,13 +70,13 @@ SELECT s.invoice_id,
        s.total_bill,
        s.due,
        u.user_id,
-       CONCAT(u.first_name, ' ', u.last_name)                       AS user_name,
+       CONCAT(u.first_name, ' ', u.last_name)                             AS user_name,
        sh.product_name,
        sh.product_rate,
-       ROW_NUMBER() OVER (PARTITION BY s.invoice_id ORDER BY sh.id) AS SN,
+       ROW_NUMBER() OVER (PARTITION BY s.invoice_id ORDER BY sh.sales_id) AS SN,
        sh.product_quantity,
        sh.product_price
 FROM sales s
-         JOIN user u ON s.user_id = u.user_id
+         JOIN users u ON s.user_id = u.user_id
          JOIN sales_history sh ON s.invoice_id = sh.invoice_id
 ORDER BY s.invoice_id, sh.SN;

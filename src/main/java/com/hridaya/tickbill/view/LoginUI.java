@@ -31,7 +31,7 @@ public class LoginUI extends javax.swing.JFrame {
     private void userLogin() {
         String username = userNameTextField.getText();
         String password = new String(passwordTextField.getPassword());
-        String loginSql = "SELECT * FROM user WHERE "
+        String loginSql = "SELECT * FROM users WHERE "
                 + "BINARY username = ? AND BINARY password = ?";
 
         String portNumber = portNumberTextField.getText();

@@ -582,7 +582,7 @@ public class UserUI extends javax.swing.JPanel {
         }
 
         if (userCreationValidation(firstName, lastName, address, emailAddress, phoneNumber)) {
-            String sql = "INSERT INTO user "
+            String sql = "INSERT INTO users "
                     + "(first_name, last_name, username, password, user_role, user_address, user_email, phone_no) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql)) {
@@ -626,7 +626,7 @@ public class UserUI extends javax.swing.JPanel {
         }
 
         if (userCreationValidation(firstName, lastName, address, emailAddress, phoneNumber)) {
-            String sql = "UPDATE user SET first_name = ?, last_name = ?, username = ?, password = ?"
+            String sql = "UPDATE users SET first_name = ?, last_name = ?, username = ?, password = ?"
                     + ", user_role = ?, user_address = ?, user_email = ?, phone_no = ? "
                     + "WHERE user_id = ?";
             try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql)) {
@@ -658,7 +658,7 @@ public class UserUI extends javax.swing.JPanel {
 
     private void userDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userDeleteButtonActionPerformed
         String userId = userIdTextField.getText();
-        String sql = "DELETE FROM user WHERE user_id = ?";
+        String sql = "DELETE FROM users WHERE user_id = ?";
         if (userId.isEmpty()) {
             Utils.showError("Enter User ID");
             return;
@@ -676,7 +676,7 @@ public class UserUI extends javax.swing.JPanel {
 
     private void userSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userSearchButtonActionPerformed
         String userId = userIdTextField.getText();
-        String sql = "SELECT * FROM user WHERE user_id = ?";
+        String sql = "SELECT * FROM users WHERE user_id = ?";
 
         try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql)) {
             pst.setString(1, userId);

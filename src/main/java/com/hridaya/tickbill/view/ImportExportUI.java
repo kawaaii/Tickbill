@@ -226,7 +226,7 @@ public class ImportExportUI extends javax.swing.JPanel {
                 String sqlQueries = null;
 
                 if (userDetailCheckBox.isSelected()) {
-                    sqlQueries = "SELECT * FROM user";
+                    sqlQueries = "SELECT * FROM users";
                 }
                 if (invoiceDetailCheckBox.isSelected()) {
                     Utils.showInfo("Make sure to backup Sales History as well.");
@@ -236,7 +236,7 @@ public class ImportExportUI extends javax.swing.JPanel {
                     sqlQueries = "SELECT * FROM sales";
                 }
                 if (inventoryDetailCheckBox.isSelected()) {
-                    sqlQueries = "SELECT * FROM inventory";
+                    sqlQueries = "SELECT * FROM products";
                 }
 
                 csvExporter.exportAsCSV(sqlQueries, filePath);

@@ -33,7 +33,7 @@ public class ProductUI extends javax.swing.JPanel {
         DefaultTableModel dtm = (DefaultTableModel) productTable.getModel();
         dtm.setRowCount(0);
 
-        String sql = "SELECT * FROM inventory";
+        String sql = "SELECT * FROM products";
         try (Statement st = DbConnection.getConnection().createStatement(); ResultSet rs = st.executeQuery(sql)) {
 
             while (rs.next()) {
@@ -241,7 +241,7 @@ public class ProductUI extends javax.swing.JPanel {
             return;
         }
 
-        String sql = "INSERT INTO inventory(product_name, product_rate, product_quantity) VALUES ('" + productName + "', " + productPrice + ", " + productQuantity + ")";
+        String sql = "INSERT INTO products (product_name, product_rate, product_quantity) VALUES ('" + productName + "', " + productPrice + ", " + productQuantity + ")";
         try {
             Statement st = DbConnection.getConnection().createStatement();
             st.executeUpdate(sql);
@@ -267,7 +267,7 @@ public class ProductUI extends javax.swing.JPanel {
             return;
         }
 
-        String updateSql = "UPDATE inventory SET product_name = ?, product_rate = ?, product_quantity = ? WHERE product_id = ?";
+        String updateSql = "UPDATE products SET product_name = ?, product_rate = ?, product_quantity = ? WHERE product_id = ?";
 
         if (cachedProductId != null) {
             try (PreparedStatement psUpdate = DbConnection.getConnection().prepareStatement(updateSql)) {
@@ -288,14 +288,14 @@ public class ProductUI extends javax.swing.JPanel {
 
     private void productSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productSearchButtonActionPerformed
         String productName = productNameTextField.getText();
-        String sql = "SELECT product_name, product_rate, product_quantity FROM inventory WHERE product_name = ?";
+        String sql = "SELECT product_name, product_rate, product_quantity FROM products WHERE product_name = ?";
 
         if (productName.isEmpty()) {
             Utils.showError("Provide product name");
             return;
         }
 
-        String querySql = "SELECT product_id FROM inventory WHERE product_name = ?";
+        String querySql = "SELECT product_id FROM products WHERE product_name = ?";
         try (PreparedStatement psSelect = DbConnection.getConnection().prepareStatement(querySql)) {
 
             psSelect.setString(1, productName);

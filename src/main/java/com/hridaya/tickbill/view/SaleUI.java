@@ -68,7 +68,7 @@ public class SaleUI extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     private void loadProduct() {
         try (Statement st = DbConnection.getConnection().createStatement()) {
-            ResultSet rs = st.executeQuery("SELECT * FROM inventory");
+            ResultSet rs = st.executeQuery("SELECT * FROM products");
 
             ArrayList<String> productName = new ArrayList<>();
 
@@ -91,7 +91,7 @@ public class SaleUI extends javax.swing.JPanel {
         String productName = String.valueOf(productNameComboBox.getSelectedItem());
         int requestedQuantity = Integer.parseInt(productQuantityTextField.getText());
 
-        String querySql = "SELECT product_quantity FROM inventory WHERE product_name = ?";
+        String querySql = "SELECT product_quantity FROM products WHERE product_name = ?";
         try (PreparedStatement stmt = DbConnection.getConnection().prepareStatement(querySql)) {
             stmt.setString(1, productName);
 
@@ -477,7 +477,7 @@ public class SaleUI extends javax.swing.JPanel {
             productName = productNameComboBox.getSelectedItem().toString();
         }
 
-        try (PreparedStatement ps = DbConnection.getConnection().prepareStatement("SELECT product_rate FROM inventory WHERE product_name = ?")) {
+        try (PreparedStatement ps = DbConnection.getConnection().prepareStatement("SELECT product_rate FROM products WHERE product_name = ?")) {
             ps.setString(1, productName);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -564,8 +564,8 @@ public class SaleUI extends javax.swing.JPanel {
 
         // rt inventory qty changes
         try {
-            String selectSql = "SELECT product_quantity FROM inventory WHERE product_name = ?";
-            String updateSql = "UPDATE inventory SET product_quantity = ? WHERE product_name = ?";
+            String selectSql = "SELECT product_quantity FROM products WHERE product_name = ?";
+            String updateSql = "UPDATE products SET product_quantity = ? WHERE product_name = ?";
 
             try (PreparedStatement pstSelect = DbConnection.getConnection().prepareStatement(selectSql); PreparedStatement pstUpdate = DbConnection.getConnection().prepareStatement(updateSql)) {
 
