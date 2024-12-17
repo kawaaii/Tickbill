@@ -34,9 +34,6 @@ public class LoginUI extends javax.swing.JFrame {
         String loginSql = "SELECT * FROM users WHERE "
                 + "BINARY username = ? AND BINARY password = ?";
 
-        String portNumber = portNumberTextField.getText();
-        DbConnection.setPort(Integer.parseInt(portNumber));
-
         DbConnection.getInitialConnection();
 
         if (username != null) {
@@ -96,8 +93,6 @@ public class LoginUI extends javax.swing.JFrame {
         passwordTextField = new javax.swing.JPasswordField();
         userNameLabel = new javax.swing.JLabel();
         passwordLabel = new javax.swing.JLabel();
-        portNumberTextField = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -124,33 +119,19 @@ public class LoginUI extends javax.swing.JFrame {
 
         passwordLabel.setText("Password:");
 
-        portNumberTextField.setText("3306");
-        portNumberTextField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                portNumberTextFieldKeyPressed(evt);
-            }
-        });
-
-        jLabel1.setText("Port:");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(userNameLabel)
                     .addComponent(passwordLabel))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(userNameTextField)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(passwordTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(portNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(userNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+                    .addComponent(passwordTextField))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -161,13 +142,9 @@ public class LoginUI extends javax.swing.JFrame {
                     .addComponent(userNameLabel)
                     .addComponent(userNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(portNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(passwordLabel)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwordLabel))
                 .addContainerGap())
         );
 
@@ -231,17 +208,6 @@ public class LoginUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_userNameTextFieldKeyPressed
 
-    private void portNumberTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_portNumberTextFieldKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (userNameTextField.getText().isEmpty()
-                    || String.valueOf(passwordTextField.getPassword()).isEmpty()) {
-                Utils.showInfo("Enter valid credentials.");
-            } else {
-                userLogin();
-            }
-        }
-    }//GEN-LAST:event_portNumberTextFieldKeyPressed
-
     /**
      * @param args the command line arguments
      */
@@ -276,13 +242,11 @@ public class LoginUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton loginButton;
     private javax.swing.JPanel loginPanel;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JPasswordField passwordTextField;
-    private javax.swing.JTextField portNumberTextField;
     private javax.swing.JLabel userNameLabel;
     private javax.swing.JTextField userNameTextField;
     // End of variables declaration//GEN-END:variables

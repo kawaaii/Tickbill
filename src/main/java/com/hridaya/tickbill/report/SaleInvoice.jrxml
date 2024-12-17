@@ -4,7 +4,7 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="jdbcConnection"/>
 	<parameter name="invoiceId" class="java.lang.String"/>
 	<query language="SQL"><![CDATA[SELECT * FROM sales_history WHERE sales_history.invoice_id = $P{invoiceId}]]></query>
-	<field name="id" class="java.lang.Integer">
+	<field name="sales_id" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="id"/>
 		<property name="com.jaspersoft.studio.field.label" value="id"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="sales_history"/>

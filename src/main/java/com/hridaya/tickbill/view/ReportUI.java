@@ -9,6 +9,8 @@ import raven.datetime.component.date.DatePicker;
 import javax.swing.table.DefaultTableModel;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -28,8 +30,53 @@ public class ReportUI extends javax.swing.JPanel {
         setupData();
     }
 
+    private void calculateReport() {
+        DefaultTableModel dtm = (DefaultTableModel) reportTable.getModel();
+        int rowCounts = dtm.getRowCount();
+        float totalAmount = 0;
+        float totalRevenue = 0;
+        float dueAmount = 0;
+        for (int i = 0; i < rowCounts; i++) {
+            totalAmount += Float.parseFloat(String.valueOf(dtm.getValueAt(i, 2)));
+            totalRevenue += Float.parseFloat(String.valueOf(dtm.getValueAt(i, 3)));
+            dueAmount += Float.parseFloat(String.valueOf(dtm.getValueAt(i, 4)));
+        }
+
+        totalRevenueTextField.setText(String.valueOf(totalRevenue));
+        float profitLossAmount = 0;
+        if (profitLossAmount > totalAmount) {
+            profitLossLabel.setText("Profit");
+            profitLossAmount = totalRevenue - totalAmount;
+        } else {
+            profitLossLabel.setText("Loss");
+            profitLossAmount = dueAmount;
+        }
+        profitLossTextField.setText(String.valueOf(profitLossAmount));
+        String highestSellingProductSql
+                = "SELECT product_name, SUM(product_quantity) AS total_quantity_sold "
+                + "FROM sales_history "
+                + "GROUP BY product_name "
+                + "ORDER BY total_quantity_sold DESC "
+                + "LIMIT 1";
+
+        try (Statement st = DbConnection.getConnection().createStatement(); ResultSet rs = st.executeQuery(highestSellingProductSql)) {
+
+            if (rs.next()) {
+                String highestSellingProduct = rs.getString("product_name");
+                String totalHighestSellingProduct = rs.getString("total_quantity_sold");
+                highestSellingProductTextField.setText(highestSellingProduct + " | " + totalHighestSellingProduct);
+            } else {
+                highestSellingProductTextField.setText("No data available");
+            }
+        } catch (SQLException e) {
+            Utils.showError(e.getMessage());
+            highestSellingProductTextField.setText("Error fetching data");
+        }
+    }
+
     private void setupData() {
         DefaultTableModel dtm = (DefaultTableModel) reportTable.getModel();
+        dtm.setRowCount(0);
         String sql = "SELECT * FROM sales WHERE DATE_FORMAT(created_at, '%Y-%m-%d') BETWEEN ? AND ?";
 
         LocalDate[] dates = reportDatePicker.getSelectedDateRange();
@@ -59,6 +106,7 @@ public class ReportUI extends javax.swing.JPanel {
                 reportLoad.add(rs.getString("status"));
                 dtm.addRow(reportLoad.toArray());
             }
+            calculateReport();
             reportTable.setModel(dtm);
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,10 +139,10 @@ public class ReportUI extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        profitLossLabel = new javax.swing.JLabel();
+        totalRevenueTextField = new javax.swing.JTextField();
+        profitLossTextField = new javax.swing.JTextField();
+        highestSellingProductTextField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         reportTable = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
@@ -114,14 +162,14 @@ public class ReportUI extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setText("Highest selling product:");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setText("Profit/Loss:");
+        profitLossLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        profitLossLabel.setText("Profit/Loss:");
 
-        jTextField1.setEnabled(false);
+        totalRevenueTextField.setEnabled(false);
 
-        jTextField2.setEnabled(false);
+        profitLossTextField.setEnabled(false);
 
-        jTextField3.setEnabled(false);
+        highestSellingProductTextField.setEnabled(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -132,12 +180,12 @@ public class ReportUI extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel4))
+                    .addComponent(profitLossLabel))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField2)
-                    .addComponent(jTextField1)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE))
+                    .addComponent(profitLossTextField)
+                    .addComponent(totalRevenueTextField)
+                    .addComponent(highestSellingProductTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -146,15 +194,15 @@ public class ReportUI extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(totalRevenueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(profitLossLabel)
+                    .addComponent(profitLossTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(highestSellingProductTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -285,19 +333,19 @@ public class ReportUI extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFormattedTextField dateEditor;
     private javax.swing.JButton generateReportButton;
+    private javax.swing.JTextField highestSellingProductTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JLabel profitLossLabel;
+    private javax.swing.JTextField profitLossTextField;
     private javax.swing.JTable reportTable;
     private javax.swing.JButton showReportButton;
+    private javax.swing.JTextField totalRevenueTextField;
     // End of variables declaration//GEN-END:variables
 }

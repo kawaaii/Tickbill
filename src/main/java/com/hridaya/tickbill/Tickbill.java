@@ -24,7 +24,7 @@ public class Tickbill {
         } catch (Exception ex) {
             System.err.println("Failed to initialize LaF");
         }
-        DbConnection.setPort(3306); // keep the default one
+        DbConnection.setPort(3307); // set your default port here
         DbConnection.getInitialConnection();
         SwingUtilities.invokeLater(() -> {
             LoginUI loginUI = new LoginUI();
