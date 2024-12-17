@@ -35,7 +35,7 @@ public class UserUI extends javax.swing.JPanel {
             dtm.setRowCount(0);
 
             try (Statement st = DbConnection.getConnection().createStatement();
-                    ResultSet rs = st.executeQuery("SELECT * FROM user")) {
+                    ResultSet rs = st.executeQuery("SELECT * FROM users")) {
 
                 while (rs.next()) {
                     ArrayList<String> userInfo = new ArrayList<>();
