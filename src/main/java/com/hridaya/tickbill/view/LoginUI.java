@@ -69,13 +69,16 @@ public class LoginUI extends javax.swing.JFrame {
                             SessionManager.getInstance().setUserStatus(SessionManager.userStatusEnum.UNVERIFIED);
                         }
 
+                        if (SessionManager.getInstance().getUserStatus() != SessionManager.userStatusEnum.VERIFIED) {
+                            Utils.showError("User unverified");
+                            return;
+                        }
+
                         this.dispose();
                         SwingUtilities.invokeLater(() -> {
                             MainFrame mainFrame = new MainFrame();
                             mainFrame.setVisible(true);
                         });
-                    } else if (SessionManager.getInstance().getUserStatus() != SessionManager.userStatusEnum.VERIFIED) {
-                        Utils.showError("User unverified");
                     } else {
                         Utils.showError("Invalid username or password.");
                     }
