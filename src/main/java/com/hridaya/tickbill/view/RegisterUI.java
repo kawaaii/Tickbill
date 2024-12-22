@@ -8,6 +8,7 @@ import com.hridaya.tickbill.database.DbConnection;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -25,32 +26,32 @@ public class RegisterUI extends javax.swing.JFrame {
     }
 
     private boolean userCreationValidation(String firstName, String lastName, String address, String emailAddress, String phoneNumber) {
-        String nameRegex = "^[A-Za-z]+$";
-        String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
-        String addressRegex = "^[\\w\\s,.-]+$";
-        String phoneNumberRegex = "^\\d{10}$";
+        String nameRegex = "^[A-Za-z]{3,}$";
+        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{3,}$";
+        String addressRegex = "^[A-Za-z0-9\\s,.-]{3,}$";
+        String phoneNumberRegex = "^\\+?[1-9]\\d{1,14}$";
 
-        if (!firstName.matches(nameRegex)) {
+        if (!Pattern.matches(nameRegex, firstName)) {
             Utils.showError("Set valid first name.");
             return false;
         }
 
-        if (!lastName.matches(nameRegex)) {
+        if (!Pattern.matches(nameRegex, lastName)) {
             Utils.showError("Set valid last name.");
             return false;
         }
 
-        if (!emailAddress.matches(emailRegex)) {
+        if (!Pattern.matches(emailRegex, emailAddress)) {
             Utils.showError("Set valid email address.");
             return false;
         }
 
-        if (!address.matches(addressRegex)) {
+        if (!Pattern.matches(addressRegex, address)) {
             Utils.showError("Set valid address.");
             return false;
         }
 
-        if (!phoneNumber.matches(phoneNumberRegex)) {
+        if (!Pattern.matches(phoneNumberRegex, phoneNumber)) {
             Utils.showError("Set valid phone number.");
             return false;
         }
