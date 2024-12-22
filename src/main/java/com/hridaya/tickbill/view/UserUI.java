@@ -48,6 +48,7 @@ public class UserUI extends javax.swing.JPanel {
                     userInfo.add(rs.getString("user_address"));
                     userInfo.add(rs.getString("user_email"));
                     userInfo.add(rs.getString("phone_no"));
+                    userInfo.add(rs.getString("status"));
 
                     dtm.addRow(userInfo.toArray());
                 }
@@ -57,7 +58,7 @@ public class UserUI extends javax.swing.JPanel {
         }
     }
 
-    private boolean userCreationValidation(String firstName, String lastName, String address, String emailAddress, String phoneNumber) {
+    private boolean userCreationValidation(String firstName, String lastName, String address, String emailAddress, String phoneNumber, String status) {
         String nameRegex = "^[A-Za-z]+$";
         String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
         String addressRegex = "^[\\w\\s,.-]+$";
@@ -85,6 +86,12 @@ public class UserUI extends javax.swing.JPanel {
 
         if (!phoneNumber.matches(phoneNumberRegex)) {
             Utils.showError("Set valid phone number.");
+            return false;
+        }
+
+        boolean validStatus = status.equalsIgnoreCase("verified") || status.equalsIgnoreCase("unverified");
+        if (!validStatus) {
+            Utils.showError("Set valid status");
             return false;
         }
 
@@ -120,6 +127,8 @@ public class UserUI extends javax.swing.JPanel {
         userRoleComboBox = new javax.swing.JComboBox<>();
         userRoleLabel = new javax.swing.JLabel();
         userCreateButton = new javax.swing.JButton();
+        userStatusLabel = new javax.swing.JLabel();
+        userStatusComboBox = new javax.swing.JComboBox<>();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         userIdLabel1 = new javax.swing.JLabel();
@@ -144,6 +153,8 @@ public class UserUI extends javax.swing.JPanel {
         userUpdateButton = new javax.swing.JButton();
         userDeleteButton = new javax.swing.JButton();
         userSearchButton = new javax.swing.JButton();
+        userStatusLabel1 = new javax.swing.JLabel();
+        userStatusComboBox1 = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         userTable = new javax.swing.JTable();
@@ -215,6 +226,12 @@ public class UserUI extends javax.swing.JPanel {
             }
         });
 
+        userStatusLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        userStatusLabel.setText("Status:");
+
+        userStatusComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Verified", "Unverified" }));
+        userStatusComboBox.setSelectedIndex(-1);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -254,11 +271,16 @@ public class UserUI extends javax.swing.JPanel {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(passwordLabel)
-                                    .addComponent(userRoleLabel))
+                                    .addComponent(userRoleLabel)
+                                    .addComponent(userStatusLabel))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(userRoleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(passwordTextField))))
+                                    .addComponent(passwordTextField)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(userRoleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(userStatusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 0, Short.MAX_VALUE)))))
                         .addGap(40, 40, 40))))
         );
         jPanel3Layout.setVerticalGroup(
@@ -283,9 +305,13 @@ public class UserUI extends javax.swing.JPanel {
                     .addComponent(userRoleComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(userRoleLabel))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(emailLabel)
-                    .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(emailLabel)
+                        .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(userStatusLabel)
+                        .addComponent(userStatusComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(phoneNumberLabel)
@@ -408,6 +434,12 @@ public class UserUI extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        userStatusLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        userStatusLabel1.setText("Status:");
+
+        userStatusComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Verified", "Unverified" }));
+        userStatusComboBox1.setSelectedIndex(-1);
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -451,9 +483,11 @@ public class UserUI extends javax.swing.JPanel {
                             .addGroup(jPanel7Layout.createSequentialGroup()
                                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(passwordLabel1)
-                                    .addComponent(userRoleLabel1))
+                                    .addComponent(userRoleLabel1)
+                                    .addComponent(userStatusLabel1))
                                 .addGap(21, 21, 21)
                                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(userStatusComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(passwordTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(userRoleComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addGap(69, 69, 69))
@@ -484,9 +518,13 @@ public class UserUI extends javax.swing.JPanel {
                     .addComponent(userRoleComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(userRoleLabel1))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(emailTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(emailLabel1))
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(userStatusLabel1)
+                        .addComponent(userStatusComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(emailTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(emailLabel1)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(phoneNumberLabel1)
@@ -524,7 +562,7 @@ public class UserUI extends javax.swing.JPanel {
 
             },
             new String [] {
-                "User ID", "First Name", "Last Name", "Username", "Password", "Role", "Address", "Email", "Phone No."
+                "User ID", "First Name", "Last Name", "Username", "Password", "Role", "Address", "Email", "Phone No.", "Status"
             }
         ));
         userTable.setShowGrid(true);
@@ -580,11 +618,15 @@ public class UserUI extends javax.swing.JPanel {
         if (userRoleComboBox.getSelectedItem() != null) {
             role = userRoleComboBox.getSelectedItem().toString().trim();
         }
+        String status = null;
+        if (userStatusComboBox.getSelectedItem() != null) {
+            status =userStatusComboBox.getSelectedItem().toString().trim();
+        }
 
-        if (userCreationValidation(firstName, lastName, address, emailAddress, phoneNumber)) {
+        if (userCreationValidation(firstName, lastName, address, emailAddress, phoneNumber, status)) {
             String sql = "INSERT INTO users "
-                    + "(first_name, last_name, username, password, user_role, user_address, user_email, phone_no) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "(first_name, last_name, username, password, user_role, user_address, user_email, phone_no, status) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql)) {
                 pst.setString(1, firstName);
                 pst.setString(2, lastName);
@@ -594,6 +636,7 @@ public class UserUI extends javax.swing.JPanel {
                 pst.setString(6, address);
                 pst.setString(7, emailAddress);
                 pst.setString(8, phoneNumber);
+                pst.setString(9, status);
 
                 int rowsAffected = pst.executeUpdate();
                 if (rowsAffected > 0) {
@@ -624,10 +667,15 @@ public class UserUI extends javax.swing.JPanel {
         if (userRoleComboBox1.getSelectedItem() != null) {
             role = userRoleComboBox1.getSelectedItem().toString();
         }
+        String status = null;
+        if (userStatusComboBox1.getSelectedItem() != null) {
+            status =userStatusComboBox1.getSelectedItem().toString().trim();
+        }
 
-        if (userCreationValidation(firstName, lastName, address, emailAddress, phoneNumber)) {
+
+        if (userCreationValidation(firstName, lastName, address, emailAddress, phoneNumber, status)) {
             String sql = "UPDATE users SET first_name = ?, last_name = ?, username = ?, password = ?"
-                    + ", user_role = ?, user_address = ?, user_email = ?, phone_no = ? "
+                    + ", user_role = ?, user_address = ?, user_email = ?, phone_no = ?, status= ? "
                     + "WHERE user_id = ?";
             try (PreparedStatement pst = DbConnection.getConnection().prepareStatement(sql)) {
                 pst.setString(1, firstName);
@@ -638,7 +686,8 @@ public class UserUI extends javax.swing.JPanel {
                 pst.setString(6, address);
                 pst.setString(7, emailAddress);
                 pst.setString(8, phoneNumber);
-                pst.setString(9, userId);
+                pst.setString(9, status);
+                pst.setString(10, userId);
 
                 int rowsAffected = pst.executeUpdate();
                 if (rowsAffected > 0) {
@@ -691,10 +740,13 @@ public class UserUI extends javax.swing.JPanel {
                 String address = rs.getString("user_address");
                 String email = rs.getString("user_email");
                 String phoneNumber = rs.getString("phone_no");
+                String status = rs.getString("status");
 
                 // db has everything in lowerspace, meanwhile combobox have first letter capital
                 // so while getting user role assign it to another string which will then capitalize first word
                 String userRole = role.substring(0, 1).toUpperCase() + role.substring(1).toLowerCase();
+                // do the same for status: verified/unverified
+                String userStatus = status.substring(0, 1).toUpperCase() + status.substring(1).toLowerCase();
 
                 firstNameTextField1.setText(firstName);
                 lastNameTextField1.setText(lastName);
@@ -704,6 +756,7 @@ public class UserUI extends javax.swing.JPanel {
                 addressTextField1.setText(address);
                 emailTextField1.setText(email);
                 phoneNumberTextField1.setText(phoneNumber);
+                userStatusComboBox1.setSelectedItem(userStatus);
             } else {
                 Utils.showInfo("User not found");
             }
@@ -759,6 +812,10 @@ public class UserUI extends javax.swing.JPanel {
     private javax.swing.JLabel userRoleLabel;
     private javax.swing.JLabel userRoleLabel1;
     private javax.swing.JButton userSearchButton;
+    private javax.swing.JComboBox<String> userStatusComboBox;
+    private javax.swing.JComboBox<String> userStatusComboBox1;
+    private javax.swing.JLabel userStatusLabel;
+    private javax.swing.JLabel userStatusLabel1;
     private javax.swing.JTable userTable;
     private javax.swing.JButton userUpdateButton;
     // End of variables declaration//GEN-END:variables

@@ -4,18 +4,19 @@ USE pos;
 CREATE TABLE users
 (
     user_id      INT PRIMARY KEY AUTO_INCREMENT,
-    first_name   VARCHAR(255)               NOT NULL,
-    last_name    VARCHAR(255)               NOT NULL,
-    user_role    ENUM ('admin', 'employee') NOT NULL,
-    user_address VARCHAR(255)               NOT NULL,
-    user_email   VARCHAR(100) UNIQUE        NOT NULL,
-    phone_no     VARCHAR(15) UNIQUE         NOT NULL,
+    first_name   VARCHAR(255)                                         NOT NULL,
+    last_name    VARCHAR(255)                                         NOT NULL,
+    user_role    ENUM ('admin', 'employee')      DEFAULT 'employee'   NOT NULL,
+    user_address VARCHAR(255)                                         NOT NULL,
+    user_email   VARCHAR(100) UNIQUE                                  NOT NULL,
+    phone_no     VARCHAR(15) UNIQUE                                   NOT NULL,
+    status       ENUM ('verified', 'unverified') DEFAULT 'unverified' NOT NULL,
     username     VARCHAR(50) UNIQUE,
     password     VARCHAR(255)
 );
 
-INSERT INTO users (first_name, last_name, username, password, user_role, user_address, user_email, phone_no)
-VALUES ('admin', 'admin', 'admin', 'admin123', 'admin', 'earth', 'admin@123.com', '1234567890');
+INSERT INTO users (first_name, last_name, username, password, status, user_role, user_address, user_email, phone_no)
+VALUES ('admin', 'admin', 'admin', 'admin123', 'verified', 'admin', 'earth', 'admin@123.com', '1234567890');
 
 CREATE TABLE products
 (

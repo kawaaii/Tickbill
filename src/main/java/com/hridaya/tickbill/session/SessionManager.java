@@ -6,13 +6,9 @@ public class SessionManager {
     private String username;
     private userRoleEnum userRole;
     private String fullname;
+    private userStatusEnum userStatus;
 
     private SessionManager() {
-    }
-
-    public enum userRoleEnum {
-        ADMIN,
-        EMPLOYEE,
     }
 
     public static SessionManager getInstance() {
@@ -46,11 +42,29 @@ public class SessionManager {
         this.userRole = userRole;
     }
 
-    public void setFullName(String fullname) {
-        this.fullname = fullname;
+    public userStatusEnum getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(userStatusEnum userStatus) {
+        this.userStatus = userStatus;
     }
 
     public String getFullName() {
         return fullname;
+    }
+
+    public void setFullName(String fullname) {
+        this.fullname = fullname;
+    }
+
+    public enum userRoleEnum {
+        ADMIN,
+        EMPLOYEE,
+    }
+
+    public enum userStatusEnum {
+        VERIFIED,
+        UNVERIFIED
     }
 }
