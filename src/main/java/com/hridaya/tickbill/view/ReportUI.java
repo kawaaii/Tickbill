@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -110,7 +111,7 @@ public class ReportUI extends javax.swing.JPanel {
             calculateReport();
             reportTable.setModel(dtm);
         } catch (Exception e) {
-            e.printStackTrace();
+            Utils.showError(e.getMessage());
         }
     }
 
@@ -328,7 +329,19 @@ public class ReportUI extends javax.swing.JPanel {
     }//GEN-LAST:event_showReportButtonActionPerformed
 
     private void generateReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateReportButtonActionPerformed
-        // TODO add your handling code here:
+        LocalDate[] dates = reportDatePicker.getSelectedDateRange();
+        String startDate = dates[0].toString();
+        String endDate = dates[1].toString();
+
+        try {
+            HashMap<String, Object> param = new HashMap<>();
+            param.put("startDate", startDate);
+            param.put("endDate", endDate);
+            ReportView reportView = new ReportView("src/main/java/com/hridaya/tickbill/report/Leaf_Grey.jasper", param);
+            reportView.setVisible(true);
+        } catch (Exception ex) {
+            Utils.showError(ex.getMessage());
+        }
     }//GEN-LAST:event_generateReportButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

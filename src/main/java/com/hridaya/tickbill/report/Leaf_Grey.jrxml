@@ -1,0 +1,154 @@
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<jasperReport name="Leaf_Grey" language="java" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a1f690a3-5977-4467-85f8-6b0bcd5b7210">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<style name="Title" fontName="Arial" fontSize="26.0" bold="true"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18.0"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12.0" bold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12.0"/>
+	<parameter name="LoggedInUser" forPrompting="false" class="com.jaspersoft.jasperserver.api.metadata.user.domain.client.UserImpl">
+		<description><![CDATA[Not usable in query input control, but is used as parameter to report]]></description>
+		<defaultValueExpression><![CDATA[new com.jaspersoft.jasperserver.api.metadata.user.domain.client.UserImpl()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="LoggedInUsername" forPrompting="false" class="java.lang.String">
+		<description><![CDATA[Of logged in user]]></description>
+		<defaultValueExpression><![CDATA["joeuser"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="LoggedInUserFullName" forPrompting="false" class="java.lang.String">
+		<description><![CDATA[Of logged in user]]></description>
+		<defaultValueExpression><![CDATA["Joe Smith"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="LoggedInUserEmailAddress" forPrompting="false" class="java.lang.String">
+		<description><![CDATA[Of logged in user]]></description>
+		<defaultValueExpression><![CDATA["joe@some.email"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="LoggedInUserEnabled" forPrompting="false" class="java.lang.Boolean">
+		<description><![CDATA[Is logged in user enabled?]]></description>
+		<defaultValueExpression><![CDATA[Boolean.TRUE]]></defaultValueExpression>
+	</parameter>
+	<parameter name="LoggedInUserExternallyDefined" forPrompting="false" class="java.lang.Boolean">
+		<description><![CDATA[Is logged in user externally defined? ie. authenticated externally]]></description>
+		<defaultValueExpression><![CDATA[Boolean.FALSE]]></defaultValueExpression>
+	</parameter>
+	<parameter name="LoggedInUserTenantId" forPrompting="false" class="java.lang.String">
+		<description><![CDATA[Of logged in user. Only relevant in Pro/Enterprise.]]></description>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="LoggedInUserRoles" forPrompting="false" class="java.util.Collection" nestedType="java.lang.String">
+		<description><![CDATA[Current set of roles of logged in user. Useful for $X parameter]]></description>
+		<defaultValueExpression><![CDATA[new ArrayList()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="LoggedInUserAttributes" forPrompting="false" class="java.util.Map" nestedType="java.lang.String">
+		<description><![CDATA[Not usable in query input control, but is used as parameter to report. Empty map if no attributes]]></description>
+		<defaultValueExpression><![CDATA[new HashMap()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="LoggedInUserAttributeNames" forPrompting="false" class="java.util.Collection" nestedType="java.lang.String">
+		<description><![CDATA[User profile attribute names. Useful for $X parameters. Empty collection if no attributes]]></description>
+		<defaultValueExpression><![CDATA[new ArrayList()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="LoggedInUserAttributeValues" forPrompting="false" class="java.util.Collection">
+		<description><![CDATA[]]></description>
+		<defaultValueExpression><![CDATA[new ArrayList()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="startDate" class="java.lang.String"/>
+	<parameter name="endDate" class="java.lang.String"/>
+	<query language="sql"><![CDATA[SELECT *
+FROM sales
+WHERE DATE_FORMAT(sales.created_at, '%Y-%m-%d') 
+BETWEEN $P{startDate} AND $P{endDate}]]></query>
+	<field name="invoice_id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="invoice_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="invoice_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sales"/>
+	</field>
+	<field name="user_id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="user_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="user_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sales"/>
+	</field>
+	<field name="customer_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="customer_name"/>
+		<property name="com.jaspersoft.studio.field.label" value="customer_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sales"/>
+	</field>
+	<field name="total_bill" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="total_bill"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_bill"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sales"/>
+	</field>
+	<field name="status" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="status"/>
+		<property name="com.jaspersoft.studio.field.label" value="status"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sales"/>
+	</field>
+	<field name="due" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="due"/>
+		<property name="com.jaspersoft.studio.field.label" value="due"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sales"/>
+	</field>
+	<field name="created_at" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="created_at"/>
+		<property name="com.jaspersoft.studio.field.label" value="created_at"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sales"/>
+	</field>
+	<background splitType="Stretch"/>
+	<title height="70" splitType="Stretch">
+		<element kind="image" uuid="363fa2ad-70fc-43cb-9062-e6c62c7f48fc" x="275" y="0" width="300" height="64">
+			<expression><![CDATA["leaf_banner_gray.png"]]></expression>
+		</element>
+		<element kind="staticText" uuid="6f9c1004-6140-4588-9c4f-d75824835765" x="0" y="13" width="263" height="33" vTextAlign="Middle" style="Title">
+			<text><![CDATA[Tickbill]]></text>
+		</element>
+		<element kind="staticText" uuid="8e16dabd-2e54-471b-9652-83e1d55379ec" x="117" y="46" width="157" height="22" style="SubTitle">
+			<text><![CDATA[Report]]></text>
+		</element>
+	</title>
+	<pageHeader splitType="Stretch"/>
+	<columnHeader height="58" splitType="Stretch">
+		<element kind="line" uuid="544e89f7-0fd1-4142-aa23-e335e3be7007" positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1">
+			<pen lineWidth="0.5" lineColor="#999999"/>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<element kind="line" uuid="cb229859-ab9a-4aa3-afa2-84439642f4ee" positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1">
+				<pen lineWidth="0.5" lineColor="#999999"/>
+			</element>
+			<element kind="textField" uuid="317ba42f-b33b-42b2-80d0-93d068e406fa" x="111" y="-15" width="111" height="30">
+				<expression><![CDATA[$F{customer_name}]]></expression>
+			</element>
+			<element kind="textField" uuid="b5656b5b-2c34-46b9-b1ee-2071def4b278" x="222" y="-15" width="111" height="30">
+				<expression><![CDATA[$F{total_bill}]]></expression>
+			</element>
+			<element kind="textField" uuid="b6a1d6aa-118f-4916-afed-707df04609c2" x="333" y="-15" width="111" height="30">
+				<expression><![CDATA[$F{status}]]></expression>
+			</element>
+			<element kind="textField" uuid="767f4cd8-8211-4b12-b45a-e1c99f1067e9" x="444" y="-15" width="111" height="30">
+				<expression><![CDATA[$F{created_at}]]></expression>
+			</element>
+			<element kind="textField" uuid="f1965020-1cca-4eee-948f-81558df3e100" x="0" y="-15" width="111" height="30">
+				<expression><![CDATA[$F{invoice_id}]]></expression>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="45" splitType="Stretch">
+		<element kind="line" uuid="401e0e59-de38-4dd2-8257-418cb489177c" positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1">
+			<pen lineWidth="0.5" lineColor="#999999"/>
+		</element>
+	</columnFooter>
+	<pageFooter height="20" splitType="Stretch">
+		<element kind="textField" uuid="deb23d85-47bb-4de6-978e-113ff117188c" x="433" y="0" width="80" height="20" fontSize="10.0" bold="false" hTextAlign="Right" style="Column header">
+			<expression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></expression>
+		</element>
+		<element kind="textField" uuid="c6ce76ba-6e11-41e2-9415-72dc2eff001b" x="513" y="0" width="40" height="20" fontSize="10.0" evaluationTime="Report" bold="false" style="Column header">
+			<expression><![CDATA[" " + $V{PAGE_NUMBER}]]></expression>
+		</element>
+		<element kind="textField" uuid="5a79d2a0-bcde-4ad5-adf0-c4eb2066f6dd" x="0" y="0" width="197" height="20" fontSize="10.0" pattern="EEEEE dd MMMMM yyyy" bold="false" style="Column header">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
+	</pageFooter>
+	<summary splitType="Stretch"/>
+</jasperReport>
