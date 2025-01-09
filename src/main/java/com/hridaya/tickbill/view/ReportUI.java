@@ -334,10 +334,10 @@ public class ReportUI extends javax.swing.JPanel {
         String endDate = dates[1].toString();
 
         try {
-            HashMap<String, Object> param = new HashMap<>();
-            param.put("startDate", startDate);
-            param.put("endDate", endDate);
-            ReportView reportView = new ReportView("src/main/java/com/hridaya/tickbill/report/Leaf_Grey.jasper", param);
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("startDate", startDate);
+            params.put("endDate", endDate);
+            ReportView reportView = new ReportView("src/main/java/com/hridaya/tickbill/report/ReportUI.jasper", params);
             reportView.setVisible(true);
         } catch (Exception ex) {
             Utils.showError(ex.getMessage());
